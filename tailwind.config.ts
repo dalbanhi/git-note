@@ -64,6 +64,7 @@ const config: Config = {
         p3Reg: ["14px", { lineHeight: "20px", fontWeight: 400 }],
         p4Reg: ["12px", { lineHeight: "16px", fontWeight: 400 }],
         subtitle: ["10px", { lineHeight: "12px", fontWeight: 400 }],
+        caption: ["10px", { lineHeight: "12px", fontWeight: 500 }],
       },
     },
   },

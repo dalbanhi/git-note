@@ -18,7 +18,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./components/*"],
+      "@types/*": ["./types/*"]
     }
   },
   "include": [
@@ -26,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/types/app/(profile)/profile/edit-profile/page.ts"
+    ".next/types/app/(profile)/profile/edit-profile/page.ts",
+    "types/index.d.ts"
   ],
   "exclude": ["node_modules"]
 }

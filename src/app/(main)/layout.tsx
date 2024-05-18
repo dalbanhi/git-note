@@ -3,7 +3,8 @@ import React from "react";
 import { Inter } from "next/font/google";
 import "../globals.css";
 
-import LeftSidebar from "../../../components/shared/LeftSidebar/LeftSidebar";
+import LeftSidebar from "@components/shared/LeftSidebar/LeftSidebar";
+import RightSidebar from "@components/shared/RightSidebar/RightSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
         <main className="flex min-h-screen w-full items-center justify-between xl:w-4/5">
           <LeftSidebar />
           {children}
-          {/* <Sidebar profile={true} /> */}
+          <RightSidebar />
         </main>
       </body>
     </html>

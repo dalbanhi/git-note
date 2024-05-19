@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import IconLink from "./IconLink";
+
 // import { PostType } from "../../../types/index";
 interface PostQuickViewProps {
   post: {
@@ -40,16 +42,14 @@ const PostQuickView: React.FC<PostQuickViewProps> = ({ post, isActive }) => {
   let textColor = isActive ? "text-primary-500" : "text-myWhite-300";
 
   return (
-    <Link className="flex w-full gap-2" href={`/note/${id}`}>
-      <Image
-        className={color}
-        src={icon}
-        alt={type}
-        width={12}
-        height={12}
-      ></Image>
-      <span className={`text-p3Med ${textColor}`}>{trimmedTitle}</span>
-    </Link>
+    <IconLink
+      href={`/note/${id}`}
+      iconColor={color}
+      iconSrc={icon}
+      iconAlt={type}
+      textColor={textColor}
+      text={trimmedTitle}
+    />
   );
 };
 

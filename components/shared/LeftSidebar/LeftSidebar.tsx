@@ -8,7 +8,7 @@ import QuickLinks from "./QuickLinks";
 const LeftSidebar = () => {
   return (
     <aside className="flex min-h-screen w-3/12 flex-col gap-2 bg-myBlack-800 p-4">
-      <Link className="mb-4 flex gap-2" href={"/"}>
+      <Link className="mb-6 mt-4 flex gap-2" href={"/"}>
         <Image
           src="/gitnote-icon.svg"
           alt="GitNote"

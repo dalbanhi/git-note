@@ -13,20 +13,22 @@ const PostAndSearch = () => {
         ></Image>
         Create Post
       </button>
-      <div className="flex items-center justify-center rounded-lg bg-myBlack-700 px-2 text-p4Med text-myWhite-500">
-        <button>
-          <Image
-            src="/search-icon.svg"
-            alt="Search"
-            width={12}
-            height={12}
-          ></Image>
-        </button>
-        <input
-          type="text"
-          className="rounded-lg bg-myBlack-700 p-2 text-p4Med text-myWhite-500"
-          placeholder="Search..."
-        ></input>
+      <div className="flex items-center justify-between rounded-lg bg-myBlack-700 px-2 text-p4Med text-myWhite-500">
+        <div className="flex justify-center">
+          <button>
+            <Image
+              src="/search-icon.svg"
+              alt="Search"
+              width={12}
+              height={12}
+            ></Image>
+          </button>
+          <input
+            type="text"
+            className="w-full rounded-lg bg-myBlack-700 p-2 text-p4Med text-myWhite-500"
+            placeholder="Search..."
+          ></input>
+        </div>
         <button className="flex items-center justify-center text-myWhite-300">
           <Image
             src="/command-icon.svg"

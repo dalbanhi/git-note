@@ -32,18 +32,6 @@ const RecentPostsHeader = () => {
       <div className="flex gap-2">
         {postFilters.map((filter) => {
           return (
-            // <a
-            //   key={filter.type}
-            //   className={`flex items-center gap-1 rounded-md p-1 hover:cursor-pointer  ${filter.backgroundColor}`}
-            // >
-            //   <Image
-            //     src={filter.iconSrc}
-            //     alt={filter.type}
-            //     width={12}
-            //     height={12}
-            //   ></Image>
-            //   <p className={`text-caption ${filter.color} `}>{filter.label}</p>
-            // </a>
             <FilterPill
               key={filter.type}
               icon={filter.iconSrc}

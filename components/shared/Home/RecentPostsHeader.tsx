@@ -45,5 +45,4 @@ const RecentPostsHeader = () => {
     </div>
   );
 };
-
 export default RecentPostsHeader;

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ContributionsTracker from "@components/shared/Home/ContributionsTracker";
+import RecentPosts from "@components/shared/Home/RecentPosts";
 
 export default function Home() {
   const userName = "Nikky Eya";
@@ -13,6 +14,7 @@ export default function Home() {
         {"Time to jot down your latest learnings today!"}
       </p>
       <ContributionsTracker />
+      <RecentPosts />
     </section>
   );
 }

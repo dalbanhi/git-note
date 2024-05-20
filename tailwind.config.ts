@@ -34,7 +34,7 @@ const config: Config = {
         },
         myPurple: {
           500: "rgb(var(--color-purple))",
-          800: "rgb(var(--color-purple) / 0.1)", //do 10%
+          900: "rgb(var(--color-purple) / 0.1)", //do 10%
         },
         myGreen: {
           400: "#68D1BF",

@@ -1,4 +1,5 @@
 import React from "react";
+import FilterPill from "../FilterPill";
 
 const TagsList = () => {
   const testTags = [
@@ -21,12 +22,19 @@ const TagsList = () => {
       <div className="flex flex-col gap-2">
         {testTags.map((tag, index) => {
           return (
-            <span
+            // <span
+            //   key={index}
+            //   className="w-fit rounded-md bg-myBlack-700 p-1 text-p3Med text-myWhite-300 hover:cursor-pointer hover:text-myWhite-100"
+            // >
+            //   {tag}
+            // </span>
+            <FilterPill
               key={index}
-              className="w-fit rounded-md bg-myBlack-700 p-1 text-p3Med text-myWhite-300 hover:cursor-pointer hover:text-myWhite-100"
-            >
-              {tag}
-            </span>
+              icon=""
+              text={tag}
+              backgroundColor="bg-myBlack-700"
+              textColor="text-myWhite-300"
+            />
           );
         })}
       </div>

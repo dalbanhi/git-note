@@ -21,7 +21,9 @@ const FilterPill: React.FC<FilterPillProps> = ({
       href={`?filter=${text}`}
     >
       {icon && <Image src={icon} alt={text} width={12} height={12}></Image>}
-      <span className={`text-caption hover:text-myWhite-100 ${textColor} `}>
+      <span
+        className={` text-caption capitalize hover:text-myWhite-100 ${textColor} `}
+      >
         {text}
       </span>
     </a>

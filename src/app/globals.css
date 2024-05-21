@@ -8,6 +8,13 @@
   --color-green: 66 255 119;
   --color-white: 255 255 255;
   --color-black-900: 16 18 30;
+
+  --color-cal-0: 27 31 35;
+  --color-cal-1: 22 27 34;
+  --color-cal-2: 14 68 41;
+  --color-cal-3: 0 109 50;
+  --color-cal-4: 38 166 65;
+  --color-cal-5: 57 211 83;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,4 +29,47 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* React Calendar heatmap*/
+.react-calendar-heatmap .color-myCal-0,
+.color-myCal-0 {
+  fill: rgb(var(--color-cal-0));
+}
+
+.react-calendar-heatmap .color-myCal-1,
+.color-myCal-1 {
+  fill: rgb(var(--color-cal-1));
+}
+.react-calendar-heatmap .color-myCal-2,
+.color-myCal-2 {
+  fill: rgb(var(--color-cal-2));
+}
+.react-calendar-heatmap .color-myCal-3,
+.color-myCal-3 {
+  fill: rgb(var(--color-cal-3));
+}
+.react-calendar-heatmap .color-myCal-4,
+.color-myCal-4 {
+  fill: rgb(var(--color-cal-4));
+}
+.react-calendar-heatmap .color-myCal-5,
+.color-myCal-5 {
+  fill: rgb(var(--color-cal-5));
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-month-label,
+.react-calendar-heatmap .react-calendar-heatmap-weekday-label {
+  font-size: 10px;
+  line-height: 20px;
+  font-weight: 500;
+  fill: #55597d;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-weekday-label {
+  padding-right: 5px;
+}
+
+.react-calendar-heatmap-weekday-labels {
+  transform: translate(0px, 14px);
 }

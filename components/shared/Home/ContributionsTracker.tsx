@@ -11,7 +11,6 @@ const ContributionsTracker = () => {
 
   function getClassNameValue(value: any) {
     if (!value || value.count === 0) {
-      console.log("here");
       return `color-myCal-0`;
     } else if (value.count < 2) {
       return `color-myCal-1`;

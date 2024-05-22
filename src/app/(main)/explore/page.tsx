@@ -19,8 +19,8 @@ const Explore = async ({
     <section className="mt-6 w-6/12 p-4">
       <RecentPostsHeader />
       <div className="mt-4 grid grid-cols-2 gap-4">
-        {posts.map((post, index) => {
-          return <PostCard key={index} post={post} isShort={true} />;
+        {posts.map((post) => {
+          return <PostCard key={post.id} post={post} isShort={false} />;
         })}
       </div>
     </section>

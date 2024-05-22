@@ -15,8 +15,8 @@ const Explore = async ({
   return (
     <section>
       <RecentPostsHeader />
-      {posts.map((post, index) => {
-        return <PostCard key={index} post={post} isShort={false} />;
+      {posts.map((post) => {
+        return <PostCard key={post.id} post={post} isShort={false} />;
       })}
     </section>
   );

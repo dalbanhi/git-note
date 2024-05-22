@@ -36,7 +36,7 @@ const ContributionsTracker = () => {
   const isMedDevice = useMediaQuery("only screen and (max-width : 768px)");
 
   return (
-    <div className=" rounded-sm border border-myWhite-500 bg-myBlack-900 p-4">
+    <div className=" rounded-sm border border-myWhite-500 bg-myBlack-700 p-4">
       <CalendarHeatmap
         startDate={lastYear}
         endDate={new Date()}
@@ -49,7 +49,7 @@ const ContributionsTracker = () => {
         showWeekdayLabels={true}
         gutterSize={4}
         weekdayLabels={DAY_LABELS}
-        classForValue={(value) => getClassNameValue(value)}
+        classForValue={getClassNameValue}
         horizontal={true}
         monthLabels={MONTH_LABELS}
         showMonthLabels={true}

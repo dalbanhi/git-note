@@ -16,6 +16,7 @@ const RecentPostsHeader = () => {
               text={filter.label}
               backgroundColor={filter.backgroundColor}
               textColor={filter.color}
+              filterType={"type"}
             />
           );
         })}

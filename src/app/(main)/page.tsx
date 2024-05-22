@@ -1,8 +1,5 @@
-import Image from "next/image";
 import ContributionsTracker from "@components/shared/Home/ContributionsTracker";
 import RecentPosts from "@components/shared/Home/RecentPosts";
-import { Command } from "cmdk";
-import CommandPalette from "@components/shared/CommandPalette";
 
 export default function Home() {
   const userName = "Nikky Eya";
@@ -17,7 +14,6 @@ export default function Home() {
       </p>
       <ContributionsTracker />
       <RecentPosts />
-      <CommandPalette />
     </section>
   );
 }

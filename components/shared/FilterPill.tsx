@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface FilterPillProps {
   icon: string;
   text: string;
   backgroundColor: string;
   textColor: string;
+  filterType: string;
   // onClick: () => void// This is the type of the function that will be passed in
 }
 
@@ -14,11 +16,12 @@ const FilterPill: React.FC<FilterPillProps> = ({
   text,
   backgroundColor,
   textColor,
+  filterType,
 }) => {
   return (
-    <a
+    <Link
       className={`flex  max-w-fit items-center gap-1 rounded-md p-1 hover:cursor-pointer hover:text-myWhite-100  ${backgroundColor}`}
-      href={`/explore?filter=${text}`}
+      href={`/explore?${filterType}=${text}`}
     >
       {icon && <Image src={icon} alt={text} width={12} height={12}></Image>}
       <span
@@ -26,7 +29,7 @@ const FilterPill: React.FC<FilterPillProps> = ({
       >
         {text}
       </span>
-    </a>
+    </Link>
   );
 };
 

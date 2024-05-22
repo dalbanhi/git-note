@@ -1,4 +1,4 @@
-export type PostType = "knowledge" | "component" | "workflow";
+export type PostType = "knowledge" | "component" | "workflow" | "all";
 
 export interface Contribution {
   id: number;

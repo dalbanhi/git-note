@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
+import CommandPalette from "~/components/shared/LeftSidebar/CommandPalette/CommandPalette";
 
 const PostAndSearch = () => {
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   return (
     <div className="mb-4 flex flex-col gap-3">
       <button className="flex items-center justify-center gap-1 rounded-lg bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med">
@@ -16,7 +18,7 @@ const PostAndSearch = () => {
       </button>
       <div className="flex items-center justify-between rounded-lg bg-myBlack-700 px-2 text-p4Med text-myWhite-500">
         <div className="flex justify-center">
-          <button>
+          <button onClick={() => setIsCommandPaletteOpen(true)}>
             <Image
               src="/search-icon.svg"
               alt="Search"
@@ -28,10 +30,13 @@ const PostAndSearch = () => {
             type="text"
             className="w-full rounded-lg bg-myBlack-700 p-2 text-p4Med text-myWhite-500"
             placeholder="Search..."
-            onClick={() => console.log("Search")}
+            onClick={() => setIsCommandPaletteOpen(true)}
           ></input>
         </div>
-        <button className="flex items-center justify-center text-myWhite-300">
+        <button
+          onClick={() => setIsCommandPaletteOpen(true)}
+          className="flex items-center justify-center text-myWhite-300"
+        >
           <Image
             src="/command-icon.svg"
             alt="Command"
@@ -41,6 +46,10 @@ const PostAndSearch = () => {
           {`K`}
         </button>
       </div>
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        setIsOpen={setIsCommandPaletteOpen}
+      />
     </div>
   );
 };

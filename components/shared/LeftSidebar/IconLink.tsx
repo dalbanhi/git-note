@@ -28,7 +28,9 @@ const IconLink: React.FC<IconLinkProps> = ({
         width={12}
         height={12}
       ></Image>
-      <span className={`text-p3Med ${textColor} hover:text-myWhite-100`}>
+      <span
+        className={`truncate text-p3Med ${textColor} hover:text-myWhite-100`}
+      >
         {text}
       </span>
     </Link>

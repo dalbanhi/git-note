@@ -1,9 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import IconLink from "./IconLink";
 
-// import { PostType } from "../../../types/index";
 interface PostQuickViewProps {
   post: {
     type: string;
@@ -17,12 +14,6 @@ interface PostQuickViewProps {
 
 const PostQuickView: React.FC<PostQuickViewProps> = ({ post, isActive }) => {
   const { type, title, content, tags, id } = post;
-
-  //trim to first 22 characters
-  let trimmedTitle = title;
-  if (title.length > 25) {
-    trimmedTitle = title.slice(0, 22) + "...";
-  }
 
   let color = "";
   let icon = "";
@@ -48,7 +39,7 @@ const PostQuickView: React.FC<PostQuickViewProps> = ({ post, isActive }) => {
       iconSrc={icon}
       iconAlt={type}
       textColor={textColor}
-      text={trimmedTitle}
+      text={title}
     />
   );
 };

@@ -32,15 +32,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
     textColor = "text-myGreen-500";
   }
 
-  function capitalizeFirstLetter(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   return (
     <div className="flex flex-col gap-2 bg-myBlack-800 p-4 ">
       <FilterPill
         icon={icon}
-        text={capitalizeFirstLetter(post.type)}
+        text={post.type}
         backgroundColor={backgroundColor}
         textColor={textColor}
       />

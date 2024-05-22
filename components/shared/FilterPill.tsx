@@ -18,7 +18,7 @@ const FilterPill: React.FC<FilterPillProps> = ({
   return (
     <a
       className={`flex  max-w-fit items-center gap-1 rounded-md p-1 hover:cursor-pointer hover:text-myWhite-100  ${backgroundColor}`}
-      href={`?filter=${text}`}
+      href={`/explore?filter=${text}`}
     >
       {icon && <Image src={icon} alt={text} width={12} height={12}></Image>}
       <span

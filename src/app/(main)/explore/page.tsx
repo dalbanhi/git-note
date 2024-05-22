@@ -11,7 +11,6 @@ const Explore = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const posts = await getPosts(searchParams.filter as PostType);
-  console.log(posts);
   return (
     <section>
       <RecentPostsHeader />

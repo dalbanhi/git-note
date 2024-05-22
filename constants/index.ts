@@ -6,6 +6,31 @@ export enum NoteType {
   Workflow = "workflow",
 }
 
+//filter constants
+export const postFilters = [
+  {
+    type: "WorkFlow",
+    label: "WorkFlow",
+    color: "text-primary-500",
+    backgroundColor: "bg-primary-900",
+    iconSrc: "/workflow-icon.svg",
+  },
+  {
+    type: "Component",
+    label: "Component",
+    color: "text-myPurple-500",
+    backgroundColor: "bg-myPurple-900",
+    iconSrc: "/component-icon.svg",
+  },
+  {
+    type: "Knowledge",
+    label: "Knowledge",
+    color: "text-myGreen-500",
+    backgroundColor: "bg-myGreen-900",
+    iconSrc: "/knowledge-icon.svg",
+  },
+];
+
 export const testPosts = [
   {
     type: NoteType.Workflow,
@@ -52,6 +77,8 @@ export const MONTH_LABELS = [
 ];
 
 export const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+//user contributions constants
 
 export const testContributions: UserContributions = {
   userID: 1,

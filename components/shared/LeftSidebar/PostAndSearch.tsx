@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 
@@ -27,6 +28,7 @@ const PostAndSearch = () => {
             type="text"
             className="w-full rounded-lg bg-myBlack-700 p-2 text-p4Med text-myWhite-500"
             placeholder="Search..."
+            onClick={() => console.log("Search")}
           ></input>
         </div>
         <button className="flex items-center justify-center text-myWhite-300">

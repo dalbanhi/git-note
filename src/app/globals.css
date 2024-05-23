@@ -28,6 +28,10 @@
   --color-cal-3: 0 109 50;
   --color-cal-4: 38 166 65;
   --color-cal-5: 57 211 83;
+
+  --radius: 0.5rem;
+
+  --cmdk-list-height: 300px;
 }
 
 .dark {
@@ -56,6 +60,10 @@
   --color-cal-3: 0 109 50;
   --color-cal-4: 38 166 65;
   --color-cal-5: 57 211 83;
+
+  --radius: 0.5rem;
+
+  --cmdk-list-height: 300px;
 }
 
 body {
@@ -128,4 +136,18 @@ body {
   max-height: 80%;
   overflow: auto;
   padding: 20px;
+}
+
+[cmdk-list] {
+  /* min-height: 50px; */
+  height: var(--cmdk-list-height);
+  max-height: 300px;
+  transition: height 100ms ease;
+  scroll-padding-block-start: 8px;
+  scroll-padding-block-end: 8px;
+}
+
+.customScroll {
+  scrollbar-width: thin;
+  scrollbar-color: #adb3cc #1d2032; /*my-white-300 my-Black-700*/
 }

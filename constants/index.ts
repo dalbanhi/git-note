@@ -162,3 +162,10 @@ export const testContributions: UserContributions = {
     },
   ],
 };
+
+export const TechStackOptions = [
+  "React.js",
+  "Next.js",
+  "Tailwind CSS",
+  "VS Code",
+];

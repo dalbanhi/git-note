@@ -42,7 +42,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
       {isOpen && (
         <div className="cmdk-overlay" onClick={handleOverlayClick}>
           <div className="cmdk-modal" onClick={(e) => e.stopPropagation()}>
-            <Command className="bg-myBlack-900">
+            <Command className="rounded-sm bg-myBlack-900">
               <div className="flex w-full justify-between gap-2 bg-myBlack-700 p-2 text-myWhite-300">
                 <div className="flex">
                   <Image
@@ -52,7 +52,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     height={12}
                   ></Image>
                   <Command.Input
-                    className="w-full bg-myBlack-700 p-2 text-myWhite-300"
+                    className="w-full bg-myBlack-700 p-2 text-myWhite-300 outline-none"
                     placeholder="Search..."
                     autoFocus={true}
                   />
@@ -65,7 +65,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                 </button>
               </div>
 
-              <Command.List className="flex h-[200px] flex-col overflow-y-scroll bg-myBlack-800">
+              <Command.List className=" customScroll flex h-[200px] flex-col overflow-y-scroll rounded-sm bg-myBlack-800">
                 {postFilters && (
                   <Command.Group
                     className="p-2 text-p3Reg text-myWhite-300"
@@ -76,7 +76,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                         <Command.Item
                           key={filter.type}
                           //use cmdk-item class to style the items in the list
-                          className="flex items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                          className="flex cursor-pointer items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
                           onSelect={() => {
                             setIsOpen(false);
                             router.push(`/explore?type=${filter.type}`);
@@ -119,6 +119,11 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                   </Command.Group>
                 )}
               </Command.List>
+              <Command.Empty>
+                <div className="p-2 text-p3Reg text-myWhite-300">
+                  No results found.
+                </div>
+              </Command.Empty>
             </Command>
           </div>
         </div>

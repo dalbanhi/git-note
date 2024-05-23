@@ -1,4 +1,3 @@
-import Image from "next/image";
 import ContributionsTracker from "@components/shared/Home/ContributionsTracker";
 import RecentPosts from "@components/shared/Home/RecentPosts";
 

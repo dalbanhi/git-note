@@ -10,14 +10,19 @@ const Explore = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const posts = await getPosts(searchParams.filter as PostType);
-  console.log(posts);
+  const posts = await getPosts(
+    (searchParams.type as PostType) || undefined,
+    (searchParams.tag as string) || ""
+  );
+
   return (
-    <section>
+    <section className="mt-6 w-6/12 p-4">
       <RecentPostsHeader />
-      {posts.map((post) => {
-        return <PostCard key={post.id} post={post} isShort={false} />;
-      })}
+      <div className="mt-4 grid grid-cols-2 gap-4">
+        {posts.map((post) => {
+          return <PostCard key={post.id} post={post} isShort={false} />;
+        })}
+      </div>
     </section>
   );
 };

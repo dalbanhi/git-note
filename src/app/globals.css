@@ -15,6 +15,8 @@
   --color-cal-3: 0 109 50;
   --color-cal-4: 38 166 65;
   --color-cal-5: 57 211 83;
+
+  --cmdk-list-height: 300px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -72,4 +74,43 @@ body {
 
 .react-calendar-heatmap-weekday-labels {
   transform: translate(0px, 14px);
+}
+
+/* CMD K Palette */
+.cmdk-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.cmdk-modal {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  max-height: 80%;
+  overflow: auto;
+  padding: 20px;
+}
+
+[cmdk-list] {
+  /* min-height: 50px; */
+  height: var(--cmdk-list-height);
+  max-height: 300px;
+  transition: height 100ms ease;
+  scroll-padding-block-start: 8px;
+  scroll-padding-block-end: 8px;
+}
+
+.customScroll {
+  scrollbar-width: thin;
+  scrollbar-color: #adb3cc #1d2032; /*my-white-300 my-Black-700*/
 }

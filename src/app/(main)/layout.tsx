@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import React from "react";
 import { Inter } from "next/font/google";
 import "../globals.css";
 
@@ -12,7 +11,6 @@ export const metadata: Metadata = {
   title: "Git Note",
   description: "An knowledge repository for software developers.",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{

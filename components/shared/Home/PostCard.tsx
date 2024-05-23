@@ -33,15 +33,18 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
   }
 
   return (
-    <div className="flex flex-col gap-2 bg-myBlack-800 p-4 ">
+    <div
+      className={` ${isShort ? "col-span-1" : "w-full"} flex flex-col gap-2 rounded-md bg-myBlack-800 p-4`}
+    >
       <FilterPill
         icon={icon}
         text={post.type}
         backgroundColor={backgroundColor}
         textColor={textColor}
+        filterType="type"
       />
-      <h2 className="text-h1Md text-myWhite-100">{post.title}</h2>
-      <div className="flex gap-2">
+      <h2 className=" truncate text-h1Md text-myWhite-100">{post.title}</h2>
+      <div className="flex flex-wrap gap-2">
         {post.tags.map((tag) => {
           return (
             <FilterPill
@@ -50,6 +53,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
               text={tag}
               backgroundColor="bg-myBlack-700"
               textColor="text-myWhite-300"
+              filterType="tag"
             />
           );
         })}

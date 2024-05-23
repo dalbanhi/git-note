@@ -15,5 +15,5 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["gitnote"]
+  "cSpell.words": ["cmdk", "gitnote"]
 }

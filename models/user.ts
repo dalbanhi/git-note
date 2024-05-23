@@ -76,7 +76,7 @@ const UserSchema: Schema = new Schema({
   techStack: {
     type: [String],
     enum: techStackEnumValues,
-    //should I validate?
+    //should I validate that the each value in the array is a valid tech stack option?
   },
 
   knowledgeLevels: [String],

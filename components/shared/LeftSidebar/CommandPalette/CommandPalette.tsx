@@ -65,7 +65,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                 </button>
               </div>
 
-              <Command.List className="flex flex-col bg-myBlack-800">
+              <Command.List className="flex h-[200px] flex-col overflow-y-scroll bg-myBlack-800">
                 {postFilters && (
                   <Command.Group
                     className="p-2 text-p3Reg text-myWhite-300"

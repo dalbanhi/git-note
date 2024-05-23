@@ -7,7 +7,7 @@ const PostAndSearch = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   return (
     <div className="mb-4 flex flex-col gap-3">
-      <button className="flex items-center justify-center gap-1 rounded-lg bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med">
+      <button className="flex items-center justify-center gap-1 rounded bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med text-myWhite-100">
         <Image
           src="/plus-icon.svg"
           alt="Create Note"

@@ -15,6 +15,8 @@
   --color-cal-3: 0 109 50;
   --color-cal-4: 38 166 65;
   --color-cal-5: 57 211 83;
+
+  --cmdk-list-height: 300px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -99,7 +101,16 @@ body {
   padding: 20px;
 }
 
-/* .cmdk-input {
-  background-color: #1d2032;
-  color: #adb3cc;
-} */
+[cmdk-list] {
+  /* min-height: 50px; */
+  height: var(--cmdk-list-height);
+  max-height: 300px;
+  transition: height 100ms ease;
+  scroll-padding-block-start: 8px;
+  scroll-padding-block-end: 8px;
+}
+
+.customScroll {
+  scrollbar-width: thin;
+  scrollbar-color: #adb3cc #1d2032; /*my-white-300 my-Black-700*/
+}

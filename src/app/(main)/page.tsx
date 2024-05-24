@@ -1,4 +1,9 @@
-import ContributionsTracker from "@components/shared/Home/ContributionsTracker";
+import dynamic from "next/dynamic";
+
+const ContributionsTracker = dynamic(
+  () => import("@components/shared/Home/ContributionsTracker"),
+  { ssr: false, loading: () => <p>Loading Contributions...</p> }
+);
 import RecentPosts from "@components/shared/Home/RecentPosts";
 
 export default function Home() {

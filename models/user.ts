@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 import {
   LearningGoal,
   TechStackType,
@@ -84,6 +84,6 @@ const UserSchema: Schema = new Schema({
   socialMediaLinks: [SocialMediaLinkSchema],
 });
 
-const User = model<IUser>("User", UserSchema);
+const User = models?.User || model<IUser>("User", UserSchema);
 
 export default User;

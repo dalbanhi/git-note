@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 import { ResourcesAndLinks } from "~/types";
 
 export interface INote extends Document {
@@ -70,6 +70,6 @@ const NoteSchema: Schema = new Schema({
   relatedNotes: [{ type: Schema.Types.ObjectId, ref: "Note" }],
 });
 
-const Note = model<INote>("Note", NoteSchema);
+const Note = models?.Note || model<INote>("Note", NoteSchema);
 
 export default Note;

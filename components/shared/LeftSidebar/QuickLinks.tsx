@@ -1,7 +1,7 @@
+"use client";
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import IconLink from "./IconLink";
+import { signOut } from "next-auth/react";
 
 const QuickLinks = () => {
   const quickLinks = [
@@ -37,12 +37,12 @@ const QuickLinks = () => {
           })}
         </div>
         <IconLink
-          href="/sign-in"
           iconColor="text-myWhite-500"
           iconSrc="icons/logout.svg"
           iconAlt="Logout"
           textColor="text-myWhite-300"
           text="Logout"
+          onClick={() => signOut()}
         />
       </div>
     </div>

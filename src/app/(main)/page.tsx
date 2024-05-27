@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import { redirect } from "next/navigation";
 
 const ContributionsTracker = dynamic(
   () => import("@components/shared/Home/ContributionsTracker"),
@@ -13,6 +14,10 @@ export default async function Home() {
   const userName = session?.user?.name as string;
   //get only the first name
   let firstName = userName?.split(" ")[0];
+
+  if (!session) {
+    redirect("/sign-in");
+  }
 
   return (
     <section className="flex min-h-screen w-6/12 flex-col justify-start p-4">

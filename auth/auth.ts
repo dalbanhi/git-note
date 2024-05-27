@@ -1,10 +1,6 @@
-import type {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-} from "next";
 import type { NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
+import { NextRequest } from "next/server";
 
 import { Session, User as NextAuthUser } from "next-auth";
 
@@ -29,16 +25,13 @@ declare module "next-auth" {
 }
 
 import User from "~/models/user";
-import NextAuth from "next-auth/next";
 
-// You'll need to import and pass this
-// to `NextAuth` in `app/api/auth/[...nextauth]/route.ts`
 export const config = {
   providers: [
-    // GithubProvider({
-    //   clientId: process.env.GITHUB_ID ?? "",
-    //   clientSecret: process.env.GITHUB_SECRET ?? "",
-    // }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID ?? "",
       clientSecret: process.env.GOOGLE_SECRET ?? "",
@@ -88,6 +81,7 @@ export const config = {
       if (account?.provider === "credentials") {
         return true;
       }
+      console.log("trying to auth with other provider");
       try {
         await connectToDB();
         //checking if a user already exists
@@ -128,4 +122,6 @@ export const config = {
   },
 } satisfies NextAuthOptions;
 
-export const getSession = async () => await getServerSession(config);
+export const getSession = async (context?: { req?: NextRequest }) => {
+  return await getServerSession(config);
+};

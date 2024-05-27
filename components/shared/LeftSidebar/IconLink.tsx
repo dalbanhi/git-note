@@ -1,14 +1,16 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface IconLinkProps {
-  href: string;
+  href?: string;
   iconColor: string;
   iconSrc: string;
   iconAlt: string;
   textColor: string;
   text: string;
+  onClick?: (e: any) => void;
 }
 
 const IconLink: React.FC<IconLinkProps> = ({
@@ -18,9 +20,10 @@ const IconLink: React.FC<IconLinkProps> = ({
   iconAlt,
   textColor,
   text,
+  onClick,
 }) => {
-  return (
-    <Link className="flex w-full gap-2" href={href}>
+  const content = (
+    <>
       <Image
         className={iconColor}
         src={"/" + iconSrc}
@@ -33,8 +36,22 @@ const IconLink: React.FC<IconLinkProps> = ({
       >
         {text}
       </span>
-    </Link>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link className="flex w-full gap-2" href={href}>
+        {content}
+      </Link>
+    );
+  } else if (onClick) {
+    return (
+      <div className="flex w-full cursor-pointer gap-2" onClick={onClick}>
+        {content}
+      </div>
+    );
+  }
 };
 
 export default IconLink;

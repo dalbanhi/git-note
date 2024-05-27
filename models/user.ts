@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import brcypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import {
   LearningGoal,
   TechStackType,
@@ -10,6 +10,7 @@ import {
 import { TechStackOptions } from "~/constants";
 
 export interface IUser extends Document {
+  name: string;
   username: string;
   email: string;
   password: string;
@@ -45,13 +46,13 @@ const SocialMediaLinkSchema = new Schema<SocialMediaLink>({
 const techStackEnumValues: TechStackType = TechStackOptions;
 
 const UserSchema: Schema = new Schema({
+  name: {
+    type: String,
+  },
   username: {
     type: String,
     required: [true, "Username is required"],
-    match: [
-      /^(?=.{8,30}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
-      "Username must be between 8 and 30 characters long and can only contain letters, numbers, and periods",
-    ],
+    unique: [true, "Username already exists"],
   },
   email: {
     type: String,
@@ -60,7 +61,6 @@ const UserSchema: Schema = new Schema({
   },
   password: {
     type: String,
-    required: [true, "Password is required"],
   },
 
   image: {
@@ -83,9 +83,8 @@ const UserSchema: Schema = new Schema({
 
 UserSchema.pre("save", async function (next) {
   try {
-    console.log("pre save hook");
-    const salt = await brcypt.genSalt(10);
-    const hashedPassword = await brcypt.hash(this.password as string, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(this.password as string, salt);
     this.password = hashedPassword;
     next();
   } catch (err) {

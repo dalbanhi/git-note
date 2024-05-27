@@ -11,7 +11,7 @@ const ProfileLink = async () => {
   return (
     <div className="mb-6 mt-4 flex gap-3">
       <Image
-        src={userAvatar}
+        src={userAvatar ? userAvatar : "/icons/default-image.svg"}
         alt="Profile"
         width={40}
         height={40}

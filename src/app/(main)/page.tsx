@@ -10,7 +10,6 @@ import { getSession } from "~/auth/auth";
 
 export default async function Home() {
   const session = await getSession();
-  console.log(session);
   const userName = session?.user?.name as string;
   //get only the first name
   let firstName = userName?.split(" ")[0];

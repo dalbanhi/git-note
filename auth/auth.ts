@@ -1,6 +1,8 @@
 import type { NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
+import { generateFromEmail, generateUsername } from "unique-username-generator";
+import bcrypt from "bcryptjs";
 
 import { Session, User as NextAuthUser } from "next-auth";
 
@@ -25,6 +27,7 @@ declare module "next-auth" {
 }
 
 import User from "~/models/user";
+import { error } from "console";
 
 export const config = {
   providers: [
@@ -47,19 +50,60 @@ export const config = {
           label: "Password",
           type: "password",
         },
+        fullName: {
+          label: "Full Name",
+          type: "text",
+        },
       },
       async authorize(credentials, req) {
-        //where you connect and verify credentials
-        console.log("trying to auth");
-        console.log("credentials, ", credentials);
-        console.log("req, ", req);
+        //this should never happen due to the form validation
+        if (credentials?.email === undefined || credentials?.password === "") {
+          return null;
+        }
 
-        return {
-          name: "John Doe",
-          email: "email@email.com",
-          image: "",
-          id: "1",
-        };
+        await connectToDB();
+        //checking if a user already exists
+        const userExistsAlready = await User.findOne({
+          email: credentials.email,
+        });
+
+        //if user exists, check password
+        if (userExistsAlready) {
+          const isPasswordCorrect = await bcrypt.compare(
+            credentials.password,
+            userExistsAlready.password
+          );
+
+          if (isPasswordCorrect) {
+            return {
+              name: userExistsAlready.name,
+              email: userExistsAlready.email,
+              image: userExistsAlready.image,
+              id: userExistsAlready._id.toString(),
+            };
+          } else {
+            //return an error somehow
+            console.log("passwords don't match");
+
+            return null;
+          }
+        } else {
+          //try to make a new user
+          const uniqueUsername = generateFromEmail(credentials.email, 4);
+          const newUser = await User.create({
+            email: credentials.email,
+            password: credentials.password,
+            name: credentials.fullName,
+            username: uniqueUsername,
+          });
+
+          return {
+            name: newUser.name,
+            email: newUser.email,
+            image: newUser.image,
+            id: newUser._id.toString(),
+          };
+        }
       },
     }),
   ],
@@ -81,36 +125,23 @@ export const config = {
       if (account?.provider === "credentials") {
         return true;
       }
-      console.log("trying to auth with other provider");
+
       try {
         await connectToDB();
         //checking if a user already exists
         const userExistsAlready = await User.findOne({
           email: profile?.email,
         });
-
-        // if (!userExistsAlready) {
-        //   //handle the case where the user does not have a name/ if it is done by the google provider, the github provider, or the email provider
-        //   let uniqueUsername = profile?.email?.split("@")[0];
-        //   uniqueUsername = removeAccents(uniqueUsername || "");
-
-        //   while (await User.findOne({ username: uniqueUsername })) {
-        //     uniqueUsername += Math.floor(Math.random() * 10);
-        //   }
-        //   //make sure username is at least 8 characters long
-        //   while (uniqueUsername.length < 8) {
-        //     uniqueUsername += Math.floor(Math.random() * 10);
-        //   }
-
-        //   // //make sure username is at most 30 characters long
-        //   uniqueUsername = uniqueUsername.slice(0, 30);
-
-        //   await User.create({
-        //     email: profile?.email,
-        //     username: uniqueUsername,
-        //     image: (profile as { picture?: string })?.picture,
-        //   });
-        // }
+        if (userExistsAlready) {
+          return true;
+        } else {
+          const uniqueUsername = generateFromEmail(profile?.email ?? "", 4);
+          const newUser = await User.create({
+            email: profile?.email ?? "",
+            name: profile?.name ?? "",
+            username: uniqueUsername,
+          });
+        }
 
         return true;
       } catch (e) {

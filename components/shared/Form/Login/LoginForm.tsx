@@ -52,9 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
           textColor="text-myBlack-900"
           text={title}
           onClick={(e) => {
-            console.log("clicked");
             e.preventDefault();
-            console.log(email, password, fullName);
 
             signIn("credentials", {
               email: email,

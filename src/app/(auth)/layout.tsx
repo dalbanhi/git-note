@@ -31,7 +31,7 @@ export default function AuthLayout({
             ></Image>
             <h1 className="text-display1 text-myWhite-100 ">GitNote</h1>
           </Link>
-          <div className="w-full">{children}</div>
+          <div className="flex w-full justify-center">{children}</div>
         </main>
       </body>
     </html>

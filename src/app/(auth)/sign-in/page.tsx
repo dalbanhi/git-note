@@ -1,10 +1,10 @@
 import React from "react";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import LoginForm from "~/components/shared/Form/Login/LoginForm";
 
 const SignIn = () => {
   return (
-    <div className="mt-4 flex justify-start">
-      <h1 className="text-display2 text-myWhite-100">Login</h1>
+    <div className="mt-4 w-5/12 text-myWhite-100">
+      <LoginForm type="sign-in" title="Login" />
     </div>
   );
 };

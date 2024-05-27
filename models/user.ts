@@ -1,4 +1,5 @@
 import { Schema, model, models } from "mongoose";
+import brcypt from "bcryptjs";
 import {
   LearningGoal,
   TechStackType,
@@ -60,9 +61,6 @@ const UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
-    minlength: 8,
-    maxlength: 30,
-    // match: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,30}$/, // generated to capture at least 1 letter and at least one number --needs to be tested
   },
 
   image: {
@@ -76,12 +74,23 @@ const UserSchema: Schema = new Schema({
   techStack: {
     type: [String],
     enum: techStackEnumValues,
-    //should I validate that the each value in the array is a valid tech stack option?
   },
 
   knowledgeLevels: [String],
   scheduleAvailability: ScheduleAvailabilitySchema,
   socialMediaLinks: [SocialMediaLinkSchema],
+});
+
+UserSchema.pre("save", async function (next) {
+  try {
+    console.log("pre save hook");
+    const salt = await brcypt.genSalt(10);
+    const hashedPassword = await brcypt.hash(this.password as string, salt);
+    this.password = hashedPassword;
+    next();
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 const User = models?.User || model<IUser>("User", UserSchema);

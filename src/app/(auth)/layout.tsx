@@ -24,7 +24,7 @@ export default function AuthLayout({
         <main className="flex min-h-screen w-1/2 flex-col items-center justify-center xl:w-3/5">
           <Link className="mb-6 mt-4 flex gap-2 text-display1" href={"/"}>
             <Image
-              src="/gitnote-icon.svg"
+              src="/icons/gitnote.svg"
               alt="GitNote"
               width={30}
               height={30}

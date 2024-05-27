@@ -6,12 +6,12 @@ import IconLink from "./IconLink";
 const QuickLinks = () => {
   const quickLinks = [
     {
-      icon: "jsm-icon.svg",
+      icon: "icons/jsm.svg",
       title: "JSM Courses",
       link: "https://courses.jsmastery.pro",
     },
     {
-      icon: "github-icon.svg",
+      icon: "icons/github.svg",
       title: "GitHub Organization",
       link: "https://github.com",
     },
@@ -39,7 +39,7 @@ const QuickLinks = () => {
         <IconLink
           href="/sign-in"
           iconColor="text-myWhite-500"
-          iconSrc="logout-icon.svg"
+          iconSrc="icons/logout.svg"
           iconAlt="Logout"
           textColor="text-myWhite-300"
           text="Logout"

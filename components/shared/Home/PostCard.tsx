@@ -17,17 +17,17 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
   let backgroundColor = "";
   let textColor = "";
   if (post.type === "workflow") {
-    icon = "workflow-icon.svg";
+    icon = "icons/workflow.svg";
     backgroundColor = "bg-primary-900";
     textColor = "text-primary-500";
   }
   if (post.type === "component") {
-    icon = "component-icon.svg";
+    icon = "icon/component.svg";
     backgroundColor = "bg-myPurple-900";
     textColor = "text-myPurple-500";
   }
   if (post.type === "knowledge") {
-    icon = "knowledge-icon.svg";
+    icon = "icons/knowledge.svg";
     backgroundColor = "bg-myGreen-900";
     textColor = "text-myGreen-500";
   }

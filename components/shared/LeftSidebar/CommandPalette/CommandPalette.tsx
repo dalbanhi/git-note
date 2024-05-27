@@ -46,7 +46,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
               <div className="flex w-full justify-between gap-2 bg-myBlack-700 p-2 text-myWhite-300">
                 <div className="flex">
                   <Image
-                    src="/search-icon.svg"
+                    src="/icons/search.svg"
                     alt="Search"
                     width={12}
                     height={12}

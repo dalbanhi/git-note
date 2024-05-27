@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="rounded-sm bg-myBlack-700 p-2 text-p4Reg text-myWhite-300 outline-none"
+        className="truncate rounded-sm bg-myBlack-700 p-2 text-p4Reg text-myWhite-300 outline-none"
       />
     </div>
   );

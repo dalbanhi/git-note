@@ -57,6 +57,9 @@ export const config = {
       },
       async authorize(credentials, req) {
         //where you connect and verify credentials
+        console.log("trying to auth");
+        console.log("credentials, ", credentials);
+        console.log("req, ", req);
 
         return {
           name: "John Doe",

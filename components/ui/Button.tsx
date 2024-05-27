@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick: (e: any) => void;
   image?: string;
   text: string;
   backgroundColor?: string;
@@ -19,10 +19,10 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`${backgroundColor ? backgroundColor : "bg-myBlack-700"} rounded-sm p-2 text-p4Med capitalize ${textColor ? textColor : "text-myWhite-100"}`}
+      className={`${backgroundColor ? backgroundColor : "bg-myBlack-700"} flex items-center justify-center gap-2 rounded-sm p-2 text-p4Med  ${textColor ? textColor : "text-myWhite-100 "}`}
     >
-      {image && <Image src={image} alt={text} width={12} height={12}></Image>}
-      {text}
+      {image && <Image src={image} alt={text} width={15} height={15}></Image>}
+      <span>{text}</span>
     </button>
   );
 };

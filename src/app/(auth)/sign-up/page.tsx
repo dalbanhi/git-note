@@ -1,7 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import Button from "~/components/ui/Button";
-import { signIn, signOut } from "next-auth/react";
+import React from "react";
 import LoginForm from "@components/shared/Form/Login/LoginForm";
 
 const providers = ["google", "github"];

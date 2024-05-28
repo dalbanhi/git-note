@@ -22,7 +22,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
     textColor = "text-primary-500";
   }
   if (post.type === "component") {
-    icon = "icon/component.svg";
+    icon = "icons/component.svg";
     backgroundColor = "bg-myPurple-900";
     textColor = "text-myPurple-500";
   }

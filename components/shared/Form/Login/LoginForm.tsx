@@ -1,9 +1,10 @@
 "use client";
 import Input from "~/components/ui/Input";
 import Button from "~/components/ui/Button";
-import { signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 import Link from "next/link";
+import { Flip, toast } from "react-toastify";
 
 interface LoginFormProps {
   type: string;
@@ -18,10 +19,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   return (
     <div className="mt-4 flex w-full flex-col justify-center">
-      {error && <p className="bg-warning-900">{error}</p>}
+      {/* {error && <p className="bg-warning-900">{error}</p>} */}
       <h1 className="text-display2 text-myWhite-100">{title}</h1>
       <div className="flex flex-col gap-4">
         {isSignUp && (
@@ -60,7 +61,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
               redirect: false,
             });
             if (result?.error) {
-              setError(result.error);
+              // setError(result.error);
+              // console.log(result.error);
+              toast.error(result.error, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "colored",
+                progress: undefined,
+                transition: Flip,
+              });
             }
           }}
         >

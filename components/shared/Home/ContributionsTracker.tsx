@@ -61,16 +61,15 @@ const ContributionsTracker = () => {
         </p>
         <div className="flex items-center justify-center gap-2">
           <span className="text-subtitle text-myWhite-300">Less</span>
-          <svg className="h-[15px] w-[54px] max-md:h-[5px] max-md:w-[24px] ">
+          <svg className="h-[15px] w-[54px] max-sm:h-[5px] max-sm:w-[24px] ">
             <g>
               {rectClasses.map((rectClass, index) => {
                 return (
                   <rect
                     key={index}
                     x={
-                      0 +
-                      index * (device?.isTablet ? 5 : 8) +
-                      index * (device?.isTablet ? 1 : 3)
+                      index * (device?.isSmall ? 5 : 8) +
+                      index * (device?.isSmall ? 1 : 3)
                     }
                     y={0}
                     rx={2}

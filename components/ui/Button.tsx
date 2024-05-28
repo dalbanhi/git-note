@@ -1,12 +1,11 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import Image from "next/image";
 
-interface ButtonProps {
+interface ButtonProps extends PropsWithChildren<{}> {
   onClick: (e: any) => void;
   image?: string;
   backgroundColor?: string;
   textColor?: string;
-  children: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({

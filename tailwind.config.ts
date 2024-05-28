@@ -16,6 +16,10 @@ const config: Config = {
           800: "rgb(var(--primary-800)",
           900: "rgb(var(--primary) / 0.1)",
         },
+        warning: {
+          500: "rgb(var(--warning-500))",
+          900: "rgb(var(--warning-500) / 0.15)",
+        },
         myBlack: {
           600: "rgb(var(--my-black-600))",
           700: "rgb(var(--my-black-700))",

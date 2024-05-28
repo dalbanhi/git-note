@@ -21,7 +21,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
   const [error, setError] = useState("");
   return (
     <div className="mt-4 flex w-full flex-col justify-center">
-      {/* {error && <p className="text-myRed-500">{error}</p>} */}
+      {error && <p className="bg-warning-900">{error}</p>}
       <h1 className="text-display2 text-myWhite-100">{title}</h1>
       <div className="flex flex-col gap-4">
         {isSignUp && (
@@ -50,17 +50,22 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
         <Button
           backgroundColor="bg-primary-500"
           textColor="text-myBlack-900"
-          text={title}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
             //save the result and see if there is an error, also redirect to the home page
-            signIn("credentials", {
+            const result = await signIn("credentials", {
               email: email,
               password: password,
               fullName: fullName,
+              redirect: false,
             });
+            if (result?.error) {
+              setError(result.error);
+            }
           }}
-        ></Button>
+        >
+          {title}
+        </Button>
       </div>
       <Link
         href={isSignUp ? "/sign-in" : "/sign-up"}
@@ -80,12 +85,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
           return (
             <Button
               key={provider}
-              image={`icons/${provider}.svg`}
+              image={`icons/${provider.toLowerCase()}.svg`}
               backgroundColor="bg-myBlack-700"
               textColor="text-myWhite-100"
-              text={`Continue with ${provider}`}
-              onClick={() => signIn(provider)}
-            ></Button>
+              onClick={() => signIn(provider.toLowerCase())}
+            >
+              {`Continue with ${provider}`}
+            </Button>
           );
         })}
       </div>

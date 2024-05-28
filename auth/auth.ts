@@ -83,13 +83,17 @@ export const config = {
           } else {
             //return an error somehow
             console.log("passwords don't match");
-            throw new Error("Passwords don't match");
-
-            return null;
+            throw new Error("Incorrect password");
           }
         } else {
           //try to make a new user
           const uniqueUsername = generateFromEmail(credentials.email, 4);
+
+          //check to see if the user is intending to log in or sign up
+          if (credentials.fullName === "") {
+            //user is trying to log in
+            throw new Error("User does not exist");
+          }
           const newUser = await User.create({
             email: credentials.email,
             password: credentials.password,

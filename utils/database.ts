@@ -11,12 +11,11 @@ export const connectToDB = async () => {
   }
 
   try {
-    connect(process.env.MONGODB_URI ?? "", {
+    await connect(process.env.MONGODB_URI ?? "", {
       dbName: process.env.MONGODB_DB,
-    }).then((response) => {
-      isConnected = true;
-      console.log("mongodb connected");
     });
+    isConnected = true;
+    console.log("mongo db connected");
   } catch (error) {
     console.log(error);
   }

@@ -53,7 +53,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
           text={title}
           onClick={(e) => {
             e.preventDefault();
-
+            //save the result and see if there is an error, also redirect to the home page
             signIn("credentials", {
               email: email,
               password: password,

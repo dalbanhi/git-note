@@ -27,7 +27,6 @@ declare module "next-auth" {
 }
 
 import User from "~/models/user";
-import { error } from "console";
 
 export const config = {
   providers: [
@@ -84,6 +83,7 @@ export const config = {
           } else {
             //return an error somehow
             console.log("passwords don't match");
+            throw new Error("Passwords don't match");
 
             return null;
           }
@@ -128,7 +128,7 @@ export const config = {
 
       try {
         await connectToDB();
-        //checking if a user already exists
+        // checking if a user already exists
         const userExistsAlready = await User.findOne({
           email: profile?.email,
         });

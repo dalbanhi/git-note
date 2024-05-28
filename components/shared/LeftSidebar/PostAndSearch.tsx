@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import CommandPalette from "~/components/shared/LeftSidebar/CommandPalette/CommandPalette";
 

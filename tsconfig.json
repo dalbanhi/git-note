@@ -30,7 +30,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/types/app/(profile)/profile/edit-profile/page.ts",
-    "types/index.d.ts"
+    "types/index.d.ts",
+    "next-env.d.ts"
   ],
   "exclude": ["node_modules"]
 }

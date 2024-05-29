@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import CommandPalette from "~/components/shared/LeftSidebar/CommandPalette/CommandPalette";
 
@@ -7,9 +7,9 @@ const PostAndSearch = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   return (
     <div className="mb-4 flex flex-col gap-3">
-      <button className="flex items-center justify-center gap-1 rounded-lg bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med">
+      <button className="flex items-center justify-center gap-1 rounded bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med text-myWhite-100">
         <Image
-          src="/plus-icon.svg"
+          src="/icons/plus.svg"
           alt="Create Note"
           width={12}
           height={12}
@@ -20,7 +20,7 @@ const PostAndSearch = () => {
         <div className="flex justify-center">
           <button onClick={() => setIsCommandPaletteOpen(true)}>
             <Image
-              src="/search-icon.svg"
+              src="/icons/search.svg"
               alt="Search"
               width={12}
               height={12}
@@ -38,7 +38,7 @@ const PostAndSearch = () => {
           className="flex items-center justify-center text-myWhite-300"
         >
           <Image
-            src="/command-icon.svg"
+            src="/icons/command.svg"
             alt="Command"
             width={12}
             height={12}

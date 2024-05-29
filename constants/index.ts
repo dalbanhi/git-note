@@ -13,21 +13,21 @@ export const postFilters = [
     label: "WorkFlow",
     color: "text-primary-500",
     backgroundColor: "bg-primary-900",
-    iconSrc: "/workflow-icon.svg",
+    iconSrc: "/icons/workflow.svg",
   },
   {
     type: "Component",
     label: "Component",
     color: "text-myPurple-500",
     backgroundColor: "bg-myPurple-900",
-    iconSrc: "/component-icon.svg",
+    iconSrc: "/icons/component.svg",
   },
   {
     type: "Knowledge",
     label: "Knowledge",
     color: "text-myGreen-500",
     backgroundColor: "bg-myGreen-900",
-    iconSrc: "/knowledge-icon.svg",
+    iconSrc: "/icons/knowledge.svg",
   },
 ];
 
@@ -162,3 +162,10 @@ export const testContributions: UserContributions = {
     },
   ],
 };
+
+export const TechStackOptions = [
+  "React.js",
+  "Next.js",
+  "Tailwind CSS",
+  "VS Code",
+];

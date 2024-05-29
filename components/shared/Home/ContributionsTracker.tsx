@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import CalendarHeatmap from "./CalendarHeatmap";
-import { useMediaQuery } from "@uidotdev/usehooks";
+import useDevice from "~/hooks/useMediaQuery/useDevice";
+
 import { DAY_LABELS, MONTH_LABELS, testContributions } from "~/constants";
 
 const ContributionsTracker = () => {
@@ -33,7 +34,7 @@ const ContributionsTracker = () => {
     "color-myCal-5",
   ];
 
-  const isMedDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const device = useDevice();
 
   return (
     <div className=" rounded-sm border border-myWhite-500 bg-myBlack-700 p-4">
@@ -60,16 +61,15 @@ const ContributionsTracker = () => {
         </p>
         <div className="flex items-center justify-center gap-2">
           <span className="text-subtitle text-myWhite-300">Less</span>
-          <svg className="h-[15px] w-[54px] max-md:h-[5px] max-md:w-[24px] ">
+          <svg className="h-[15px] w-[54px] max-sm:h-[5px] max-sm:w-[24px] ">
             <g>
               {rectClasses.map((rectClass, index) => {
                 return (
                   <rect
                     key={index}
                     x={
-                      0 +
-                      index * (isMedDevice ? 5 : 8) +
-                      index * (isMedDevice ? 1 : 3)
+                      index * (device?.isSmall ? 5 : 8) +
+                      index * (device?.isSmall ? 1 : 3)
                     }
                     y={0}
                     rx={2}

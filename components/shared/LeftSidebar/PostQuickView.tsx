@@ -19,15 +19,15 @@ const PostQuickView: React.FC<PostQuickViewProps> = ({ post, isActive }) => {
   let icon = "";
   if (type === "workflow") {
     color = "text-primary-500";
-    icon = "workflow-icon.svg";
+    icon = "icons/workflow.svg";
   }
   if (type === "component") {
     color = "text-myPurple-500";
-    icon = "component-icon.svg";
+    icon = "icons/component.svg";
   }
   if (type === "knowledge") {
     color = "text-myGreen-500";
-    icon = "knowledge-icon.svg";
+    icon = "icons/knowledge.svg";
   }
 
   let textColor = isActive ? "text-primary-500" : "text-myWhite-300";

@@ -41,15 +41,12 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
     <div>
       {isOpen && (
         <div className="cmdk-overlay" onClick={handleOverlayClick}>
-          <div
-            className="cmdk-modal rounded-sm"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="cmdk-modal" onClick={(e) => e.stopPropagation()}>
             <Command className="rounded-sm bg-myBlack-900">
-              <div className="flex w-full justify-between gap-2 rounded-sm bg-myBlack-700 p-2 text-myWhite-300">
+              <div className="flex w-full justify-between gap-2 bg-myBlack-700 p-2 text-myWhite-300">
                 <div className="flex">
                   <Image
-                    src="/search-icon.svg"
+                    src="/icons/search.svg"
                     alt="Search"
                     width={12}
                     height={12}
@@ -122,7 +119,6 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                   </Command.Group>
                 )}
               </Command.List>
-
               <Command.Empty>
                 <div className="p-2 text-p3Reg text-myWhite-300">
                   No results found.

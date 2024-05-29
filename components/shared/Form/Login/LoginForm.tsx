@@ -5,7 +5,8 @@ import { signIn } from "next-auth/react";
 import { useEffect } from "react";
 import Link from "next/link";
 import { Flip, toast } from "react-toastify";
-import { useForm, Controller } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserFormSchema } from "~/lib/validators/user.schema";
 import { useRouter } from "next/navigation";
@@ -14,8 +15,6 @@ interface LoginFormProps {
   type: string;
   title: string;
 }
-
-//TODO: Add error handling with Zod and useForm hook: https://ui.shadcn.com/docs/components/form
 
 const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
   const router = useRouter();
@@ -54,7 +53,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
     } else if (errors.fullName) {
       errorMsg = errors.fullName.message as string;
     }
-    console.log(errors);
     if (errorMsg !== "") {
       showError(errorMsg);
     }
@@ -68,7 +66,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
       redirect: false,
     });
     if (result?.error) {
-      console.log(result.error);
       showError(result.error);
     } else {
       router.push("/");

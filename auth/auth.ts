@@ -155,7 +155,6 @@ export const config = {
 
         return true;
       } catch (e) {
-        console.log("Error signing in!!! :-( ");
         console.log(e);
         return false;
       }

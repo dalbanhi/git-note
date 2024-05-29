@@ -68,6 +68,13 @@ export const config = {
 
         //if user exists, check password
         if (userExistsAlready) {
+          //check if the user even has a saved password
+          if (userExistsAlready.password === undefined) {
+            throw new Error(
+              "User exists but no password saved. Maybe try logging in with Google or Github?"
+            );
+          }
+
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             userExistsAlready.password
@@ -81,17 +88,16 @@ export const config = {
               id: userExistsAlready._id.toString(),
             };
           } else {
-            //return an error somehow
-            console.log("passwords don't match");
             throw new Error("Incorrect password");
           }
         } else {
           //try to make a new user
+          console.log("here");
           const uniqueUsername = generateFromEmail(credentials.email, 4);
 
           //check to see if the user is intending to log in or sign up
-          if (credentials.fullName === "") {
-            //user is trying to log in
+          if (credentials.fullName === "undefined") {
+            //user is trying to log in but was not found, so throw an error
             throw new Error("User does not exist");
           }
           const newUser = await User.create({

@@ -2,9 +2,13 @@
 import Input from "~/components/ui/Input";
 import Button from "~/components/ui/Button";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { Flip, toast } from "react-toastify";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserFormSchema } from "~/lib/validators/user.schema";
+import { useRouter } from "next/navigation";
 
 interface LoginFormProps {
   type: string;
@@ -14,68 +18,96 @@ interface LoginFormProps {
 //TODO: Add error handling with Zod and useForm hook: https://ui.shadcn.com/docs/components/form
 
 const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
+  const router = useRouter();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(UserFormSchema),
+  });
+
   const providers = ["Google", "GitHub"];
   const isSignUp = type === "sign-up";
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  // const [error, setError] = useState("");
+
+  const showError = (message: string) => {
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      progress: undefined,
+      transition: Flip,
+    });
+  };
+
+  useEffect(() => {
+    let errorMsg = "";
+    if (errors.email) {
+      errorMsg = errors.email.message as string;
+    } else if (errors.password) {
+      errorMsg = errors.password.message as string;
+    } else if (errors.fullName) {
+      errorMsg = errors.fullName.message as string;
+    }
+    console.log(errors);
+    if (errorMsg !== "") {
+      showError(errorMsg);
+    }
+  }, [errors]);
+
+  const onSubmit = async (data: any) => {
+    const result = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      fullName: data.fullName,
+      redirect: false,
+    });
+    if (result?.error) {
+      console.log(result.error);
+      showError(result.error);
+    } else {
+      router.push("/");
+    }
+  };
+
   return (
-    <div className="mt-4 flex w-full flex-col justify-center">
-      {/* {error && <p className="bg-warning-900">{error}</p>} */}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mt-4 flex w-full flex-col justify-center"
+    >
       <h1 className="text-display2 text-myWhite-100">{title}</h1>
       <div className="flex flex-col gap-4">
         {isSignUp && (
           <Input
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            name="full name"
+            label="fullName"
             type="text"
             placeholder="Enter your full name"
+            register={register}
           />
         )}
+
         <Input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          name="email"
+          label="email"
           type="email"
           placeholder="Enter your email address"
+          register={register}
         />
         <Input
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          name="password"
+          label="password"
           type="password"
           placeholder="Enter your password"
+          register={register}
         />
+
         <Button
           backgroundColor="bg-primary-500"
           textColor="text-myBlack-900"
-          onClick={async (e) => {
-            e.preventDefault();
-            //save the result and see if there is an error, also redirect to the home page
-            const result = await signIn("credentials", {
-              email: email,
-              password: password,
-              fullName: fullName,
-              redirect: false,
-            });
-            if (result?.error) {
-              // setError(result.error);
-              // console.log(result.error);
-              toast.error(result.error, {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-                progress: undefined,
-                transition: Flip,
-              });
-            }
-          }}
+          onClick={handleSubmit(onSubmit)}
         >
           {title}
         </Button>
@@ -108,7 +140,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
           );
         })}
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -6,7 +6,10 @@ import { redirect } from "next/navigation";
 const SignIn = async () => {
   const session = await getSession();
 
-  if (session) {
+  console.log(session);
+  if (!session?.hasOnboarded) {
+    redirect("/onboarding");
+  } else if (session?.hasOnboarded) {
     redirect("/");
   }
 

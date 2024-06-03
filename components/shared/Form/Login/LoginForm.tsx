@@ -68,7 +68,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
     if (result?.error) {
       showError(result.error);
     } else {
-      router.push("/");
+      //router refresh make sure redirects to onboarding
+      router.push("/sign-in");
     }
   };
 

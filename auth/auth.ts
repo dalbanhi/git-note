@@ -23,6 +23,7 @@ declare module "next-auth" {
 
   interface Session extends DefaultSession {
     user: User;
+    hasOnboarded: boolean;
   }
 }
 
@@ -126,6 +127,7 @@ export const config = {
 
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
+        session.hasOnboarded = sessionUser.hasOnboarded;
       }
 
       return session;

@@ -1,37 +1,74 @@
 "use client";
 import React from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserFormSchema } from "~/lib/validators/user.schema";
 import { useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
 import Button from "~/components/ui/Button";
 import Input from "@components/ui/Input";
+import ImageUploader from "./ImageUploader";
+import { UseFormRegister, FieldValues } from "react-hook-form";
+import { useState } from "react";
 
 interface OnboardingFormProps {
   step: number;
+  session: Session | null;
 }
 
 interface StepProps {
-  register: any;
-  control?: any;
+  register: UseFormRegister<FieldValues>;
+  control?: Control<FieldValues>;
+  session?: Session | null;
 }
 
-const Step1: React.FC<StepProps> = ({ register, control }) => {
+interface Step1Props extends StepProps {
+  imageURL: string;
+  setImageURL: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Step1: React.FC<Step1Props> = ({
+  register,
+  control,
+  session,
+  imageURL,
+  setImageURL,
+}) => {
+  return (
+    <div className="flex flex-col gap-3">
+      <ImageUploader imageURL={imageURL} setImageURL={setImageURL} />
+      <Input
+        label="Name"
+        type={"text"}
+        placeholder="Full Name"
+        register={register}
+        initialValue={session?.user?.name}
+      />
+      <Input
+        label="Portfolio"
+        type={"url"}
+        placeholder="Portfolio"
+        register={register}
+      />
+    </div>
+  );
+};
+
+const Step2: React.FC<StepProps> = ({ register, control }) => {
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormProvider)
       name: "test", // unique name for your Field Array
     }
   );
-
   return (
     <div>
       {" "}
       <Input
-        label="Full Name"
+        label="Email"
         type={"text"}
-        placeholder="Full Name"
+        placeholder="Email"
         register={register}
       />{" "}
       <button
@@ -55,20 +92,6 @@ const Step1: React.FC<StepProps> = ({ register, control }) => {
           </button>
         </div>
       ))}
-    </div>
-  );
-};
-
-const Step2: React.FC<StepProps> = ({ register }) => {
-  return (
-    <div>
-      {" "}
-      <Input
-        label="Email"
-        type={"text"}
-        placeholder="Email"
-        register={register}
-      />{" "}
     </div>
   );
 };
@@ -101,9 +124,10 @@ const Step4: React.FC<StepProps> = ({ register }) => {
   );
 };
 
-const OnboardingForm = ({ step }: { step: number }) => {
+const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
   step = Number(step);
   const router = useRouter();
+  const [imageURL, setImageURL] = useState("");
   const {
     register,
     control,
@@ -111,6 +135,9 @@ const OnboardingForm = ({ step }: { step: number }) => {
     formState: { errors },
   } = useForm({
     // resolver: zodResolver(UserFormSchema), //change this schema
+    // defaultValues: {
+    //   Name: session?.user?.name,
+    // },
   });
 
   const onSubmit = (data: any) => {
@@ -126,10 +153,18 @@ const OnboardingForm = ({ step }: { step: number }) => {
     }
   };
   const stepComponents = {
-    1: <Step1 register={register} control={control} />,
-    2: <Step2 register={register} />,
-    3: <Step3 register={register} />,
-    4: <Step4 register={register} />,
+    1: (
+      <Step1
+        register={register}
+        control={control}
+        session={session}
+        imageURL={imageURL}
+        setImageURL={setImageURL}
+      />
+    ),
+    2: <Step2 register={register} control={control} session={session} />,
+    3: <Step3 register={register} control={control} session={session} />,
+    4: <Step4 register={register} control={control} session={session} />,
   };
   return (
     <form

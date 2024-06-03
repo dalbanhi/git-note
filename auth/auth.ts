@@ -93,7 +93,6 @@ export const config = {
           }
         } else {
           //try to make a new user
-          console.log("here");
           const uniqueUsername = generateFromEmail(credentials.email, 4);
 
           //check to see if the user is intending to log in or sign up

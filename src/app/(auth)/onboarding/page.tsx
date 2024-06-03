@@ -1,9 +1,11 @@
 import React from "react";
 import ProgressStepBar from "~/components/shared/Form/Onboarding/ProgressStepBar";
 import OnboardingForm from "~/components/shared/Form/Onboarding/OnboardingForm";
+import { getSession } from "~/auth/auth";
 
-const Onboarding = ({ searchParams }: any) => {
-  console.log(searchParams);
+const Onboarding = async ({ searchParams }: any) => {
+  const session = await getSession();
+  console.log("searchParams, ", searchParams);
   const steps = [
     "Basic Information",
     "Add your learning goals",
@@ -16,7 +18,7 @@ const Onboarding = ({ searchParams }: any) => {
       <h2 className="mt-4 text-display2 text-myWhite-100">
         {steps[searchParams?.step - 1]}
       </h2>
-      <OnboardingForm step={searchParams?.step} />
+      <OnboardingForm session={session} step={searchParams?.step} />
     </div>
   );
 };

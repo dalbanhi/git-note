@@ -12,6 +12,8 @@ import DeletableListItem from "@components/ui/DeletableListItem";
 import ImageUploader from "./ImageUploader";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { useState } from "react";
+import CreatableSelect from "react-select/creatable";
+import TechStackSelector from "./TechStackSelector";
 
 interface OnboardingFormProps {
   step: number;
@@ -80,27 +82,65 @@ const Step2: React.FC<StepProps> = ({ register, control }) => {
           />
         ))}
       </div>
-      <button
+      <Button
+        image="icons/plus-blue.svg"
+        backgroundColor="bg-myBlack-600"
+        textColor="text-myWhite-100"
         onClick={() => {
           append({ value: "" });
         }}
       >
         Add goal checkbox
-      </button>
+      </Button>
     </div>
   );
 };
 
-const Step3: React.FC<StepProps> = ({ register }) => {
+const Step3: React.FC<StepProps> = ({ register, control }) => {
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control, // control props comes from useForm (optional: if you are using FormProvider)
+      name: "knowledgeLevels", // unique name for your Field Array
+    }
+  );
   return (
-    <div>
-      {" "}
-      <Input
-        label="step3"
-        type={"text"}
-        placeholder="Step3"
-        register={register}
-      />{" "}
+    <div className="flex flex-col gap-2">
+      <h3 className="text-p3Med text-myWhite-300">Knowledge Level</h3>
+      <div className="flex flex-col gap-2">
+        {fields.map((field, index) => (
+          <DeletableListItem
+            key={field.id}
+            onDelete={() => remove(index)}
+            checkable={false}
+            register={register}
+            fieldArrayName="knowledgeLevels"
+            placeholderText="Enter a knowledge level"
+            control={control}
+            index={index}
+            imageSrc="icons/check-square.svg"
+            imageAlt="Checkmark"
+          />
+        ))}
+      </div>
+      <Button
+        image="icons/plus-blue.svg"
+        backgroundColor="bg-myBlack-600"
+        textColor="text-myWhite-100"
+        onClick={() => {
+          append({ value: "" });
+        }}
+      >
+        Add knowledge checkmark
+      </Button>
+      <div className="flex flex-col gap-2">
+        <label
+          className="text-p3Med capitalize text-myWhite-300"
+          htmlFor={"techStack"}
+        >
+          {"Tech Stack"}
+        </label>
+        <TechStackSelector control={control} />
+      </div>
     </div>
   );
 };
@@ -174,7 +214,12 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
           Next
         </Button>
       ) : (
-        <button type="submit">Submit</button>
+        <button
+          className={`flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-primary-500 p-2  text-p4Med text-myBlack-900`}
+          type="submit"
+        >
+          Submit
+        </button>
       )}
     </form>
   );

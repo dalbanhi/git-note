@@ -30,10 +30,9 @@ const DeletableListItem: React.FC<DeletableListItemProps> = ({
   imageAlt,
   placeholderText,
 }) => {
-  console.log(placeholderText);
   return (
     <div className="flex justify-between bg-myBlack-700 px-2 py-1">
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex grow items-center justify-center gap-2">
         {checkable ? (
           <Controller
             name={`${fieldArrayName}[${index}].completed`}

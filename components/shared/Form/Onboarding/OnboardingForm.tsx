@@ -2,12 +2,13 @@
 import React from "react";
 import { useForm, useFieldArray, Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserFormSchema } from "~/lib/validators/user.schema";
+import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 import Button from "~/components/ui/Button";
 import Input from "@components/ui/Input";
+import DeletableListItem from "@components/ui/DeletableListItem";
 import ImageUploader from "./ImageUploader";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { useState } from "react";
@@ -59,39 +60,33 @@ const Step2: React.FC<StepProps> = ({ register, control }) => {
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormProvider)
-      name: "test", // unique name for your Field Array
+      name: "learningGoals", // unique name for your Field Array
     }
   );
   return (
-    <div>
-      {" "}
-      <Input
-        label="Email"
-        type={"text"}
-        placeholder="Email"
-        register={register}
-      />{" "}
+    <div className="flex flex-col gap-2">
+      <h3 className="text-p3Med text-myWhite-300">Learning goals</h3>
+      <div className="flex flex-col gap-2">
+        {fields.map((field, index) => (
+          <DeletableListItem
+            key={field.id}
+            onDelete={() => remove(index)}
+            checkable={true}
+            register={register}
+            fieldArrayName="learningGoals"
+            placeholderText="Enter a learning goal"
+            control={control}
+            index={index}
+          />
+        ))}
+      </div>
       <button
         onClick={() => {
-          append({ value: "new" });
+          append({ value: "" });
         }}
       >
-        add new thing
+        Add goal checkbox
       </button>
-      <br />
-      <br />
-      {fields.map((field, index) => (
-        <div key={field.id}>
-          <input {...register(`test.${index}.value`)} />
-          <button
-            onClick={() => {
-              remove(index);
-            }}
-          >
-            -
-          </button>
-        </div>
-      ))}
     </div>
   );
 };
@@ -134,10 +129,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: zodResolver(UserFormSchema), //change this schema
-    // defaultValues: {
-    //   Name: session?.user?.name,
-    // },
+    // resolver: zodResolver(OnboardingFormSchema), //change this schema
   });
 
   const onSubmit = (data: any) => {

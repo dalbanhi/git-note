@@ -26,7 +26,7 @@ const Input: React.FC<InputProps> = (props) => {
         {...register(label)}
         type={type}
         placeholder={placeholder}
-        className="truncate rounded-sm bg-myBlack-700 p-2 text-p4Reg text-myWhite-300 outline-none"
+        className="truncate rounded-sm border-none bg-myBlack-700 p-2 text-p4Reg text-myWhite-300 outline-none"
         defaultValue={initialValue}
       />
     </div>

@@ -1,7 +1,7 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { getSession } from "~/auth/auth";
-import sharp from "sharp";
+// import sharp from "sharp";
 
 const f = createUploadthing();
 

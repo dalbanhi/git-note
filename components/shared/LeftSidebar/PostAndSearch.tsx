@@ -28,7 +28,7 @@ const PostAndSearch = () => {
           </button>
           <input
             type="text"
-            className="w-full rounded-lg bg-myBlack-700 p-2 text-p4Med text-myWhite-500"
+            className="w-full rounded-lg border-none bg-myBlack-700 p-2 text-p4Med text-myWhite-500 outline-none"
             placeholder="Search..."
             onClick={() => setIsCommandPaletteOpen(true)}
           ></input>

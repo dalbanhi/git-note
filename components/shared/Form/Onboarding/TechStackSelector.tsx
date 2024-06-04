@@ -7,16 +7,16 @@ interface TechStackSelectorProps {
   control?: Control<FieldValues>;
 }
 
-const options = [
-  { value: "react", label: "React" },
-  { value: "angular", label: "Angular" },
-  { value: "vue", label: "Vue" },
-];
+// const options = [
+//   { value: "react", label: "React" },
+//   { value: "angular", label: "Angular" },
+//   { value: "vue", label: "Vue" },
+// ];
 const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
-  //   const options = TechStackOptions.map((techStack) => ({
-  //     value: techStack,
-  //     label: techStack,
-  //   }));
+  const options = TechStackOptions.map((techStack) => ({
+    value: techStack,
+    label: techStack,
+  }));
   console.log(options);
 
   return (

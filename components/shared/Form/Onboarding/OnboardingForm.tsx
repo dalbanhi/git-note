@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useForm, useFieldArray, Control } from "react-hook-form";
+import { useForm, useFieldArray, Control, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
 import { useRouter } from "next/navigation";
@@ -12,8 +12,8 @@ import DeletableListItem from "@components/ui/DeletableListItem";
 import ImageUploader from "./ImageUploader";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { useState } from "react";
-import CreatableSelect from "react-select/creatable";
 import TechStackSelector from "./TechStackSelector";
+import MyDatePicker from "./MyDatePicker/MyDatePicker";
 
 interface OnboardingFormProps {
   step: number;
@@ -145,16 +145,32 @@ const Step3: React.FC<StepProps> = ({ register, control }) => {
   );
 };
 
-const Step4: React.FC<StepProps> = ({ register }) => {
+const Step4: React.FC<StepProps> = ({ register, control }) => {
   return (
-    <div>
-      {" "}
-      <Input
-        label="Step4"
-        type={"text"}
-        placeholder="Step4"
-        register={register}
-      />{" "}
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <input
+          className="rounded-sm bg-myBlack-700 text-myGreen-400 ring-0 focus:ring-0"
+          type="checkbox"
+          {...register("availability")}
+          defaultChecked
+        />
+        <label className="text-p3Med text-myWhite-300" htmlFor="availability">
+          Are you available for a new project?
+        </label>
+      </div>
+      <div className="flex gap-2">
+        <MyDatePicker
+          label="Start Date & Time "
+          fieldName="startDate"
+          control={control}
+        />
+        <MyDatePicker
+          label="End Date & Time "
+          fieldName="endDate"
+          control={control}
+        />
+      </div>
     </div>
   );
 };

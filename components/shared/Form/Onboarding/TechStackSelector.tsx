@@ -7,17 +7,11 @@ interface TechStackSelectorProps {
   control?: Control<FieldValues>;
 }
 
-// const options = [
-//   { value: "react", label: "React" },
-//   { value: "angular", label: "Angular" },
-//   { value: "vue", label: "Vue" },
-// ];
 const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
   const options = TechStackOptions.map((techStack) => ({
     value: techStack,
     label: techStack,
   }));
-  console.log(options);
 
   return (
     <Controller
@@ -27,6 +21,7 @@ const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
       render={({ field }) => (
         <CreatableSelect
           isMulti
+          instanceId={"techStack"}
           {...field}
           classNamePrefix="react-select"
           options={options}
@@ -64,14 +59,9 @@ const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
             },
           })}
           placeholder="Select your tech stack"
-          //   onChange={(selectedOptions) =>
-          //     field.onChange(selectedOptions.map((option) => option.value))
-          //   }
           getOptionLabel={(option) => option.label}
           getOptionValue={(option) => option.value}
           onChange={(selectedOptions) => field.onChange(selectedOptions)}
-          //   value={field.value}
-          //   onBlur={field.onBlur}
         />
       )}
     />

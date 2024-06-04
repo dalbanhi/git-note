@@ -32,10 +32,10 @@
 
 .custom-calendar .react-datepicker__day,
 .react-datepicker__time-list-item {
-  @apply hover:bg-primary-900;
+  @apply hover:!bg-primary-900;
 }
 .react-datepicker__time-list-item--selected {
-  @apply bg-primary-500;
+  @apply !bg-primary-500;
 }
 
 .react-datepicker__time-list {

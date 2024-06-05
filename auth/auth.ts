@@ -24,6 +24,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: User;
     hasOnboarded: boolean;
+    image: string;
   }
 }
 
@@ -85,7 +86,7 @@ export const config = {
             return {
               name: userExistsAlready.name,
               email: userExistsAlready.email,
-              image: userExistsAlready.image,
+              image: userExistsAlready.imageURL,
               id: userExistsAlready._id.toString(),
             };
           } else {
@@ -124,9 +125,11 @@ export const config = {
         email: session?.user?.email ?? "",
       });
 
+      console.log("sessionUser: ", sessionUser);
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
         session.hasOnboarded = sessionUser.hasOnboarded;
+        session.image = sessionUser.image ?? "";
       }
 
       return session;

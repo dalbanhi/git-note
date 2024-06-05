@@ -65,10 +65,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
       fullName: data.fullName,
       redirect: false,
     });
+    console.log("result: ", result);
     if (result?.error) {
       showError(result.error);
     } else {
       //router refresh make sure redirects to onboarding
+      console.log("I should redirect to onboarding");
       router.push("/sign-in");
     }
   };

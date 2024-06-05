@@ -3,7 +3,7 @@ import React from "react";
 import { useForm, useFieldArray, Control, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 import Button from "~/components/ui/Button";
@@ -32,11 +32,11 @@ const Step1: React.FC<StepProps> = ({ register, control, session }) => {
   return (
     <div className="flex flex-col gap-3">
       <Controller
-        name={"imageURL"}
+        name={"image"}
         control={control}
         defaultValue={""}
         render={({ field: { onChange, value } }) => (
-          <ImageUploader imageURL={value} setImageURL={onChange} />
+          <ImageUploader image={value} setImage={onChange} />
         )}
       ></Controller>
       <Input
@@ -216,6 +216,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
     console.log("we are submitting!");
     console.log(data);
     updateUser(data);
+    router.push("/");
   };
   const onNext = (event: React.FormEvent) => {
     if (step === 4) {

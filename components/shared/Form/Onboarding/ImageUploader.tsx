@@ -3,17 +3,14 @@ import Image from "next/image";
 import { UploadButton } from "~/utils/uploadthing";
 
 interface ImageUploaderProps {
-  imageURL: string;
-  setImageURL: React.Dispatch<React.SetStateAction<string>>;
+  image: string;
+  setImage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({
-  imageURL,
-  setImageURL,
-}) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ image, setImage }) => {
   return (
     <div className="flex items-center justify-start gap-2">
-      {imageURL === undefined || imageURL === "" ? (
+      {image === undefined || image === "" ? (
         <div className="flex size-20 items-center justify-center rounded-md bg-myBlack-700">
           <Image
             src="/icons/base-image.svg"
@@ -24,7 +21,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         </div>
       ) : (
         <Image
-          src={imageURL}
+          src={image}
           alt="profile image"
           width={50}
           height={50}
@@ -45,7 +42,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
                     height={16}
                   />
                   <span className="text-p3Med text-myWhite-300">
-                    {imageURL === undefined || imageURL === ""
+                    {image === undefined || image === ""
                       ? "Upload Profile Picture"
                       : "Change Profile Picture"}
                   </span>
@@ -68,8 +65,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res);
-          setImageURL(res[0].url);
-          alert("Upload Completed");
+          setImage(res[0].url);
+          // alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
           // Do something with the error.

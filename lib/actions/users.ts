@@ -6,8 +6,9 @@ import { getSession } from "~/auth/auth";
 
 export async function updateUser(user: any) {
   try {
+    console.log("I AM UPDATING THE USER");
+    console.log(user);
     OnboardingFormSchema.parse(user);
-    console.log("user", user);
     await connectToDB();
     const session = await getSession();
     const sessionUser = session?.user;
@@ -33,9 +34,7 @@ export async function updateUser(user: any) {
     if (!updatedUser) {
       throw new Error("User not found");
     }
-    console.log("updatedUser", updatedUser);
   } catch (err: any) {
-    console.log("error in updateUser");
     console.log(err);
     return err.errors;
   }

@@ -1,7 +1,10 @@
 import React from "react";
 import { Control, FieldValues, Controller } from "react-hook-form";
 import { TechStackOptions } from "~/constants";
-import CreatableSelect from "react-select/creatable";
+import dynamic from "next/dynamic";
+const CreatableSelect = dynamic(() => import("react-select/creatable"), {
+  ssr: false,
+});
 
 interface TechStackSelectorProps {
   control?: Control<FieldValues>;
@@ -59,8 +62,8 @@ const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
             },
           })}
           placeholder="Select your tech stack"
-          getOptionLabel={(option) => option.label}
-          getOptionValue={(option) => option.value}
+          getOptionLabel={(option: any) => option.label}
+          getOptionValue={(option: any) => option.value}
           onChange={(selectedOptions) => field.onChange(selectedOptions)}
         />
       )}

@@ -3,7 +3,7 @@ import React from "react";
 import { useForm, useFieldArray, Control, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 import Button from "~/components/ui/Button";
@@ -12,10 +12,11 @@ import DeletableListItem from "@components/ui/DeletableListItem";
 import ImageUploader from "./ImageUploader";
 import { Flip, toast } from "react-toastify";
 import { UseFormRegister, FieldValues } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import TechStackSelector from "./TechStackSelector";
 import MyDatePicker from "./MyDatePicker/MyDatePicker";
 import { updateUser } from "~/lib/actions/users";
+import { getSession } from "next-auth/react";
 
 interface OnboardingFormProps {
   step: number;
@@ -28,7 +29,16 @@ interface StepProps {
   session?: Session | null;
 }
 
-const Step1: React.FC<StepProps> = ({ register, control, session }) => {
+interface Step1Props extends StepProps {
+  setNextButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Step1: React.FC<Step1Props> = ({
+  register,
+  control,
+  session,
+  setNextButtonDisabled,
+}) => {
   return (
     <div className="flex flex-col gap-3">
       <Controller
@@ -36,7 +46,12 @@ const Step1: React.FC<StepProps> = ({ register, control, session }) => {
         control={control}
         defaultValue={""}
         render={({ field: { onChange, value } }) => (
-          <ImageUploader image={value} setImage={onChange} />
+          <ImageUploader
+            image={value}
+            setImage={onChange}
+            session={session}
+            setNextButtonDisabled={setNextButtonDisabled}
+          />
         )}
       ></Controller>
       <Input
@@ -57,12 +72,10 @@ const Step1: React.FC<StepProps> = ({ register, control, session }) => {
 };
 
 const Step2: React.FC<StepProps> = ({ register, control }) => {
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control,
-      name: "learningGoals",
-    }
-  );
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "learningGoals",
+  });
   return (
     <div className="flex flex-col gap-2">
       <h3 className="text-p3Med text-myWhite-300">Learning goals</h3>
@@ -175,6 +188,7 @@ const Step4: React.FC<StepProps> = ({ register, control }) => {
 
 const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
   step = Number(step);
+  const [nextButtonDisabled, setNextButtonDisabled] = React.useState(false);
   const router = useRouter();
   const {
     register,
@@ -200,34 +214,62 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
   };
 
   useEffect(() => {
-    if (Object.keys(errors).length !== 0) {
+    const handleSingleFieldError = (prependingString: string, error: any) => {
       let errorMsg = "";
-      console.log(errors);
-      if (errors.name) {
-        errorMsg = errors.name.message as string;
-      } else if (errors.portfolio) {
-        errorMsg = errors.portfolio.message as string;
+      if (error) {
+        errorMsg = `${prependingString} Error: ${error.message}`;
+        showError(errorMsg);
+      }
+    };
+
+    const handleFieldArrayError = (prependingString: string, error: any) => {
+      let errorMsg = "";
+      if (!error) return;
+      if (Array.isArray(error)) {
+        for (let err of error) {
+          for (let key in err) {
+            errorMsg += `${prependingString} Error: ${err[key].message} `;
+            break;
+          }
+          if (errorMsg !== "") {
+            break;
+          }
+        }
+      } else {
+        errorMsg = `${prependingString} Error: ${error.message}`;
       }
       showError(errorMsg);
+    };
+
+    if (Object.keys(errors).length !== 0) {
+      handleSingleFieldError("Name", errors.name);
+      handleSingleFieldError("Portfolio", errors.portfolio);
+      handleFieldArrayError("Learning Goals", errors.learningGoals);
+      handleFieldArrayError("Knowledge Levels", errors.knowledgeLevels);
     }
   }, [errors]);
 
-  const onSubmit = (data: any) => {
-    console.log("we are submitting!");
-    console.log(data);
+  const onSubmit = async (data: any) => {
     updateUser(data);
+    const session = await getSession();
     router.push("/");
   };
   const onNext = (event: React.FormEvent) => {
     if (step === 4) {
       event.preventDefault();
-      console.log("submit");
     } else {
       router.push(`/onboarding?step=${step + 1}`);
     }
   };
   const stepComponents = {
-    1: <Step1 register={register} control={control} session={session} />,
+    1: (
+      <Step1
+        register={register}
+        control={control}
+        session={session}
+        setNextButtonDisabled={setNextButtonDisabled}
+      />
+    ),
     2: <Step2 register={register} control={control} session={session} />,
     3: <Step3 register={register} control={control} session={session} />,
     4: <Step4 register={register} control={control} session={session} />,
@@ -238,12 +280,14 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       className="mt-4 flex flex-col gap-4"
     >
       {stepComponents[step as keyof typeof stepComponents]}
-      {step !== 4 ? (
+
+      {step < 4 ? (
         <Button
           onClick={onNext}
           key={step}
           backgroundColor="bg-primary-500"
           textColor="bg-myBlack-500"
+          disabled={nextButtonDisabled}
         >
           Next
         </Button>
@@ -254,6 +298,15 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
         >
           Submit
         </button>
+      )}
+      {step > 1 && (
+        <Button
+          onClick={() => router.push(`/onboarding?step=${step - 1}`)}
+          backgroundColor="bg-myBlack-600"
+          textColor="text-myWhite-100"
+        >
+          Previous
+        </Button>
       )}
     </form>
   );

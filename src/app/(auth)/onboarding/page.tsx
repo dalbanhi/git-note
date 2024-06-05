@@ -2,10 +2,15 @@ import React from "react";
 import ProgressStepBar from "~/components/shared/Form/Onboarding/ProgressStepBar";
 import OnboardingForm from "~/components/shared/Form/Onboarding/OnboardingForm";
 import { getSession } from "~/auth/auth";
+import { redirect } from "next/navigation";
 
 const Onboarding = async ({ searchParams }: any) => {
   const session = await getSession();
-  console.log("searchParams, ", searchParams);
+
+  if (session?.hasOnboarded) {
+    redirect("/");
+  }
+
   const steps = [
     "Basic Information",
     "Add your learning goals",

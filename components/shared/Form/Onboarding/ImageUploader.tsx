@@ -1,16 +1,40 @@
 import React from "react";
 import Image from "next/image";
 import { UploadButton } from "~/utils/uploadthing";
+import { Session } from "next-auth";
 
 interface ImageUploaderProps {
   image: string;
   setImage: React.Dispatch<React.SetStateAction<string>>;
+  session?: Session | null;
+  setNextButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ image, setImage }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  image,
+  setImage,
+  session,
+  setNextButtonDisabled,
+}) => {
   return (
     <div className="flex items-center justify-start gap-2">
-      {image === undefined || image === "" ? (
+      {image !== undefined && image !== "" ? (
+        <Image
+          src={image}
+          alt={`user uploaded image`}
+          width={50}
+          height={50}
+          className="size-20 rounded-md"
+        ></Image>
+      ) : session?.user?.image ? (
+        <Image
+          src={session?.user?.image ?? ""}
+          alt={session?.user?.name ?? "default image"}
+          width={50}
+          height={50}
+          className="size-20 rounded-md"
+        ></Image>
+      ) : (
         <div className="flex size-20 items-center justify-center rounded-md bg-myBlack-700">
           <Image
             src="/icons/base-image.svg"
@@ -19,14 +43,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ image, setImage }) => {
             height={16}
           ></Image>
         </div>
-      ) : (
-        <Image
-          src={image}
-          alt="profile image"
-          width={50}
-          height={50}
-          className="size-20 rounded-md"
-        ></Image>
       )}
       <UploadButton
         endpoint="imageUploader"
@@ -64,13 +80,16 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ image, setImage }) => {
         }}
         onClientUploadComplete={(res) => {
           // Do something with the response
-          console.log("Files: ", res);
           setImage(res[0].url);
-          // alert("Upload Completed");
+          setNextButtonDisabled(false);
+        }}
+        onUploadBegin={() => {
+          setNextButtonDisabled(true);
         }}
         onUploadError={(error: Error) => {
           // Do something with the error.
           alert(`ERROR! ${error.message}`);
+          setNextButtonDisabled(false);
         }}
       />
     </div>

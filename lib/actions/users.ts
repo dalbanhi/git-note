@@ -6,8 +6,6 @@ import { getSession } from "~/auth/auth";
 
 export async function updateUser(user: any) {
   try {
-    console.log("I AM UPDATING THE USER");
-    console.log(user);
     OnboardingFormSchema.parse(user);
     await connectToDB();
     const session = await getSession();

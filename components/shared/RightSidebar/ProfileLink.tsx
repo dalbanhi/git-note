@@ -4,7 +4,6 @@ import { getSession } from "~/auth/auth";
 
 const ProfileLink = async () => {
   const session = await getSession();
-  console.log("session is here ", session);
   const userName = session?.user?.name as string;
   const userEmail = session?.user?.email as string;
   const userAvatar = session?.user?.image as string;
@@ -14,10 +13,10 @@ const ProfileLink = async () => {
     <div className="mb-6 mt-4 flex gap-3 ">
       <Image
         src={
-          userAvatar
-            ? userAvatar
-            : userImageURL
-              ? userImageURL
+          userImageURL
+            ? userImageURL
+            : userAvatar
+              ? userAvatar
               : "/icons/default-image.svg"
         }
         alt="Profile"

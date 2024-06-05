@@ -19,7 +19,7 @@ const techStackSchema = z.object({
 });
 
 export const OnboardingFormSchema = z.object({
-  image: z.string().url().optional().or(z.literal(null)),
+  image: z.union([z.string().url(), z.string().length(0)]),
   name: z.string().min(2, "Full name must be at least 2 characters long"),
 
   portfolio: z

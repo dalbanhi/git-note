@@ -125,7 +125,6 @@ export const config = {
         email: session?.user?.email ?? "",
       });
 
-      console.log("sessionUser: ", sessionUser);
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
         session.hasOnboarded = sessionUser.hasOnboarded;

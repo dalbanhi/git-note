@@ -7,7 +7,11 @@ const SignUp = async () => {
   const session = await getSession();
 
   if (session) {
-    redirect("/");
+    if (!session?.hasOnboarded) {
+      redirect("/onboarding?step=1");
+    } else if (session?.hasOnboarded) {
+      redirect("/");
+    }
   }
   return (
     <div className="mt-4 w-5/12 text-myWhite-100">

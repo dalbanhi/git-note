@@ -52,7 +52,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     height={12}
                   ></Image>
                   <Command.Input
-                    className="w-full bg-myBlack-700 p-2 text-myWhite-300 outline-none"
+                    className="w-full border-none bg-myBlack-700 p-2 text-myWhite-300 outline-none"
                     placeholder="Search..."
                     autoFocus={true}
                   />

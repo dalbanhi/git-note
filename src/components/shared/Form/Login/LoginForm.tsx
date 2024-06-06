@@ -64,11 +64,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
       password: data.password,
       fullName: data.fullName,
       redirect: false,
+      callbackUrl: "/onboarding?step=1",
     });
     if (result?.error) {
       showError(result.error);
     } else {
-      router.push("/");
+      //router refresh make sure redirects to onboarding
+      router.push(result?.url ?? "/onboarding?step=1");
     }
   };
 
@@ -130,7 +132,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
               image={`icons/${provider.toLowerCase()}.svg`}
               backgroundColor="bg-myBlack-700"
               textColor="text-myWhite-100"
-              onClick={() => signIn(provider.toLowerCase())}
+              onClick={() =>
+                signIn(provider.toLowerCase(), {
+                  callbackUrl: "/onboarding?step=1",
+                })
+              }
             >
               {`Continue with ${provider}`}
             </Button>

@@ -224,3 +224,21 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #adb3cc #1d2032; /*my-white-300 my-Black-700*/
 }
+
+/** React Select */
+
+.react-select__input {
+  @apply outline-none border-none;
+}
+/*
+.react-select-container {
+  @apply bg-myBlack-700 rounded-md px-2;
+}
+
+.react-select__control {
+  @apply bg-myBlack-700 border-none;
+}
+
+.react-select__menu {
+  @apply bg-myBlack-700 border-none p-2;
+} */

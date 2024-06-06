@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import CommandPalette from "~/components/shared/LeftSidebar/CommandPalette/CommandPalette";
+import CommandPalette from "@/components/shared/LeftSidebar/CommandPalette/CommandPalette";
 
 const PostAndSearch = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);

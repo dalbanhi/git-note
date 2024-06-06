@@ -1,6 +1,6 @@
 import React from "react";
-import RecentPostsHeader from "@components/shared/Home/RecentPostsHeader";
-import PostCard from "@components/shared/Home/PostCard";
+import RecentPostsHeader from "@/components/shared/Home/RecentPostsHeader";
+import PostCard from "@/components/shared/Home/PostCard";
 
 import { getPosts } from "~/lib/actions/posts";
 import { PostType } from "~/types/index";

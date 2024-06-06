@@ -2,10 +2,10 @@ import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 const ContributionsTracker = dynamic(
-  () => import("@components/shared/Home/ContributionsTracker"),
+  () => import("@/components/shared/Home/ContributionsTracker"),
   { ssr: false, loading: () => <p>Loading Contributions...</p> }
 );
-import RecentPosts from "@components/shared/Home/RecentPosts";
+import RecentPosts from "@/components/shared/Home/RecentPosts";
 import { getSession } from "~/auth/auth";
 
 export default async function Home() {

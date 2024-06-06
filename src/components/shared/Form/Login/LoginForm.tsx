@@ -1,6 +1,6 @@
 "use client";
-import Input from "~/components/ui/Input";
-import Button from "~/components/ui/Button";
+import Input from "@/components/interface/Input";
+import Button from "@/components/interface/Button";
 import { signIn } from "next-auth/react";
 import { useEffect } from "react";
 import Link from "next/link";

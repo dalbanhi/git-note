@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "@components/shared/Form/Login/LoginForm";
+import LoginForm from "@/components/shared/Form/Login/LoginForm";
 import { getSession } from "~/auth/auth";
 import { redirect } from "next/navigation";
 

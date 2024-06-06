@@ -1,7 +1,6 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { getSession } from "~/auth/auth";
-import sharp from "sharp";
 
 const f = createUploadthing();
 
@@ -22,14 +21,6 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
       //Download the file to check its dimensions
-      const res = await fetch(file.url);
-      const buffer = await res.arrayBuffer();
-      const image = sharp(buffer);
-
-      const imageMetadata = await image.metadata();
-      if (imageMetadata.width !== imageMetadata.height) {
-        throw new UploadThingError("Image must be square");
-      }
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId, url: file.url };

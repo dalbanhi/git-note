@@ -25,7 +25,7 @@ const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
         <CreatableSelect
           isMulti
           instanceId={"techStack"}
-          {...field}
+          // {...field}
           classNamePrefix="react-select"
           options={options}
           theme={(theme) => ({

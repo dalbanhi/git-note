@@ -21,6 +21,7 @@ export interface IUser extends Document {
   knowledgeLevels: string[];
   scheduleAvailability: ScheduleAvailability;
   socialMediaLinks: SocialMediaLink;
+  hasOnboarded: boolean;
 }
 
 // Define the LearningGoal sub-schema
@@ -79,6 +80,10 @@ const UserSchema: Schema = new Schema({
   knowledgeLevels: [String],
   scheduleAvailability: ScheduleAvailabilitySchema,
   socialMediaLinks: [SocialMediaLinkSchema],
+  hasOnboarded: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 UserSchema.pre("save", async function (next) {

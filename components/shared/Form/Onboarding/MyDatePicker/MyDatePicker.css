@@ -1,0 +1,47 @@
+.custom-calendar,
+.custom-calendar .react-datepicker__time-box {
+  @apply bg-myBlack-800 rounded-sm;
+}
+
+.custom-calendar .react-datepicker__header,
+.custom-calendar .react-datepicker-time__header {
+  /* background-color: rgb(var(--my-black-600));
+  color: rgb(var(--my-white-100)); */
+  @apply bg-myBlack-600 text-myWhite-100 text-p4Reg;
+}
+
+.custom-calendar .react-datepicker__day--today {
+  @apply bg-myWhite-300 rounded-sm;
+}
+
+.custom-calendar .react-datepicker__time,
+.custom-calendar .react-datepicker__month-container,
+.custom-calendar .react-datepicker__current-month,
+.custom-calendar .react-datepicker__day-name,
+.custom-calendar .react-datepicker__month,
+.custom-calendar .react-datepicker__week,
+.custom-calendar .react-datepicker__day {
+  @apply text-myWhite-100;
+}
+
+.custom-calendar .react-datepicker__day--selected,
+.custom-calendar .react-datepicker__day--keyboard-selected,
+.custom-calendar .react-datepicker__time-list-item--selected {
+  @apply bg-primary-500;
+}
+
+.custom-calendar .react-datepicker__day,
+.react-datepicker__time-list-item {
+  @apply hover:!bg-primary-900;
+}
+.react-datepicker__time-list-item--selected {
+  @apply !bg-primary-500;
+}
+
+.react-datepicker__time-list {
+  scrollbar-width: thin;
+  scrollbar-color: #adb3cc #1d2032; /*my-white-300 my-Black-700*/
+}
+
+/* <li class="react-datepicker__time-list-item  react-datepicker__time-list-item--selected" tabindex="0" role="option" aria-selected="true">1:00 PM</li> */
+/* <li class="react-datepicker__time-list-item  react-datepicker__time-list-item--selected" tabindex="0" role="option" aria-selected="true">1:30 PM</li> */

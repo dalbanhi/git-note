@@ -9,6 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        "custom-checkbox": {
+          DEFAULT: "#f00",
+          checked: "#0f0",
+        },
         primary: {
           gradientStart: "#43b7fe",
           gradientEnd: "#4f48e6",
@@ -86,7 +90,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
 } satisfies Config;
 
 export default config;

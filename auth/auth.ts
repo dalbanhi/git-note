@@ -23,6 +23,8 @@ declare module "next-auth" {
 
   interface Session extends DefaultSession {
     user: User;
+    hasOnboarded: boolean;
+    image: string;
   }
 }
 
@@ -84,7 +86,7 @@ export const config = {
             return {
               name: userExistsAlready.name,
               email: userExistsAlready.email,
-              image: userExistsAlready.image,
+              image: userExistsAlready.imageURL,
               id: userExistsAlready._id.toString(),
             };
           } else {
@@ -92,7 +94,6 @@ export const config = {
           }
         } else {
           //try to make a new user
-          console.log("here");
           const uniqueUsername = generateFromEmail(credentials.email, 4);
 
           //check to see if the user is intending to log in or sign up
@@ -126,6 +127,8 @@ export const config = {
 
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
+        session.hasOnboarded = sessionUser.hasOnboarded;
+        session.image = sessionUser.image ?? "";
       }
 
       return session;
@@ -155,7 +158,6 @@ export const config = {
 
         return true;
       } catch (e) {
-        console.log("Error signing in!!! :-( ");
         console.log(e);
         return false;
       }

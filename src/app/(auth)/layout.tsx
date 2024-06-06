@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import "../globals.css";
+import "@uploadthing/react/styles.css";
 const inter = Inter({ subsets: ["latin"] });
 import ToastProvider from "~/lib/providers/ToastProvider";
 

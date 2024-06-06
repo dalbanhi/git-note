@@ -5,6 +5,13 @@ import useDevice from "~/hooks/useMediaQuery/useDevice";
 
 import { DAY_LABELS, MONTH_LABELS, testContributions } from "~/constants";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 const ContributionsTracker = () => {
   //get date one year ago today
   const lastYear = new Date();
@@ -56,9 +63,16 @@ const ContributionsTracker = () => {
         showMonthLabels={true}
       />
       <div className="flex justify-between">
-        <p className="text-subtitle text-myWhite-300">
-          Learn how we count contributions
-        </p>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="flex justify-between">
+              <p className="text-subtitle text-myWhite-300">
+                Learn how we count contributions
+              </p>
+            </TooltipTrigger>
+            <TooltipContent>Hover</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div className="flex items-center justify-center gap-2">
           <span className="text-subtitle text-myWhite-300">Less</span>
           <svg className="h-[15px] w-[54px] max-sm:h-[5px] max-sm:w-[24px] ">

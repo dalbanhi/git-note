@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { getSession } from "~/auth/auth";
+import Link from "next/link";
 
 const ProfileLink = async () => {
   const session = await getSession();
@@ -9,7 +10,7 @@ const ProfileLink = async () => {
   const userAvatar = session?.user?.image as string;
 
   return (
-    <div className="mb-6 mt-4 flex gap-3">
+    <Link href="/profile" className="mb-6 mt-4 flex gap-3">
       <Image
         src={userAvatar ? userAvatar : "/icons/default-image.svg"}
         alt="Profile"
@@ -21,7 +22,7 @@ const ProfileLink = async () => {
         <h2 className="text-p3Med text-myWhite-100">{userName}</h2>
         <p className="text-p3Reg text-myWhite-300">{userEmail}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

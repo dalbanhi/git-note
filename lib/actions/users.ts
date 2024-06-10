@@ -37,3 +37,22 @@ export async function updateUser(user: any) {
     return err.errors;
   }
 }
+
+export async function getUser() {
+  try {
+    await connectToDB();
+    const session = await getSession();
+    const sessionUser = session?.user;
+
+    const userFromDB = await User.findOne({ _id: sessionUser?.id });
+
+    if (!userFromDB) {
+      throw new Error("User not found");
+    }
+
+    return userFromDB;
+  } catch (err: any) {
+    console.log(err);
+    return err.errors;
+  }
+}

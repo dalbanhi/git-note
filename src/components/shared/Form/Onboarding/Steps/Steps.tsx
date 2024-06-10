@@ -6,9 +6,9 @@ import ImageUploader from "../ImageUploader";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
-import Button from "@components/ui/Button";
-import DeletableListItem from "@components/ui/DeletableListItem";
-import Input from "@components/ui/Input";
+import Button from "@/components/interface/Button";
+import DeletableListItem from "@/components/interface/DeletableListItem";
+import Input from "@/components/interface/Input";
 
 interface StepProps {
   register: UseFormRegister<FieldValues>;

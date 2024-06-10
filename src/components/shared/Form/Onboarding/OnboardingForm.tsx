@@ -6,7 +6,7 @@ import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
-import Button from "~/components/ui/Button";
+import Button from "@/components/interface/Button";
 import { Flip, toast } from "react-toastify";
 import { updateUser } from "~/lib/actions/users";
 import { Step1, Step2, Step3, Step4 } from "./Steps/Steps";

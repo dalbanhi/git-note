@@ -24,51 +24,54 @@ const ResourcesAndLinksSchema = new Schema<ResourcesAndLinks>({
   url: { type: String, required: true },
 });
 
-const NoteSchema: Schema = new Schema({
-  title: {
-    type: String,
-    required: [true, "Title is required"],
-  },
+const NoteSchema: Schema = new Schema(
+  {
+    title: {
+      type: String,
+      required: [true, "Title is required"],
+    },
 
-  type: {
-    type: String,
-    required: [true, "Type is required"],
-  },
+    type: {
+      type: String,
+      required: [true, "Type is required"],
+    },
 
-  tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
 
-  description: String,
+    description: String,
 
-  createdAt: {
-    type: Date,
-    required: true,
+    createdAt: {
+      type: Date,
+      required: true,
+    },
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Creator is required."],
+    },
+    stars: Number,
+    views: Number,
+    code: {
+      type: String,
+      required: false,
+    },
+    learnings: {
+      type: [String],
+      required: false,
+    },
+    stepsToFollow: {
+      type: [String],
+      required: false,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    resourcesAndLinks: [ResourcesAndLinksSchema],
+    relatedNotes: [{ type: Schema.Types.ObjectId, ref: "Note" }],
   },
-  creator: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "Creator is required."],
-  },
-  stars: Number,
-  views: Number,
-  code: {
-    type: String,
-    required: false,
-  },
-  learnings: {
-    type: [String],
-    required: false,
-  },
-  stepsToFollow: {
-    type: [String],
-    required: false,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  resourcesAndLinks: [ResourcesAndLinksSchema],
-  relatedNotes: [{ type: Schema.Types.ObjectId, ref: "Note" }],
-});
+  { timestamps: true }
+);
 
 const Note = models?.Note || model<INote>("Note", NoteSchema);
 

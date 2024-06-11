@@ -18,7 +18,7 @@ const InfoLink: React.FC<InfoLinkProps> = ({
     <>
       <Image src={"/" + iconSrc} alt={iconAlt} width={12} height={12}></Image>
       <span
-        className={`truncate text-caption ${href ? "text-primary-500" : "text-myWhite-300"} hover:text-myWhite-100`}
+        className={`truncate text-caption ${href ? "text-primary-500" : "text-myWhite-300"} ${href ? "hover:text-myWhite-100" : ""}`}
       >
         {children}
       </span>
@@ -27,12 +27,16 @@ const InfoLink: React.FC<InfoLinkProps> = ({
 
   if (href) {
     return (
-      <Link className="flex" href={href}>
+      <Link className="flex gap-1" href={href}>
         {content}
       </Link>
     );
   } else {
-    return <div className="flex cursor-pointer gap-1">{content}</div>;
+    return (
+      <div className={`flex ${href ? "cursor-pointer" : ""} gap-1`}>
+        {content}
+      </div>
+    );
   }
 };
 

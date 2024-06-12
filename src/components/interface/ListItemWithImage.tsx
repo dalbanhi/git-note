@@ -2,19 +2,19 @@ import React from "react";
 import Image from "next/image";
 
 interface ListItemWithImageProps extends React.PropsWithChildren<{}> {
-  index: number;
   imgSrc: string;
   imgAlt: string;
+  liClasses?: string;
 }
 
 const ListItemWithImage: React.FC<ListItemWithImageProps> = ({
-  index,
   imgSrc,
   imgAlt,
   children,
+  liClasses,
 }) => {
   return (
-    <li>
+    <li className={`${liClasses}`}>
       <label
         className="flex items-center gap-1 text-p2Reg text-myWhite-300"
         htmlFor={children as string}

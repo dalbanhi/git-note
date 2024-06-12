@@ -10,6 +10,8 @@ import TechStackImage from "@/components/interface/TechStackImage";
 import Link from "next/link";
 import { format } from "date-fns";
 import { redirect } from "next/navigation";
+import CheckBoxWithImage from "@/components/interface/CheckBoxWithImage";
+import { LearningGoal } from "~/types";
 
 const ContributionsTracker = dynamic(
   () => import("@/components/shared/ContributionsTracker"),
@@ -113,13 +115,24 @@ const MyProfile = async () => {
           <p className="mb-4 text-p1Bold text-myWhite-100">
             {"Learning Goals"}
           </p>
+          <ul>
+            {userFromDB?.learningGoals.map((item: LearningGoal) => {
+              return (
+                <CheckBoxWithImage
+                  text={item.goal}
+                  key={item.goal}
+                  initialChecked={item.done}
+                />
+              );
+            })}
+          </ul>
         </div>
         <div>
           <p className="mb-4 text-p1Bold text-myWhite-100">
             {"Technology Stack"}
           </p>
           <div className="flex gap-2">
-            {userFromDB?.techStack.map((item: any, index: number) => {
+            {userFromDB?.techStack.map((item: any) => {
               return <TechStackImage key={item} name={item} />;
             })}
           </div>
@@ -129,12 +142,11 @@ const MyProfile = async () => {
             {"Knowledge level"}
           </p>
           <ul>
-            {userFromDB?.knowledgeLevels.map((item: any, index: number) => {
+            {userFromDB?.knowledgeLevels.map((item: any) => {
               return (
                 <ListItemWithImage
                   imgSrc="icons/check-square.svg"
                   imgAlt="Checkmark"
-                  index={index}
                   key={item}
                 >
                   {item}
@@ -151,18 +163,13 @@ const MyProfile = async () => {
             <ListItemWithImage
               imgSrc="icons/user-check.svg"
               imgAlt="User Availability"
-              index={0}
             >
               {userFromDB?.scheduleAvailability.available
                 ? "Available for a new project"
                 : "Not available for a new project"}
             </ListItemWithImage>
             {userFromDB?.scheduleAvailability.available && (
-              <ListItemWithImage
-                imgSrc="icons/clock.svg"
-                imgAlt="Clock"
-                index={0}
-              >
+              <ListItemWithImage imgSrc="icons/clock.svg" imgAlt="Clock">
                 {`Available from ${startDate} to ${endDate}`}
               </ListItemWithImage>
             )}

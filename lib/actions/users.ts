@@ -4,9 +4,35 @@ import { connectToDB } from "~/utils/database";
 import User from "~/models/user";
 import { getSession } from "~/auth/auth";
 
+export async function updateLearningGoal(goal: string, completed: boolean) {
+  try {
+    await connectToDB();
+    const session = await getSession();
+    const sessionUser = session?.user;
+
+    if (!sessionUser?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: sessionUser.id, "learningGoals.goal": goal },
+      {
+        $set: { "learningGoals.$.done": completed },
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      throw new Error("User or learning goal not found");
+    }
+  } catch (err: any) {
+    console.log(err);
+    return err.errors;
+  }
+}
+
 export async function updateUser(user: any) {
   try {
-    console.log("in the server action: ", user);
     OnboardingFormSchema.parse(user);
     await connectToDB();
     const session = await getSession();

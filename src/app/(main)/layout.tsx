@@ -18,10 +18,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = getSession();
-  if (!session) {
-    redirect("/sign-in");
-  }
   return (
     <html lang="en">
       <body

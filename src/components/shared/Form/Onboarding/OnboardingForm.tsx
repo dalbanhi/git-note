@@ -79,7 +79,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
   }, [errors]);
 
   const onSubmit = async (data: any) => {
-    console.log(data);
     await updateUser(data);
     router.push("/");
   };

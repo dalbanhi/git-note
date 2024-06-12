@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import React from "react";
 import { getSession } from "~/auth/auth";
 import { getUser } from "~/lib/actions/users";
-import ListItemWithImage from "@/components/interface/ListItemWithImage";
 import { format } from "date-fns";
 import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/shared/Profile/ProfileHeader";

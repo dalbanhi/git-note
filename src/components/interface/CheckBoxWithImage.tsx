@@ -1,6 +1,8 @@
-import React from "react";
+"use client";
+import React, { useTransition } from "react";
 import Image from "next/image";
-import { updateUser } from "~/lib/actions/users";
+import { updateLearningGoal } from "~/lib/actions/users";
+import ListItemWithImage from "./ListItemWithImage";
 
 interface CheckBoxWithImageProps {
   text: string;
@@ -14,45 +16,43 @@ const CheckBoxWithImage: React.FC<CheckBoxWithImageProps> = ({
   text,
   initialChecked,
 }) => {
-  const onSubmit = async (data: any) => {
-    console.log(data);
-    // await updateUser(data);
-    // router.push("/");
-  };
+  const [pending, startTransition] = useTransition();
+
+  async function onClick(e: React.ChangeEvent<HTMLInputElement>) {
+    const checked = e.target.checked;
+
+    startTransition(async () => {
+      await updateLearningGoal(text, checked);
+    });
+  }
+
   return (
-    <div className="flex items-center gap-2">
+    <label className="flex items-center gap-2 hover:cursor-pointer">
       <input
         type="checkbox"
         id={`custom-check-${text}`}
         name={`custom-check-${text}`}
         defaultChecked={initialChecked}
+        onChange={onClick}
         className={`peer hidden`}
+        disabled={pending}
       />
-      <label
-        className="flex gap-1 hover:cursor-pointer peer-checked:hidden"
-        htmlFor={`custom-check-${text}`}
-      >
-        <Image
-          src={uncheckedImage}
-          alt={"unchecked"}
-          width={16}
-          height={16}
-        ></Image>
-        {text}
-      </label>
-      <label
-        className="hidden hover:cursor-pointer peer-checked:flex peer-checked:gap-1 "
-        htmlFor={`custom-check-${text}`}
-      >
-        <Image
-          src={checkedImage}
-          alt={"checked"}
-          width={16}
-          height={16}
-        ></Image>
-        {text}
-      </label>
-    </div>
+      <Image
+        src={uncheckedImage}
+        alt={"unchecked"}
+        width={16}
+        height={16}
+        className="hover:cursor-pointer peer-checked:hidden peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+      ></Image>
+      <Image
+        src={checkedImage}
+        className="hidden peer-checked:flex peer-checked:gap-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+        alt={"checked"}
+        width={16}
+        height={16}
+      ></Image>
+      {text}
+    </label>
   );
 };
 

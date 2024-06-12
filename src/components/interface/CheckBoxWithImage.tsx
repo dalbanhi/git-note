@@ -1,6 +1,6 @@
 import React from "react";
-import ListItemWithImage from "./ListItemWithImage";
 import Image from "next/image";
+import { updateUser } from "~/lib/actions/users";
 
 interface CheckBoxWithImageProps {
   text: string;
@@ -14,7 +14,11 @@ const CheckBoxWithImage: React.FC<CheckBoxWithImageProps> = ({
   text,
   initialChecked,
 }) => {
-  console.log("CheckBoxWithImageProps", text, initialChecked);
+  const onSubmit = async (data: any) => {
+    console.log(data);
+    // await updateUser(data);
+    // router.push("/");
+  };
   return (
     <div className="flex items-center gap-2">
       <input

@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { UploadButton } from "~/utils/uploadthing";
 import { Session } from "next-auth";
+import "@uploadthing/react/styles.css";
 
 interface ImageUploaderProps {
   image: string;

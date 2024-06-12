@@ -25,9 +25,19 @@ const ScheduleAvailabilityPreview: React.FC<
             : "Not available for a new project"}
         </ListItemWithImage>
         {available && (
-          <ListItemWithImage imgSrc="icons/clock.svg" imgAlt="Clock">
-            {`Available from ${startDate} to ${endDate}`}
-          </ListItemWithImage>
+          <React.Fragment>
+            <ListItemWithImage imgSrc="icons/clock.svg" imgAlt="Clock">
+              <span>Available from:</span>
+              <br />
+              <span> {startDate}</span>
+            </ListItemWithImage>
+
+            <ListItemWithImage imgSrc="icons/clock.svg" imgAlt="Clock">
+              <span>Available to:</span>
+              <br />
+              <span> {endDate}</span>
+            </ListItemWithImage>
+          </React.Fragment>
         )}
       </ul>
     </div>

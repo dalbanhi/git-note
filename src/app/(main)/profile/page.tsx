@@ -16,6 +16,7 @@ const ContributionsTracker = dynamic(
 );
 
 function formatDateToCustomString(date: Date) {
+  if (!date) return "not set";
   // Define the custom format
   const customFormat = "MMM d, yyyy - haaa OOO";
 
@@ -25,7 +26,6 @@ function formatDateToCustomString(date: Date) {
 
 const MyProfile = async () => {
   const session = await getSession();
-  console.log(session);
   if (!session) {
     redirect("/sign-in");
   }

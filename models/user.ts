@@ -9,12 +9,14 @@ import {
 
 import { TechStackOptions } from "~/constants";
 
-export interface IUser extends Document {
+export interface User {
   name: string;
   username: string;
   email: string;
   password: string;
   image: string;
+  portfolio: string;
+  location: string;
   notes: Schema.Types.ObjectId[];
   learningGoals: LearningGoal;
   techStack: TechStackType[];
@@ -61,6 +63,12 @@ const UserSchema: Schema = new Schema(
       unique: [true, "Email already exists"],
       required: [true, "Email is required"],
     },
+    portfolio: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
     password: {
       type: String,
     },
@@ -100,6 +108,6 @@ UserSchema.pre("save", async function (next) {
   }
 });
 
-const User = models?.User || model<IUser>("User", UserSchema);
+const User = models?.User || model<User>("User", UserSchema);
 
 export default User;

@@ -1,34 +1,22 @@
-"use client";
+import UpdateProfileForm from "@/components/shared/Form/Update/Profile/UpdateProfileForm";
+import { redirect } from "next/navigation";
 import React from "react";
-import Autocomplete from "react-google-autocomplete";
+import { getSession } from "~/auth/auth";
+import { getUser } from "~/lib/actions/users";
 
-import { useForm, Controller } from "react-hook-form";
-
-const EditProfile = () => {
-  const { register, handleSubmit, control } = useForm();
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+const EditProfile = async () => {
+  const session = await getSession();
+  if (!session) {
+    redirect("/sign-in");
+  }
+  const userFromDB = await getUser();
+  //clean the user object
+  const userJSON = JSON.parse(JSON.stringify(userFromDB));
   return (
-    <React.Fragment>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <button type="submit">Submit</button>
-      </form>
-      <Controller
-        name="location"
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <Autocomplete
-            apiKey={process.env.NEXT_PUBLIC_GMAPS}
-            onPlaceSelected={(place) => {
-              console.log(place);
-              onChange(place.formatted_address);
-            }}
-          />
-        )}
-      ></Controller>
-    </React.Fragment>
+    <section className="flex min-h-screen w-6/12 flex-col justify-start p-4">
+      <h1 className="mt-4 text-display1">Edit Profile</h1>
+      <UpdateProfileForm session={session} userFromDB={userJSON} />
+    </section>
   );
 };
 

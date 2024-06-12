@@ -11,8 +11,8 @@ import DeletableListItem from "@/components/interface/DeletableListItem";
 import Input from "@/components/interface/Input";
 
 interface StepProps {
-  register: UseFormRegister<FieldValues>;
-  control?: Control<FieldValues>;
+  register: UseFormRegister<any>;
+  control?: Control<any>;
   session?: Session | null;
 }
 
@@ -46,7 +46,7 @@ const Step1: React.FC<Step1Props> = ({
         type={"text"}
         placeholder="Full Name"
         register={register}
-        initialValue={session?.user?.name}
+        // initialValue={session?.user?.name}
       />
       <Input
         label="portfolio"
@@ -81,7 +81,7 @@ const Step2: React.FC<StepProps> = ({ register, control }) => {
         ))}
       </div>
       <Button
-        image="icons/plus-blue.svg"
+        image="/icons/plus-blue.svg"
         backgroundColor="bg-myBlack-600"
         textColor="text-myWhite-100"
         onClick={() => {
@@ -113,13 +113,13 @@ const Step3: React.FC<StepProps> = ({ register, control }) => {
             placeholderText="Enter a knowledge level"
             control={control}
             index={index}
-            imageSrc="icons/check-square.svg"
+            imageSrc="/icons/check-square.svg"
             imageAlt="Checkmark"
           />
         ))}
       </div>
       <Button
-        image="icons/plus-blue.svg"
+        image="/icons/plus-blue.svg"
         backgroundColor="bg-myBlack-600"
         textColor="text-myWhite-100"
         onClick={() => {

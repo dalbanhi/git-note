@@ -16,11 +16,13 @@ const ListItemWithImage: React.FC<ListItemWithImageProps> = ({
   return (
     <li className={`${liClasses}`}>
       <label
-        className="flex items-center gap-1 text-p2Reg text-myWhite-300"
+        className="flex items-start gap-1 text-p2Reg text-myWhite-300"
         htmlFor={children as string}
       >
-        <Image src={imgSrc} alt={imgAlt} width={16} height={16}></Image>
-        <span className="line-clamp-1 hover:line-clamp-3">{children}</span>
+        <div className="flex !size-[24px] shrink-0 items-center justify-center">
+          <Image src={imgSrc} alt={imgAlt} width={16} height={16}></Image>
+        </div>
+        <span className="">{children}</span>
       </label>
     </li>
   );

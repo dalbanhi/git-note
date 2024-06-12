@@ -6,6 +6,7 @@ import { getSession } from "~/auth/auth";
 
 export async function updateUser(user: any) {
   try {
+    console.log("in the server action: ", user);
     OnboardingFormSchema.parse(user);
     await connectToDB();
     const session = await getSession();
@@ -25,6 +26,11 @@ export async function updateUser(user: any) {
         learningGoals: user.learningGoals.map((goal: any) => {
           return { done: goal.completed, goal: goal.value };
         }),
+        scheduleAvailability: {
+          startDate: user.startDate,
+          endDate: user.endDate,
+          available: user.availability,
+        },
       },
       { new: true }
     );

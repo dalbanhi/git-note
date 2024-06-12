@@ -35,4 +35,6 @@ export const OnboardingFormSchema = z.object({
   startDate: z.date().optional().or(z.literal(null)),
 
   endDate: z.date().optional().or(z.literal(null)),
+
+  availability: z.boolean(),
 });

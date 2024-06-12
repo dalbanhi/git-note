@@ -70,7 +70,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       }
       showError(errorMsg);
     };
-
     if (Object.keys(errors).length !== 0) {
       handleSingleFieldError("Name", errors.name);
       handleSingleFieldError("Portfolio", errors.portfolio);
@@ -80,6 +79,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
   }, [errors]);
 
   const onSubmit = async (data: any) => {
+    console.log(data);
     await updateUser(data);
     router.push("/");
   };

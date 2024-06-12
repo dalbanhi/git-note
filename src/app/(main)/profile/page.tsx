@@ -5,6 +5,8 @@ import { getSession } from "~/auth/auth";
 import { getUser } from "~/lib/actions/users";
 import InfoLink from "@/components/shared/Profile/InfoLink";
 import Button from "@/components/interface/Button";
+import ListItemWithImage from "@/components/interface/ListItemWithImage";
+import TechStackImage from "@/components/interface/TechStackImage";
 import Link from "next/link";
 import { format } from "date-fns";
 import { redirect } from "next/navigation";
@@ -13,6 +15,14 @@ const ContributionsTracker = dynamic(
   () => import("@/components/shared/ContributionsTracker"),
   { ssr: false, loading: () => <p>Loading Contributions...</p> }
 );
+
+function formatDateToCustomString(date: Date) {
+  // Define the custom format
+  const customFormat = "MMM d, yyyy - haaa OOO";
+
+  // Format the date
+  return format(date, customFormat);
+}
 
 const MyProfile = async () => {
   const session = await getSession();
@@ -27,10 +37,18 @@ const MyProfile = async () => {
   console.log(userFromDB);
 
   const createdAt = userFromDB?.createdAt;
-  const formattedDate = format(new Date(createdAt), "MMMM yyyy");
+  const formattedCreatedAtDate = format(new Date(createdAt), "MMMM yyyy");
 
   const portfolio = userFromDB?.portfolio;
   const location = userFromDB?.location;
+
+  const startDate = formatDateToCustomString(
+    userFromDB?.scheduleAvailability.startDate
+  );
+  const endDate = formatDateToCustomString(
+    userFromDB?.scheduleAvailability.endDate
+  );
+
   return (
     <section className="flex min-h-screen w-6/12 flex-col justify-start p-4">
       <div className="flex items-center justify-between gap-2">
@@ -69,7 +87,7 @@ const MyProfile = async () => {
                 {location ? location : "Add Location"}
               </InfoLink>
               <InfoLink iconSrc="icons/calendar.svg" iconAlt="Calendar">
-                Joined on {formattedDate}
+                Joined on {formattedCreatedAtDate}
               </InfoLink>
             </div>
           </div>
@@ -100,16 +118,55 @@ const MyProfile = async () => {
           <p className="mb-4 text-p1Bold text-myWhite-100">
             {"Technology Stack"}
           </p>
+          <div className="flex gap-2">
+            {userFromDB?.techStack.map((item: any, index: number) => {
+              return <TechStackImage key={item} name={item} />;
+            })}
+          </div>
         </div>
         <div>
           <p className="mb-4 text-p1Bold text-myWhite-100">
             {"Knowledge level"}
           </p>
+          <ul>
+            {userFromDB?.knowledgeLevels.map((item: any, index: number) => {
+              return (
+                <ListItemWithImage
+                  imgSrc="icons/check-square.svg"
+                  imgAlt="Checkmark"
+                  index={index}
+                  key={item}
+                >
+                  {item}
+                </ListItemWithImage>
+              );
+            })}
+          </ul>
         </div>
         <div>
           <p className="mb-4 text-p1Bold text-myWhite-100">
             {"Schedule & availability"}
           </p>
+          <ul>
+            <ListItemWithImage
+              imgSrc="icons/user-check.svg"
+              imgAlt="User Availability"
+              index={0}
+            >
+              {userFromDB?.scheduleAvailability.available
+                ? "Available for a new project"
+                : "Not available for a new project"}
+            </ListItemWithImage>
+            {userFromDB?.scheduleAvailability.available && (
+              <ListItemWithImage
+                imgSrc="icons/clock.svg"
+                imgAlt="Clock"
+                index={0}
+              >
+                {`Available from ${startDate} to ${endDate}`}
+              </ListItemWithImage>
+            )}
+          </ul>
         </div>
       </div>
     </section>

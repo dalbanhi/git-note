@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 
 const ContributionsTracker = dynamic(
-  () => import("@/components/shared/Home/ContributionsTracker"),
+  () => import("@/components/shared/ContributionsTracker"),
   { ssr: false, loading: () => <p>Loading Contributions...</p> }
 );
 import RecentPosts from "@/components/shared/Home/RecentPosts";

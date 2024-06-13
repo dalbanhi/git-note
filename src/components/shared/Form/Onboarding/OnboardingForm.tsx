@@ -33,6 +33,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       portfolio: "",
       learningGoals: [],
       knowledgeLevels: [],
+      techStack: [],
     },
   });
 

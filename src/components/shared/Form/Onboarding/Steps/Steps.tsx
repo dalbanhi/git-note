@@ -145,22 +145,28 @@ const Step3: React.FC<StepProps> = ({ register, control }) => {
 
 const Step4: React.FC<StepProps> = ({ register, control }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col justify-center gap-2">
       <div className="flex items-center gap-2">
         <label
           className="flex items-center gap-1 text-p3Med text-myWhite-300"
           htmlFor="availability"
         >
-          <input
-            type="checkbox"
-            {...register("availability")}
-            className="rounded-sm bg-myBlack-700 text-myGreen-400 ring-0 focus:ring-0"
-            defaultChecked
+          <Controller
+            name="availability"
+            control={control}
+            render={({ field }) => (
+              <input
+                type="checkbox"
+                {...field}
+                className="rounded-sm bg-myBlack-700 text-myGreen-400 ring-0 focus:ring-0"
+                checked={field.value}
+              />
+            )}
           />
           Are you available for a new project?
         </label>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         <MyDatePicker
           label="Start Date & Time "
           fieldName="startDate"

@@ -10,11 +10,13 @@ import {
 
 import { Session } from "next-auth";
 import { Flip, toast } from "react-toastify";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { User } from "~/models/user";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
+import { updateUser } from "~/lib/actions/users";
+import { useRouter } from "next/navigation";
+import router from "next/router";
 
 interface UpdateProfileFormProps {
   session: Session | null;
@@ -25,6 +27,9 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
   session,
   userFromDB,
 }) => {
+  const router = useRouter();
+
+  //cleaning up the data to load to the form
   const learningGoalsToPass = Object.entries(userFromDB?.learningGoals).map(
     (goal) => {
       return { value: goal[1].goal, completed: goal[1].done };
@@ -40,7 +45,6 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
   const techStackToPass = Object.entries(userFromDB?.techStack).map((item) => {
     return { value: item[1] };
   });
-  console.log("schedule availability", userFromDB?.scheduleAvailability);
 
   const {
     register,
@@ -62,8 +66,6 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
     },
   });
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-  console.log("in the form user from DB", userFromDB);
-  console.log("in the form session", session);
 
   const showError = (message: string) => {
     toast.error(message, {
@@ -117,10 +119,12 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
     }
   }, [errors]);
 
-  const onSubmit = (data: any, event: any) => {
+  const onSubmit = async (data: any, event: any) => {
     event.preventDefault();
     console.log("submitting");
     console.log(data);
+    await updateUser(data);
+    router.push("/profile");
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

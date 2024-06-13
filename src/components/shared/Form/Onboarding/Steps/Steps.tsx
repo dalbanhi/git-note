@@ -67,18 +67,20 @@ const Step2: React.FC<StepProps> = ({ register, control }) => {
     <div className="flex flex-col gap-2">
       <h3 className="text-p3Med text-myWhite-300">Learning goals</h3>
       <div className="flex flex-col gap-2">
-        {fields.map((field, index) => (
-          <DeletableListItem
-            key={field.id}
-            onDelete={() => remove(index)}
-            checkable={true}
-            register={register}
-            fieldArrayName="learningGoals"
-            placeholderText="Enter a learning goal"
-            control={control}
-            index={index}
-          />
-        ))}
+        {fields.map((field, index) => {
+          return (
+            <DeletableListItem
+              key={field.id}
+              onDelete={() => remove(index)}
+              checkable={true}
+              register={register}
+              fieldArrayName="learningGoals"
+              placeholderText="Enter a learning goal"
+              control={control}
+              index={index}
+            />
+          );
+        })}
       </div>
       <Button
         image="/icons/plus-blue.svg"

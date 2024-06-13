@@ -36,7 +36,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             alt="Profile"
             width={50}
             height={50}
-            objectFit="cover"
+            // objectFit="cover"
             className="rounded-sm"
           />
         </div>

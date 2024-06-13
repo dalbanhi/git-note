@@ -7,16 +7,14 @@ import {
   Step3,
   Step4,
 } from "@/components/shared/Form/Onboarding/Steps/Steps";
-// import { getSession } from "~/auth/auth";
-import { getUser } from "~/lib/actions/users";
-import { Session } from "next-auth";
 
+import { Session } from "next-auth";
+import { Flip, toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 import { User } from "~/models/user";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
-import Button from "@/components/interface/Button";
 
 interface UpdateProfileFormProps {
   session: Session | null;
@@ -27,23 +25,101 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
   session,
   userFromDB,
 }) => {
-  const { register, handleSubmit, control } = useForm({
+  const learningGoalsToPass = Object.entries(userFromDB?.learningGoals).map(
+    (goal) => {
+      return { value: goal[1].goal, completed: goal[1].done };
+    }
+  );
+
+  const knowledgeLevelsToPass = Object.entries(userFromDB?.knowledgeLevels).map(
+    (item) => {
+      return { value: item[1] };
+    }
+  );
+
+  const techStackToPass = Object.entries(userFromDB?.techStack).map((item) => {
+    return { value: item[1] };
+  });
+  console.log("schedule availability", userFromDB?.scheduleAvailability);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(OnboardingFormSchema),
     defaultValues: {
       image: userFromDB?.image,
       name: userFromDB?.name,
       portfolio: userFromDB?.portfolio,
-      learningGoals: userFromDB?.learningGoals,
-      techStack: userFromDB?.techStack,
-      knowledgeLevels: userFromDB?.knowledgeLevels,
-      scheduleAvailability: userFromDB?.scheduleAvailability,
+      learningGoals: learningGoalsToPass,
+      techStack: techStackToPass,
+      knowledgeLevels: knowledgeLevelsToPass,
+      availability: userFromDB?.scheduleAvailability.available,
+      startDate: userFromDB?.scheduleAvailability.startDate,
+      endDate: userFromDB?.scheduleAvailability.endDate,
     },
   });
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   console.log("in the form user from DB", userFromDB);
   console.log("in the form session", session);
 
-  const onSubmit = (data: any) => {
+  const showError = (message: string) => {
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      progress: 0,
+      transition: Flip,
+    });
+  };
+
+  useEffect(() => {
+    const handleSingleFieldError = (prependingString: string, error: any) => {
+      let errorMsg = "";
+      if (error) {
+        errorMsg = `${prependingString} Error: ${error.message}`;
+        showError(errorMsg);
+      }
+    };
+
+    const handleFieldArrayError = (prependingString: string, error: any) => {
+      let errorMsg = "";
+      if (!error) return;
+      if (Array.isArray(error)) {
+        for (let err of error) {
+          for (let key in err) {
+            errorMsg += `${prependingString} Error: ${err[key].message} `;
+            break;
+          }
+          if (errorMsg !== "") {
+            break;
+          }
+        }
+      } else {
+        errorMsg = `${prependingString} Error: ${error.message}`;
+      }
+      showError(errorMsg);
+    };
+    console.log(errors);
+    if (Object.keys(errors).length !== 0) {
+      handleSingleFieldError("Name", errors.name);
+      if (errors.portfolio) {
+        handleSingleFieldError("Portfolio", errors.portfolio);
+      }
+      handleFieldArrayError("Learning Goals", errors.learningGoals);
+      handleFieldArrayError("Knowledge Levels", errors.knowledgeLevels);
+    }
+  }, [errors]);
+
+  const onSubmit = (data: any, event: any) => {
+    event.preventDefault();
+    console.log("submitting");
     console.log(data);
   };
   return (
@@ -76,6 +152,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
       <button
         className={`flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-primary-500 p-2  text-p4Med text-myBlack-900`}
         type="submit"
+        disabled={submitButtonDisabled}
       >
         Update Profile
       </button>

@@ -27,6 +27,13 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(OnboardingFormSchema),
+    defaultValues: {
+      image: "",
+      name: session?.user?.name,
+      portfolio: "",
+      learningGoals: [],
+      knowledgeLevels: [],
+    },
   });
 
   const showError = (message: string) => {
@@ -70,9 +77,12 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       }
       showError(errorMsg);
     };
+    console.log(errors);
     if (Object.keys(errors).length !== 0) {
       handleSingleFieldError("Name", errors.name);
-      handleSingleFieldError("Portfolio", errors.portfolio);
+      if (errors.portfolio) {
+        handleSingleFieldError("Portfolio", errors.portfolio);
+      }
       handleFieldArrayError("Learning Goals", errors.learningGoals);
       handleFieldArrayError("Knowledge Levels", errors.knowledgeLevels);
     }

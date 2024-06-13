@@ -41,6 +41,7 @@ const DeletableListItem: React.FC<DeletableListItemProps> = ({
               <input
                 className="rounded-sm bg-myBlack-700 text-myGreen-400 ring-0 focus:ring-0"
                 type="checkbox"
+                checked={field.value}
                 {...field}
               />
             )}

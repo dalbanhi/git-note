@@ -27,6 +27,11 @@ export const OnboardingFormSchema = z.object({
     .url("Your portfolio must be a url with http or https")
     .or(z.string().length(0)),
 
+  location: z
+    .string()
+    .min(2, "Location must be at least 2 characters long")
+    .or(z.string().length(0)),
+
   learningGoals: z.array(learningGoalsSchema).min(0),
 
   knowledgeLevels: z.array(knowledgeSchema).min(0),

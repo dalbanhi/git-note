@@ -1,11 +1,16 @@
-import React from "react";
-import { useFieldArray, Control, Controller } from "react-hook-form";
+import React, { useRef } from "react";
+import Autocomplete from "react-google-autocomplete";
+import {
+  useFieldArray,
+  Control,
+  Controller,
+  UseFormRegister,
+} from "react-hook-form";
 import TechStackSelector from "../TechStackSelector";
 import MyDatePicker from "../MyDatePicker/MyDatePicker";
 import ImageUploader from "../ImageUploader";
-import { UseFormRegister, FieldValues } from "react-hook-form";
+// import { UseFormRegister } from "react-hook-form";
 import { Session } from "next-auth";
-import { getSession } from "next-auth/react";
 import Button from "@/components/interface/Button";
 import DeletableListItem from "@/components/interface/DeletableListItem";
 import Input from "@/components/interface/Input";
@@ -26,6 +31,7 @@ const Step1: React.FC<Step1Props> = ({
   session,
   setNextButtonDisabled,
 }) => {
+  // const autocompleteRef = useRef(null);
   return (
     <div className="flex flex-col gap-3">
       <Controller
@@ -46,7 +52,6 @@ const Step1: React.FC<Step1Props> = ({
         type={"text"}
         placeholder="Full Name"
         register={register}
-        // initialValue={session?.user?.name}
       />
       <Input
         label="portfolio"
@@ -54,6 +59,56 @@ const Step1: React.FC<Step1Props> = ({
         placeholder="Portfolio"
         register={register}
       />
+      <input type="hidden" {...register("location")} />
+      {/* <label
+        className="text-p3Med capitalize text-myWhite-300"
+        htmlFor={"location"}
+      >
+        {"Location"}
+      </label>
+      <Controller
+        name="location"
+        control={control}
+        render={({ field: { onChange, value, ref } }) => (
+          console.log(value),
+          (
+            <Autocomplete
+              style={{
+                //truncate
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                //rounded-sm
+                borderRadius: "0.125rem",
+                //border-none
+                borderStyle: "none",
+                //bg-myBlack-700
+                backgroundColor: "rgb(var(--my-black-700))",
+                //p-2
+                padding: "0.5rem",
+                //text-p4Reg
+                fontSize: "12px",
+                lineHeight: "16px",
+                fontWeight: 400,
+                //text-myWhite-300
+                color: "rgb(var(--my-white-300))",
+                //outline-none
+                outline: "2px solid transparent",
+                outlineOffset: "2px",
+              }}
+              apiKey={process.env.NEXT_PUBLIC_GMAPS}
+              onPlaceSelected={(place) => {
+                console.log(place);
+                // console.log(place.formatted_address);
+                onChange(place.formatted_address);
+              }}
+              defaultValue={value}
+              ref={ref}
+              // ref={autocompleteRef}
+            />
+          )
+        )}
+      ></Controller> */}
     </div>
   );
 };

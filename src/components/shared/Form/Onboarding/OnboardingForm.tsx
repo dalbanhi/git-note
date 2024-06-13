@@ -31,6 +31,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       image: "",
       name: session?.user?.name,
       portfolio: "",
+      location: "",
       learningGoals: [],
       knowledgeLevels: [],
       techStack: [],

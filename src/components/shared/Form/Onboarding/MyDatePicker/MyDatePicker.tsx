@@ -39,7 +39,7 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
             showTimeSelect
             startDate={startDate}
             onBlur={onBlur}
-            selected={value}
+            selected={new Date(value)}
             ref={ref}
             placeholderText="Select a date"
           />

@@ -59,7 +59,12 @@ const Step1: React.FC<Step1Props> = ({
         placeholder="Portfolio"
         register={register}
       />
-      <input type="hidden" {...register("location")} />
+      <Input
+        label="location"
+        type={"text"}
+        placeholder="Location"
+        register={register}
+      />
       {/* <label
         className="text-p3Med capitalize text-myWhite-300"
         htmlFor={"location"}

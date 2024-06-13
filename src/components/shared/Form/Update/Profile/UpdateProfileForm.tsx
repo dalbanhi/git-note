@@ -62,8 +62,8 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
       techStack: techStackToPass,
       knowledgeLevels: knowledgeLevelsToPass,
       availability: userFromDB?.scheduleAvailability.available,
-      startDate: userFromDB?.scheduleAvailability.startDate,
-      endDate: userFromDB?.scheduleAvailability.endDate,
+      startDate: new Date(userFromDB?.scheduleAvailability.startDate),
+      endDate: new Date(userFromDB?.scheduleAvailability.endDate),
     },
   });
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
@@ -121,6 +121,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
   }, [errors]);
 
   const onSubmit = async (data: any, event: any) => {
+    console.log(data);
     event.preventDefault();
     await updateUser(data);
     router.push("/profile");

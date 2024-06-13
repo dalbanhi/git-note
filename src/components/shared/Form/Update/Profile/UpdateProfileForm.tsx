@@ -58,6 +58,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
       name: userFromDB?.name,
       portfolio: userFromDB?.portfolio,
       learningGoals: learningGoalsToPass,
+      location: userFromDB?.location,
       techStack: techStackToPass,
       knowledgeLevels: knowledgeLevelsToPass,
       availability: userFromDB?.scheduleAvailability.available,
@@ -121,8 +122,6 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
 
   const onSubmit = async (data: any, event: any) => {
     event.preventDefault();
-    console.log("submitting");
-    console.log(data);
     await updateUser(data);
     router.push("/profile");
   };

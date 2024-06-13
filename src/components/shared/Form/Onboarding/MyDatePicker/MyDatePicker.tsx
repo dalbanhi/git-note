@@ -31,7 +31,6 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
         control={control}
         defaultValue={null}
         render={({ field: { onChange, onBlur, value, ref } }) => (
-          // console.log("value in date picker:", value),
           <DatePicker
             onChange={onChange}
             className="truncate rounded-sm border-none bg-myBlack-700 p-2 text-p4Reg text-myWhite-300 outline-none"

@@ -59,13 +59,7 @@ const Step1: React.FC<Step1Props> = ({
         placeholder="Portfolio"
         register={register}
       />
-      <Input
-        label="location"
-        type={"text"}
-        placeholder="Location"
-        register={register}
-      />
-      {/* <label
+      <label
         className="text-p3Med capitalize text-myWhite-300"
         htmlFor={"location"}
       >
@@ -104,16 +98,13 @@ const Step1: React.FC<Step1Props> = ({
               apiKey={process.env.NEXT_PUBLIC_GMAPS}
               onPlaceSelected={(place) => {
                 console.log(place);
-                // console.log(place.formatted_address);
                 onChange(place.formatted_address);
               }}
               defaultValue={value}
-              ref={ref}
-              // ref={autocompleteRef}
             />
           )
         )}
-      ></Controller> */}
+      ></Controller>
     </div>
   );
 };

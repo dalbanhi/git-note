@@ -33,6 +33,7 @@ const MyProfile = async () => {
   const userImageURL = session?.image as string;
 
   const userFromDB = await getUser();
+  console.log(userFromDB);
 
   const createdAt = userFromDB?.createdAt;
   const formattedCreatedAtDate = format(new Date(createdAt), "MMMM yyyy");

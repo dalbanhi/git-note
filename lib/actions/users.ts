@@ -3,6 +3,7 @@ import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
 import { connectToDB } from "~/utils/database";
 import User from "~/models/user";
 import { getSession } from "~/auth/auth";
+import { unstable_cache as cache, revalidateTag } from "next/cache";
 
 export async function updateLearningGoal(goal: string, completed: boolean) {
   try {
@@ -60,6 +61,7 @@ export async function updateUser(user: any) {
       },
       { new: true }
     );
+    revalidateTag("user");
 
     if (!updatedUser) {
       throw new Error("User not found");
@@ -70,7 +72,7 @@ export async function updateUser(user: any) {
   }
 }
 
-export async function getUser() {
+async function _getUser() {
   try {
     await connectToDB();
     const session = await getSession();
@@ -88,3 +90,7 @@ export async function getUser() {
     return err.errors;
   }
 }
+
+export const getUser = cache(_getUser, ["get-user"], {
+  tags: ["user"],
+});

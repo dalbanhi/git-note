@@ -9,7 +9,7 @@ const EditProfile = async () => {
   if (!session) {
     redirect("/sign-in");
   }
-  const userFromDB = await getUser();
+  const userFromDB = await getUser(session.user.id);
   //clean the user object
   const userJSON = JSON.parse(JSON.stringify(userFromDB));
   return (

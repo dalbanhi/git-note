@@ -72,13 +72,11 @@ export async function updateUser(user: any) {
   }
 }
 
-async function _getUser() {
+async function _getUser(id: string) {
   try {
     await connectToDB();
-    const session = await getSession();
-    const sessionUser = session?.user;
 
-    const userFromDB = await User.findOne({ _id: sessionUser?.id });
+    const userFromDB = await User.findOne({ _id: id });
 
     if (!userFromDB) {
       throw new Error("User not found");

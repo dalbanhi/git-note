@@ -32,7 +32,7 @@ const MyProfile = async () => {
   const userAvatar = session?.user?.image as string;
   const userImageURL = session?.image as string;
 
-  const userFromDB = await getUser();
+  const userFromDB = await getUser(session.user.id);
   console.log(userFromDB);
 
   const createdAt = userFromDB?.createdAt;

@@ -24,7 +24,7 @@ const TechStackSelector: React.FC<TechStackSelectorProps> = ({ control }) => {
         let techStackToPass: any = [];
         if (field.value) {
           techStackToPass = Object.entries(field.value).map((item: any) => {
-            return { value: item[1].value, label: item[1].value };
+            return { label: item[1].value, value: item[1].value };
           });
         }
 

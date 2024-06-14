@@ -69,40 +69,42 @@ const Step1: React.FC<Step1Props> = ({
         name="location"
         control={control}
         render={({ field: { onChange, value, ref } }) => (
-          console.log(value),
-          (
-            <Autocomplete
-              style={{
-                //truncate
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                //rounded-sm
-                borderRadius: "0.125rem",
-                //border-none
-                borderStyle: "none",
-                //bg-myBlack-700
-                backgroundColor: "rgb(var(--my-black-700))",
-                //p-2
-                padding: "0.5rem",
-                //text-p4Reg
-                fontSize: "12px",
-                lineHeight: "16px",
-                fontWeight: 400,
-                //text-myWhite-300
-                color: "rgb(var(--my-white-300))",
-                //outline-none
-                outline: "2px solid transparent",
-                outlineOffset: "2px",
-              }}
-              apiKey={process.env.NEXT_PUBLIC_GMAPS}
-              onPlaceSelected={(place) => {
-                console.log(place);
-                onChange(place.formatted_address);
-              }}
-              defaultValue={value}
-            />
-          )
+          <Autocomplete
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+            }}
+            style={{
+              //truncate
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              //rounded-sm
+              borderRadius: "0.125rem",
+              //border-none
+              borderStyle: "none",
+              //bg-myBlack-700
+              backgroundColor: "rgb(var(--my-black-700))",
+              //p-2
+              padding: "0.5rem",
+              //text-p4Reg
+              fontSize: "12px",
+              lineHeight: "16px",
+              fontWeight: 400,
+              //text-myWhite-300
+              color: "rgb(var(--my-white-300))",
+              //outline-none
+              outline: "2px solid transparent",
+              outlineOffset: "2px",
+            }}
+            apiKey={process.env.NEXT_PUBLIC_GMAPS}
+            onPlaceSelected={(place) => {
+              onChange(place?.formatted_address || place?.name);
+            }}
+            defaultValue={value}
+          />
         )}
       ></Controller>
     </div>

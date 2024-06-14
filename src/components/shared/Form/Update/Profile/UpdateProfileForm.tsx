@@ -36,16 +36,13 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
     }
   );
 
-  const knowledgeLevelsToPass = Object.entries(userFromDB?.knowledgeLevels).map(
-    (item) => {
-      return { value: item[1] };
-    }
-  );
-
-  const techStackToPass = Object.entries(userFromDB?.techStack).map((item) => {
-    return { value: item[1] };
+  const knowledgeLevelsToPass = (userFromDB?.knowledgeLevels).map((item) => {
+    return { value: item };
   });
 
+  const techStackToPass = (userFromDB?.techStack).map((item) => {
+    return { label: item, value: item };
+  });
   const {
     register,
     handleSubmit,
@@ -121,7 +118,6 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
   }, [errors]);
 
   const onSubmit = async (data: any, event: any) => {
-    console.log(data);
     event.preventDefault();
     await updateUser(data);
     router.push("/profile");

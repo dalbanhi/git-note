@@ -70,7 +70,9 @@ const ContributionsTracker = () => {
                 Learn how we count contributions
               </p>
             </TooltipTrigger>
-            <TooltipContent>Hover</TooltipContent>
+            <TooltipContent>
+              Contributions are counted by notes created per day
+            </TooltipContent>
           </Tooltip>
         </TooltipProvider>
         <div className="flex items-center justify-center gap-2">

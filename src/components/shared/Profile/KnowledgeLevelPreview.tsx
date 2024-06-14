@@ -1,8 +1,6 @@
 import React from "react";
 import ListItemWithImage from "@/components/interface/ListItemWithImage";
 
-// import { KnowledgeLevel } from '~/types';
-
 interface KnowledgeLevelPreviewProps {
   knowledgeLevels: string[];
 }

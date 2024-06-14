@@ -9,12 +9,14 @@ import {
 
 import { TechStackOptions } from "~/constants";
 
-export interface IUser extends Document {
+export interface User {
   name: string;
   username: string;
   email: string;
   password: string;
   image: string;
+  portfolio: string;
+  location: string;
   notes: Schema.Types.ObjectId[];
   learningGoals: LearningGoal;
   techStack: TechStackType[];
@@ -46,45 +48,54 @@ const SocialMediaLinkSchema = new Schema<SocialMediaLink>({
 // Enum values for TechStackType
 const techStackEnumValues: TechStackType = TechStackOptions;
 
-const UserSchema: Schema = new Schema({
-  name: {
-    type: String,
-  },
-  username: {
-    type: String,
-    required: [true, "Username is required"],
-    unique: [true, "Username already exists"],
-  },
-  email: {
-    type: String,
-    unique: [true, "Email already exists"],
-    required: [true, "Email is required"],
-  },
-  password: {
-    type: String,
-  },
+const UserSchema: Schema = new Schema(
+  {
+    name: {
+      type: String,
+    },
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+      unique: [true, "Username already exists"],
+    },
+    email: {
+      type: String,
+      unique: [true, "Email already exists"],
+      required: [true, "Email is required"],
+    },
+    portfolio: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    password: {
+      type: String,
+    },
 
-  image: {
-    type: String,
+    image: {
+      type: String,
+    },
+
+    notes: [{ type: Schema.Types.ObjectId, ref: "Note" }],
+
+    learningGoals: [LearningGoalSchema],
+
+    techStack: {
+      type: [String],
+      enum: techStackEnumValues,
+    },
+
+    knowledgeLevels: [String],
+    scheduleAvailability: ScheduleAvailabilitySchema,
+    socialMediaLinks: [SocialMediaLinkSchema],
+    hasOnboarded: {
+      type: Boolean,
+      default: false,
+    },
   },
-
-  notes: [{ type: Schema.Types.ObjectId, ref: "Note" }],
-
-  learningGoals: [LearningGoalSchema],
-
-  techStack: {
-    type: [String],
-    enum: techStackEnumValues,
-  },
-
-  knowledgeLevels: [String],
-  scheduleAvailability: ScheduleAvailabilitySchema,
-  socialMediaLinks: [SocialMediaLinkSchema],
-  hasOnboarded: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { timestamps: true }
+);
 
 UserSchema.pre("save", async function (next) {
   try {
@@ -97,6 +108,6 @@ UserSchema.pre("save", async function (next) {
   }
 });
 
-const User = models?.User || model<IUser>("User", UserSchema);
+const User = models?.User || model<User>("User", UserSchema);
 
 export default User;

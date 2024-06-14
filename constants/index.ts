@@ -165,7 +165,41 @@ export const testContributions: UserContributions = {
 
 export const TechStackOptions = [
   "React.js",
-  "Next.js",
   "Tailwind CSS",
   "VS Code",
+  "Vite",
+  "Git",
+  "GitHub",
+  "Netlify",
+];
+
+export const TechStackOptionsWithIcons = [
+  {
+    name: "React.js",
+    iconSrc: "/tech-stack-icons/react.svg",
+  },
+  {
+    name: "Tailwind CSS",
+    iconSrc: "/tech-stack-icons/tailwind.svg",
+  },
+  {
+    name: "VS Code",
+    iconSrc: "/tech-stack-icons/vscode.svg",
+  },
+  {
+    name: "Vite",
+    iconSrc: "/tech-stack-icons/vite.svg",
+  },
+  {
+    name: "Git",
+    iconSrc: "/tech-stack-icons/git.svg",
+  },
+  {
+    name: "GitHub",
+    iconSrc: "/tech-stack-icons/github.svg",
+  },
+  {
+    name: "Netlify",
+    iconSrc: "/tech-stack-icons/netlify.svg",
+  },
 ];

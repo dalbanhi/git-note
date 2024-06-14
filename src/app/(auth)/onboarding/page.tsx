@@ -1,6 +1,6 @@
 import React from "react";
-import ProgressStepBar from "~/components/shared/Form/Onboarding/ProgressStepBar";
-import OnboardingForm from "~/components/shared/Form/Onboarding/OnboardingForm";
+import ProgressStepBar from "@/components/shared/Form/Onboarding/ProgressStepBar";
+import OnboardingForm from "@/components/shared/Form/Onboarding/OnboardingForm";
 import { getSession } from "~/auth/auth";
 import { redirect } from "next/navigation";
 

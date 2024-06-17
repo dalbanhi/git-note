@@ -1,4 +1,5 @@
 import { UserContributions } from "~/types";
+import { Note } from "~/types";
 
 export enum NoteType {
   Knowledge = "knowledge",
@@ -31,70 +32,205 @@ export const postFilters = [
   },
 ];
 
-export const testPosts = [
+export const testPosts: Note[] = [
   {
     type: NoteType.Workflow,
     title:
       "User Authentication with Next-Auth, Clerk, 0Auth and other Most Popular Auth Providers",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Next-Auth", "Clerk", "0Auth", "Auth Providers"],
     id: 1,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    // code: "This is a code",
+    // whatYouLearned: ["This is what you learned"],
+    stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Component,
     title: "Button Component with Hover, Active, Focused States",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Button", "Hover", "Active", "Focused", "Header"],
     id: 2,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    code: "let x = 10;",
+    // whatYouLearned: ["This is what you learned"],
+    // stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Knowledge,
     title: "How does Authentication and Authorization work behind the scenes?",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Authentication", "Authorization", "Next-Auth"],
     id: 3,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    // code: "This is a code",
+    // whatYouLearned: ["This is what you learned"],
+    stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Component,
     title: "Header Component with Logo, Nav Links, and Dropdown Menu",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Header", "Logo", "Nav Links", "Dropdown Menu"],
     id: 4,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    code: "import React from 'react';",
+    // whatYouLearned: ["This is what you learned"],
+    // stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Knowledge,
     title: "Naming Convention",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Naming Convention"],
     id: 5,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    // code: "This is a code",
+    whatYouLearned: ["This is what you learned"],
+    // stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Workflow,
     title: "NextAuth OAuth Setup",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Next-Auth", "OAuth Setup"],
     id: 6,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    // code: "This is a code",
+    // whatYouLearned: ["This is what you learned"],
+    stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Component,
     title: "Modal",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Modal", "Header"],
     id: 7,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    code: "import React from 'react';",
+    // whatYouLearned: ["This is what you learned"],
+    // stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Component,
     title: "Search Command",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Search Command"],
     id: 8,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    code: "import cmd from 'search';",
+    // whatYouLearned: ["This is what you learned"],
+    // stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
   {
     type: NoteType.Knowledge,
     title: "Best Practices",
     content: "This is a content",
+    description:
+      "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Best Practices", "Authorization"],
     id: 9,
+    createdAt: new Date("2024-05-01"),
+    updatedAt: new Date("2024-05-01"),
+    numberOfStars: 10,
+    numberOfViews: 100,
+    // code: "This is a code",
+    // whatYouLearned: ["This is what you learned"],
+    stepsToFollow: ["This is a step to follow"],
+    resourcesAndLinks: [
+      {
+        resource: "This is a resource",
+        url: "https://www.google.com",
+      },
+    ],
   },
 ];
 

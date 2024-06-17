@@ -2,6 +2,7 @@
 
 import { PostType } from "~/types";
 import { testPosts } from "~/constants";
+import test from "node:test";
 
 export async function getPosts(filterType: PostType, tag: string) {
   if (filterType === undefined && tag === "") {
@@ -24,4 +25,9 @@ export async function getPosts(filterType: PostType, tag: string) {
     });
     return filteredByTag;
   }
+}
+
+export async function getPost(id: number) {
+  const post = testPosts.find((post) => post.id === id);
+  return post;
 }

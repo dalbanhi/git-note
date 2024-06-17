@@ -4,6 +4,7 @@ import OnboardingForm from "@/components/shared/Form/Onboarding/OnboardingForm";
 import { getSession } from "~/auth/auth";
 import { redirect } from "next/navigation";
 
+// { [key: string]: string | string[] | undefined }
 const Onboarding = async ({ searchParams }: any) => {
   const session = await getSession();
 

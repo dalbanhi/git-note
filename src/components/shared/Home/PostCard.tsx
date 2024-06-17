@@ -1,5 +1,8 @@
 import React from "react";
 import FilterPill from "../FilterPill";
+import Link from "next/link";
+import { getPostDetails } from "~/lib/helpers/postDetails";
+import TagsListHoriz from "./TagsListHoriz";
 
 interface PostCardProps {
   post: {
@@ -13,24 +16,7 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
-  let icon = "";
-  let backgroundColor = "";
-  let textColor = "";
-  if (post.type === "workflow") {
-    icon = "icons/workflow.svg";
-    backgroundColor = "bg-primary-900";
-    textColor = "text-primary-500";
-  }
-  if (post.type === "component") {
-    icon = "icons/component.svg";
-    backgroundColor = "bg-myPurple-900";
-    textColor = "text-myPurple-500";
-  }
-  if (post.type === "knowledge") {
-    icon = "icons/knowledge.svg";
-    backgroundColor = "bg-myGreen-900";
-    textColor = "text-myGreen-500";
-  }
+  const { icon, backgroundColor, textColor } = getPostDetails(post);
 
   return (
     <div
@@ -43,21 +29,10 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
         textColor={textColor}
         filterType="type"
       />
-      <h2 className=" truncate text-h1Md text-myWhite-100">{post.title}</h2>
-      <div className="flex flex-wrap gap-2">
-        {post.tags.map((tag) => {
-          return (
-            <FilterPill
-              icon={""}
-              key={tag}
-              text={tag}
-              backgroundColor="bg-myBlack-700"
-              textColor="text-myWhite-300"
-              filterType="tag"
-            />
-          );
-        })}
-      </div>
+      <h2 className=" truncate text-h1Md text-myWhite-100">
+        <Link href={`note/${post.id}`}>{post.title}</Link>
+      </h2>
+      <TagsListHoriz tagList={post.tags} />
     </div>
   );
 };

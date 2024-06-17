@@ -35,6 +35,23 @@ interface UserContributions {
   userID: number;
 }
 
+export interface Note {
+  type: NoteType;
+  title: string;
+  content: string;
+  description: string;
+  tags: string[];
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
+  numberOfStars: number;
+  numberOfViews: number;
+  code?: string;
+  whatYouLearned?: string[];
+  stepsToFollow?: string[];
+  resourcesAndLinks: ResourcesAndLinks[];
+}
+
 declare module "*.module.css" {
   const classes: { [key: string]: string };
   export default classes;

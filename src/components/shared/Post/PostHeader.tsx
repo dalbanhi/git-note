@@ -39,9 +39,9 @@ const PostHeader: React.FC<PostHeaderProps> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex  justify-between gap-1">
+      <div className="flex justify-between gap-1">
         <h1 className="text-display1 text-myWhite-100">{note?.title}</h1>
-        <div className="flex grow justify-end gap-1">
+        <div className="flex shrink-0 justify-end gap-1">
           <FilterPill
             icon={icon}
             text={note?.type}
@@ -50,10 +50,10 @@ const PostHeader: React.FC<PostHeaderProps> = ({
             filterType="type"
           />
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="h-fit shrink-0 ">
               <Image
                 src="/icons/see-more.svg"
-                alt="heart icon"
+                alt="three dots to see more"
                 width={20}
                 height={20}
               />

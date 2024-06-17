@@ -4,6 +4,8 @@ import { Separator } from "@/components/ui/separator";
 
 import { getPost } from "~/lib/actions/posts";
 import { getPostDetails } from "~/lib/helpers/postDetails";
+import Markdown from "react-markdown";
+import CodeBlock from "@/components/shared/Post/CodeBlock/CodeBlock";
 
 const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = Number(params.id);
@@ -20,6 +22,33 @@ const Note = async ({ params }: { params: { id: string } }) => {
         note={noteFromServer || null}
       />
       <Separator className="bg-myBlack-700" />
+      {noteFromServer?.type === "component" ? (
+        <CodeBlock code={noteFromServer?.code || ""} />
+      ) : noteFromServer?.type === "knowledge" ? (
+        <div>show what you learned</div>
+      ) : (
+        <div>show workflow</div>
+      )}
+      <div className="prose prose-neutral dark:prose-invert">
+        <Markdown>{noteFromServer?.content}</Markdown>
+      </div>
+      <div>
+        <h6>Resources & Links</h6>
+        {noteFromServer?.resourcesAndLinks.map((resource) => {
+          return (
+            <div key={resource.url}>
+              <a
+                href={resource.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-myWhite-300"
+              >
+                {resource.resource}
+              </a>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 };

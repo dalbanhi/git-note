@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ResourcesAndLinks from "@/components/shared/Post/ResourcesAndLinks";
 import KeyTakeawaysPreview from "@/components/shared/Post/KeyTakeaways";
+import StepsToFollowPreview from "@/components/shared/Post/StepsToFollowPreview";
 
 const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = Number(params.id);
@@ -31,7 +32,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
       ) : noteFromServer?.type === "knowledge" ? (
         <KeyTakeawaysPreview keyTakeaways={noteFromServer?.whatYouLearned} />
       ) : (
-        <div>show workflow</div>
+        <StepsToFollowPreview steps={noteFromServer?.stepsToFollow} />
       )}
       <div className="prose prose-neutral dark:prose-invert">
         <Markdown>{noteFromServer?.content}</Markdown>

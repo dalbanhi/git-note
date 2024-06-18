@@ -7,19 +7,22 @@ import ListItemWithImage from "./ListItemWithImage";
 interface CheckBoxWithImageProps {
   text: string;
   initialChecked?: boolean;
+  isClientSideOnly?: boolean;
 }
 
-const uncheckedImage = "icons/check-empty.svg";
-const checkedImage = "icons/check-full.svg";
+const uncheckedImage = "/icons/check-empty.svg";
+const checkedImage = "/icons/check-full.svg";
 
 const CheckBoxWithImage: React.FC<CheckBoxWithImageProps> = ({
   text,
   initialChecked,
+  isClientSideOnly,
 }) => {
   const [pending, startTransition] = useTransition();
 
   async function onClick(e: React.ChangeEvent<HTMLInputElement>) {
     const checked = e.target.checked;
+    if (isClientSideOnly) return;
 
     startTransition(async () => {
       await updateLearningGoal(text, checked);

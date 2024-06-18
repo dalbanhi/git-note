@@ -59,7 +59,7 @@ export const testPosts: Note[] = [
     type: NoteType.Component,
     title: "Button Component with Hover, Active, Focused States",
     content:
-      "### Dic quaeque gaudent; \n[illas ambo](http://simulatoremque.org/), virgineos fulgebant vices et frondes [mortisneu](http://www.achaide.net/voluntas-virtute.php) tribus recipit: conloquiumquemagnaeque. Tamen illa pectore!\n\n```javascript\nlet x = 10;\n```",
+      "### Dic quaeque gaudent; \n[illas ambo](http://simulatoremque.org/), virgineos fulgebant vices et frondes [mortisneu](http://www.achaide.net/voluntas-virtute.php) tribus recipit: conloquiumquemagnaeque. Tamen illa pectore!\n\n```javascript\nlet x = 10;\n```\n![An example background image](https://picsum.photos/200)",
     description:
       "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Button", "Hover", "Active", "Focused", "Header"],
@@ -141,9 +141,7 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    // code: "This is a code",
     whatYouLearned: ["This is what you learned"],
-    // stepsToFollow: ["This is a step to follow"],
     resourcesAndLinks: [
       {
         resource: "This is a resource",
@@ -164,8 +162,6 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    // code: "This is a code",
-    // whatYouLearned: ["This is what you learned"],
     stepsToFollow: ["This is a step to follow"],
     resourcesAndLinks: [
       {
@@ -236,8 +232,8 @@ export const testPosts: Note[] = [
     numberOfStars: 10,
     numberOfViews: 100,
     // code: "This is a code",
-    // whatYouLearned: ["This is what you learned"],
-    stepsToFollow: ["This is a step to follow"],
+    whatYouLearned: ["This is what you learned"],
+    // stepsToFollow: ["This is a step to follow"],
     resourcesAndLinks: [
       {
         resource: "This is a resource",

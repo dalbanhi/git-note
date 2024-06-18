@@ -62,7 +62,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
               <DropdownMenuItem>
                 <IconLink
                   href={`/note/${note?.id}/update`}
-                  iconSrc="/icons/edit.svg"
+                  iconSrc="/icons/edit/grey.svg"
                   iconAlt="edit icon"
                   iconColor="text-myWhite-100"
                   textColor="text-myWhite-100"

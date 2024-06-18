@@ -9,7 +9,7 @@ import "./prism.css";
 import { Code } from "~/types";
 
 interface CodeBlockProps {
-  code: Code;
+  code: Code | undefined;
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
@@ -30,34 +30,41 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
             width={16}
             height={16}
           />
-          <span>Preview</span>
+          <span className="text-p3Med">Preview</span>
         </TabsTrigger>
-        <TabsTrigger value="code" className="flex gap-1">
+        <TabsTrigger value="code" className="flex gap-1 text-myWhite-300">
           <Image
-            className="text-myWhite-100"
+            className=""
             src="/icons/code.svg"
             alt="code icon"
             width={16}
             height={16}
           />
-          <span>Code</span>
+          <span className="text-p3Med">Code</span>
         </TabsTrigger>
       </TabsList>
       <TabsContent value="preview">
-        {code.codePreviewImage ? (
+        {code?.codePreviewImage ? (
           <Image
-            src={code.codePreviewImage}
+            src={code?.codePreviewImage}
             alt="code preview"
             width={500}
             height={500}
           />
         ) : (
-          <p>Enter your text here</p>
+          <div className="flex h-80 w-full shrink-0 items-center justify-center bg-myBlack-800">
+            <Image
+              src={"/icons/code-preview-image.svg"}
+              alt="code preview"
+              width={70}
+              height={60}
+            />
+          </div>
         )}
       </TabsContent>
       <TabsContent value="code">
         <pre>
-          <code className="language-javascript">{code.code}</code>
+          <code className="language-javascript">{code?.code}</code>
         </pre>
       </TabsContent>
     </Tabs>

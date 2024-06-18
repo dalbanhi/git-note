@@ -6,6 +6,8 @@ import { getPost } from "~/lib/actions/posts";
 import { getPostDetails } from "~/lib/helpers/postDetails";
 import Markdown from "react-markdown";
 import CodeBlock from "@/components/shared/Post/CodeBlock/CodeBlock";
+import Link from "next/link";
+import Image from "next/image";
 
 const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = Number(params.id);
@@ -23,7 +25,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
       />
       <Separator className="bg-myBlack-700" />
       {noteFromServer?.type === "component" ? (
-        <CodeBlock code={noteFromServer?.code || null} />
+        <CodeBlock code={noteFromServer?.code} />
       ) : noteFromServer?.type === "knowledge" ? (
         <div>show what you learned</div>
       ) : (
@@ -32,22 +34,34 @@ const Note = async ({ params }: { params: { id: string } }) => {
       <div className="prose prose-neutral dark:prose-invert">
         <Markdown>{noteFromServer?.content}</Markdown>
       </div>
-      <div>
-        <h6>Resources & Links</h6>
-        {noteFromServer?.resourcesAndLinks.map((resource) => {
-          return (
-            <div key={resource.url}>
-              <a
-                href={resource.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-myWhite-300"
+      <div className="flex flex-col">
+        <h6 className="text-p2Bold">Resources & Links</h6>
+        <ul className="list-disc">
+          {noteFromServer?.resourcesAndLinks.map((resource) => {
+            return (
+              <li
+                key={resource.url}
+                className="list-item list-inside space-x-1 text-myWhite-300 hover:text-myWhite-100 "
               >
-                {resource.resource}
-              </a>
-            </div>
-          );
-        })}
+                <Link
+                  href={resource.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline"
+                >
+                  {resource.resource}
+                </Link>
+                <Image
+                  src="/icons/external-link.svg"
+                  alt="external link"
+                  width={16}
+                  height={16}
+                  className="inline-block"
+                />
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

@@ -70,11 +70,15 @@ export const testPosts: Note[] = [
     numberOfViews: 100,
     code: {
       code: "let x = 10;",
-      codePreviewImage: "/images/button-component.png",
+      codePreviewImage: "https://picsum.photos/200",
     },
     resourcesAndLinks: [
       {
-        resource: "This is a resource",
+        resource: "Google",
+        url: "https://www.google.com",
+      },
+      {
+        resource: "Shadcn",
         url: "https://www.google.com",
       },
     ],
@@ -115,7 +119,7 @@ export const testPosts: Note[] = [
     numberOfViews: 100,
     code: {
       code: "import React from 'react';",
-      codePreviewImage: "/images/button-component.png",
+      codePreviewImage: "",
     },
     resourcesAndLinks: [
       {
@@ -183,9 +187,10 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    code: "import React from 'react';",
-    // whatYouLearned: ["This is what you learned"],
-    // stepsToFollow: ["This is a step to follow"],
+    code: {
+      code: "import React from 'react';",
+      codePreviewImage: "",
+    },
     resourcesAndLinks: [
       {
         resource: "This is a resource",
@@ -206,9 +211,10 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    code: "import cmd from 'search';",
-    // whatYouLearned: ["This is what you learned"],
-    // stepsToFollow: ["This is a step to follow"],
+    code: {
+      code: "import cmd from 'search';",
+      codePreviewImage: "",
+    },
     resourcesAndLinks: [
       {
         resource: "This is a resource",

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "node lib/seed.js"
+    "seed": "tsx lib/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
@@ -56,6 +56,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@tailwindcss/typography": "^0.5.13",
     "@types/bcryptjs": "^2.4.6",
     "@types/mongoose": "^5.11.97",

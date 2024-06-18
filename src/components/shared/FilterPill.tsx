@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface FilterPillProps {
-  icon: string;
+  icon?: string;
   text: string;
   backgroundColor: string;
   textColor: string;

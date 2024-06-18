@@ -11,7 +11,6 @@ const TagsListHoriz: React.FC<TagsListHorizProps> = ({ tagList }) => {
       {tagList?.map((tag) => {
         return (
           <FilterPill
-            icon={""}
             key={tag}
             text={tag}
             backgroundColor="bg-myBlack-700"

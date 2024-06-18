@@ -2,7 +2,6 @@
 
 import { PostType } from "~/types";
 import { testPosts } from "~/constants";
-import test from "node:test";
 
 export async function getPosts(filterType: PostType, tag: string) {
   if (filterType === undefined && tag === "") {

@@ -96,7 +96,7 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    stepsToFollow: ["This is a step to follow"],
+    whatYouLearned: ["This is a step to follow"],
     resourcesAndLinks: [
       {
         resource: "This is a resource",

@@ -1,21 +1,21 @@
 import React from "react";
 import ListItemWithImage from "@/components/interface/ListItemWithImage";
 
-interface KnowledgeLevelPreviewProps {
-  knowledgeLevels: string[];
+interface KeyTakeawaysPreviewProps {
+  keyTakeaways: string[] | undefined;
 }
 
-const KnowledgeLevelPreview: React.FC<KnowledgeLevelPreviewProps> = ({
-  knowledgeLevels,
+const KeyTakeawaysPreview: React.FC<KeyTakeawaysPreviewProps> = ({
+  keyTakeaways,
 }) => {
   return (
     <div>
-      <p className="mb-4 text-p1Bold text-myWhite-100">{"Knowledge level"}</p>
+      <p className="mb-4 text-p1Bold text-myWhite-100">{"Key Takeaways"}</p>
       <ul>
-        {knowledgeLevels.map((item: string) => {
+        {keyTakeaways?.map((item: string) => {
           return (
             <ListItemWithImage
-              imgSrc="/icons/check-square/blue.svg"
+              imgSrc="/icons/check-square/green.svg"
               imgAlt="Checkmark"
               key={item}
             >
@@ -28,4 +28,4 @@ const KnowledgeLevelPreview: React.FC<KnowledgeLevelPreviewProps> = ({
   );
 };
 
-export default KnowledgeLevelPreview;
+export default KeyTakeawaysPreview;

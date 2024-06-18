@@ -8,6 +8,8 @@ import Markdown from "react-markdown";
 import CodeBlock from "@/components/shared/Post/CodeBlock/CodeBlock";
 import Link from "next/link";
 import Image from "next/image";
+import ResourcesAndLinks from "@/components/shared/Post/ResourcesAndLinks";
+import KeyTakeawaysPreview from "@/components/shared/Post/KeyTakeaways";
 
 const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = Number(params.id);
@@ -27,42 +29,16 @@ const Note = async ({ params }: { params: { id: string } }) => {
       {noteFromServer?.type === "component" ? (
         <CodeBlock code={noteFromServer?.code} />
       ) : noteFromServer?.type === "knowledge" ? (
-        <div>show what you learned</div>
+        <KeyTakeawaysPreview keyTakeaways={noteFromServer?.whatYouLearned} />
       ) : (
         <div>show workflow</div>
       )}
       <div className="prose prose-neutral dark:prose-invert">
         <Markdown>{noteFromServer?.content}</Markdown>
       </div>
-      <div className="flex flex-col">
-        <h6 className="text-p2Bold">Resources & Links</h6>
-        <ul className="list-disc">
-          {noteFromServer?.resourcesAndLinks.map((resource) => {
-            return (
-              <li
-                key={resource.url}
-                className="list-item list-inside space-x-1 text-myWhite-300 hover:text-myWhite-100 "
-              >
-                <Link
-                  href={resource.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline"
-                >
-                  {resource.resource}
-                </Link>
-                <Image
-                  src="/icons/external-link.svg"
-                  alt="external link"
-                  width={16}
-                  height={16}
-                  className="inline-block"
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <ResourcesAndLinks
+        resourcesAndLinks={noteFromServer?.resourcesAndLinks}
+      />
     </section>
   );
 };

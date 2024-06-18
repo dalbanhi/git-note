@@ -35,6 +35,11 @@ interface UserContributions {
   userID: number;
 }
 
+interface Code {
+  code: string;
+  codePreviewImage?: string;
+}
+
 export interface Note {
   type: NoteType;
   title: string;
@@ -46,7 +51,7 @@ export interface Note {
   updatedAt: Date;
   numberOfStars: number;
   numberOfViews: number;
-  code?: string;
+  code?: Code;
   whatYouLearned?: string[];
   stepsToFollow?: string[];
   resourcesAndLinks: ResourcesAndLinks[];

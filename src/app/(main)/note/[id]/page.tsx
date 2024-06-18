@@ -23,7 +23,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
       />
       <Separator className="bg-myBlack-700" />
       {noteFromServer?.type === "component" ? (
-        <CodeBlock code={noteFromServer?.code || ""} />
+        <CodeBlock code={noteFromServer?.code || null} />
       ) : noteFromServer?.type === "knowledge" ? (
         <div>show what you learned</div>
       ) : (

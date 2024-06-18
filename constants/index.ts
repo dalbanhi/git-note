@@ -47,8 +47,6 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    // code: "This is a code",
-    // whatYouLearned: ["This is what you learned"],
     stepsToFollow: ["This is a step to follow"],
     resourcesAndLinks: [
       {
@@ -61,7 +59,7 @@ export const testPosts: Note[] = [
     type: NoteType.Component,
     title: "Button Component with Hover, Active, Focused States",
     content:
-      "### Dic quaeque gaudent; \n[illas ambo](http://simulatoremque.org/), virgineos fulgebant vices et frondes [mortisneu](http://www.achaide.net/voluntas-virtute.php) tribus recipit: conloquiumquemagnaeque. Tamen illa pectore!",
+      "### Dic quaeque gaudent; \n[illas ambo](http://simulatoremque.org/), virgineos fulgebant vices et frondes [mortisneu](http://www.achaide.net/voluntas-virtute.php) tribus recipit: conloquiumquemagnaeque. Tamen illa pectore!\n\n```javascript\nlet x = 10;\n```",
     description:
       "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
     tags: ["Button", "Hover", "Active", "Focused", "Header"],
@@ -70,9 +68,10 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    code: "let x = 10;",
-    // whatYouLearned: ["This is what you learned"],
-    // stepsToFollow: ["This is a step to follow"],
+    code: {
+      code: "let x = 10;",
+      codePreviewImage: "/images/button-component.png",
+    },
     resourcesAndLinks: [
       {
         resource: "This is a resource",
@@ -93,8 +92,6 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    // code: "This is a code",
-    // whatYouLearned: ["This is what you learned"],
     stepsToFollow: ["This is a step to follow"],
     resourcesAndLinks: [
       {
@@ -116,9 +113,10 @@ export const testPosts: Note[] = [
     updatedAt: new Date("2024-05-01"),
     numberOfStars: 10,
     numberOfViews: 100,
-    code: "import React from 'react';",
-    // whatYouLearned: ["This is what you learned"],
-    // stepsToFollow: ["This is a step to follow"],
+    code: {
+      code: "import React from 'react';",
+      codePreviewImage: "/images/button-component.png",
+    },
     resourcesAndLinks: [
       {
         resource: "This is a resource",

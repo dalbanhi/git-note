@@ -2,12 +2,16 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import CommandPalette from "@/components/shared/LeftSidebar/CommandPalette/CommandPalette";
+import Link from "next/link";
 
 const PostAndSearch = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   return (
     <div className="mb-4 flex flex-col gap-3">
-      <button className="flex items-center justify-center gap-1 rounded bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med text-myWhite-100">
+      <Link
+        href="/note/create"
+        className="flex items-center justify-center gap-1 rounded bg-gradient-to-r from-primary-gradientStart to-primary-gradientEnd p-2 text-p4Med text-myWhite-100"
+      >
         <Image
           src="/icons/plus.svg"
           alt="Create Note"
@@ -15,7 +19,7 @@ const PostAndSearch = () => {
           height={12}
         ></Image>
         Create Post
-      </button>
+      </Link>
       <div className="flex items-center justify-between rounded-lg bg-myBlack-700 px-2 text-p4Med text-myWhite-500">
         <div className="flex justify-center">
           <button onClick={() => setIsCommandPaletteOpen(true)}>

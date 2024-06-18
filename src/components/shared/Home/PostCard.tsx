@@ -1,7 +1,7 @@
 import React from "react";
 import FilterPill from "../FilterPill";
 import Link from "next/link";
-import { getPostDetails } from "~/lib/helpers/postDetails";
+import { getPostTypeProps } from "~/lib/helpers/postTypeProps";
 import TagsListHoriz from "./TagsListHoriz";
 
 interface PostCardProps {
@@ -16,7 +16,7 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
-  const { icon, backgroundColor, textColor } = getPostDetails(post);
+  const { icon, backgroundColor, textColor } = getPostTypeProps(post.type);
 
   return (
     <div

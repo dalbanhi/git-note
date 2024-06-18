@@ -3,7 +3,7 @@ import React from "react";
 import { Separator } from "@/components/ui/separator";
 
 import { getPost } from "~/lib/actions/posts";
-import { getPostDetails } from "~/lib/helpers/postDetails";
+import { getPostTypeProps } from "~/lib/helpers/postTypeProps";
 import Markdown from "react-markdown";
 import CodeBlock from "@/components/shared/Post/CodeBlock/CodeBlock";
 import Link from "next/link";
@@ -15,8 +15,9 @@ import StepsToFollowPreview from "@/components/shared/Post/StepsToFollowPreview"
 const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = Number(params.id);
   const noteFromServer = await getPost(noteId);
-  console.log(noteFromServer);
-  const { icon, backgroundColor, textColor } = getPostDetails(noteFromServer);
+  const { icon, backgroundColor, textColor } = getPostTypeProps(
+    noteFromServer.type
+  );
 
   return (
     <section className="flex min-h-screen w-6/12 flex-col justify-start gap-2 p-4">

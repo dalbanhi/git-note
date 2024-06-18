@@ -86,7 +86,6 @@ const PostHeader: React.FC<PostHeaderProps> = ({
       <p className="text-p3Reg text-myWhite-300">{note?.description}</p>
       <div className="flex justify-start gap-4">
         {headerInfo.map((infoItem) => {
-          console.log("infoItem: ", infoItem);
           return (
             <IconLink
               key={infoItem?.info}

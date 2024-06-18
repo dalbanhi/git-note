@@ -15,7 +15,6 @@ interface CodeBlockProps {
 const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
   const [activeTab, setActiveTab] = useState("preview");
   useEffect(() => {
-    console.log("useEffect is running");
     Prism.highlightAll();
   }, [activeTab]);
 

@@ -12,21 +12,10 @@ import { NoteType } from "~/constants";
 export async function getAllUserTags() {
   await connectToDB();
   const session = await getSession();
-  const sessionUser = session?.user;
 
-  //get the posts of teh user from teh database
-  const allPosts = await Note.find({ creator: sessionUser?.id });
+  const allPosts = await Note.distinct("tags", { creator: session?.user?.id });
 
-  let allTags: string[] = [];
-  allPosts.forEach((post) => {
-    post.tags.forEach((tag: string) => {
-      if (!allTags.includes(tag)) {
-        allTags.push(tag);
-      }
-    });
-  });
-
-  return allTags;
+  return allPosts;
 }
 
 export async function getPosts(filterType: PostType, tag: string) {
@@ -34,29 +23,14 @@ export async function getPosts(filterType: PostType, tag: string) {
   const session = await getSession();
   const sessionUser = session?.user;
 
-  //get the posts of teh user from teh database
-  const allPosts = await Note.find({ creator: sessionUser?.id });
+  //get the posts of the user from teh database
+  const filteredPosts = await Note.find({
+    creator: sessionUser?.id,
+    ...(filterType !== undefined && { type: filterType.toLowerCase() }),
+    ...(tag !== "" && { tags: { $in: [tag] } }),
+  });
 
-  if (filterType === undefined && tag === "") {
-    return allPosts;
-  } else if (filterType !== undefined) {
-    let filtered = allPosts.filter((item) => {
-      return filterType.toLowerCase() === item.type.toLowerCase();
-    });
-
-    return filtered;
-  } else {
-    let filteredByTag = allPosts.filter((item) => {
-      let tagFound = false;
-      for (let itemTag of item.tags) {
-        if (itemTag.toLowerCase() === tag.toLowerCase()) {
-          tagFound = true;
-        }
-      }
-      return tagFound;
-    });
-    return filteredByTag;
-  }
+  return filteredPosts;
 }
 
 export async function getPost(id: string) {

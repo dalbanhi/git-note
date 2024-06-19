@@ -27,9 +27,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
   textColor,
   post,
 }) => {
-  console.log(icon, backgroundColor, textColor);
   const note = JSON.parse(post) as Note;
-  console.log(note);
   const createdAt = note?.createdAt;
   const formattedCreatedAtDate = format(
     new Date(createdAt || ""),

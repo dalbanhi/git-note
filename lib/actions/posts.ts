@@ -83,7 +83,6 @@ export async function createPost(post: any) {
       ...post,
       creator: sessionUser.id,
     });
-    console.log(newPost);
 
     //update the user with the new post
     await User.findOneAndUpdate(

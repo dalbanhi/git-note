@@ -27,7 +27,8 @@ const CreatePostForm = () => {
   const watchType = watch("type");
 
   const onSubmit = async (data: any) => {
-    console.log(data);
+    //still in development
+    // console.log(data);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

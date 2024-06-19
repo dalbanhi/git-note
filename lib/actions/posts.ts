@@ -17,13 +17,37 @@ export async function getAllUserTags() {
 
   return allPosts;
 }
+const postsPerPage = 3;
+
+export async function getTotalPages() {
+  await connectToDB();
+  const session = await getSession();
+  const sessionUser = session?.user;
+  const totalPosts = await Note.countDocuments({ creator: sessionUser?.id });
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  return totalPages;
+}
+
+export async function getPostsByPage(page: number) {
+  await connectToDB();
+  const session = await getSession();
+  const sessionUser = session?.user;
+  const limit = postsPerPage;
+
+  //get the posts of the user from the database
+  const posts = await Note.find({ creator: sessionUser?.id })
+    .skip((page - 1) * limit)
+    .limit(limit);
+
+  return posts;
+}
 
 export async function getPosts(filterType: PostType, tag: string) {
   await connectToDB();
   const session = await getSession();
   const sessionUser = session?.user;
 
-  //get the posts of the user from teh database
+  //get the posts of the user from the database
   const filteredPosts = await Note.find({
     creator: sessionUser?.id,
     ...(filterType !== undefined && { type: filterType.toLowerCase() }),

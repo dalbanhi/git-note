@@ -12,7 +12,6 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
-  console.log(post);
   const { icon, backgroundColor, textColor } = getPostTypePropValues(post.type);
 
   return (

@@ -46,6 +46,7 @@ interface Code {
 }
 
 export interface Note {
+  _id: string;
   type: NoteType;
   title: string;
   content: string;

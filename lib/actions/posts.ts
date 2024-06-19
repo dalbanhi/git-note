@@ -65,8 +65,13 @@ export async function getPost(id: string) {
   const sessionUser = session?.user;
 
   //get the post from the database
-  const post = await Note.findOne({ _id: id });
-  return post;
+  console.log("getting post with id", id);
+  try {
+    const post = await Note.findOne({ _id: id });
+    return post;
+  } catch (err) {
+    return null;
+  }
 }
 
 export async function createPost(post: any) {

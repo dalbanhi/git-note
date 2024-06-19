@@ -11,9 +11,24 @@ import ResourcesAndLinks from "@/components/shared/Post/ResourcesAndLinks";
 import KeyTakeawaysPreview from "@/components/shared/Post/KeyTakeaways";
 import StepsToFollowPreview from "@/components/shared/Post/StepsToFollowPreview";
 
+import { getSession } from "~/auth/auth";
+import { redirect } from "next/navigation";
+
 const Note = async ({ params }: { params: { id: string } }) => {
+  const session = await getSession();
+  if (!session) {
+    redirect("/sign-in");
+  }
+
   const noteId = params.id;
   const noteFromServer = await getPost(noteId);
+  if (!noteFromServer) {
+    return (
+      <section className="flex min-h-screen w-6/12 flex-col justify-start gap-5 p-4">
+        Post not found
+      </section>
+    );
+  }
   const { icon, backgroundColor, textColor } = getPostTypePropValues(
     noteFromServer.type
   );

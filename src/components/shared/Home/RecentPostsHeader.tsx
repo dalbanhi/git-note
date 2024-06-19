@@ -7,7 +7,7 @@ const RecentPostsHeader = () => {
   return (
     <div className="flex justify-between">
       <h1 className="text-display2 text-myWhite-100">Recent Posts</h1>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap justify-end gap-2">
         {postFilters?.map((filter) => {
           return (
             <FilterPill

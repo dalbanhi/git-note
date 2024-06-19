@@ -65,7 +65,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       </div>
       <Link className="shrink-0" href="/profile/update">
         <Button
-          image="icons/edit.svg"
+          image="/icons/edit/blue.svg"
           backgroundColor="bg-myBlack-700"
           textColor="text-primary-500"
         >

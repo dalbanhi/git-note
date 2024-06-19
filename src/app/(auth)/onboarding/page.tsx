@@ -4,7 +4,11 @@ import OnboardingForm from "@/components/shared/Form/Onboarding/OnboardingForm";
 import { getSession } from "~/auth/auth";
 import { redirect } from "next/navigation";
 
-const Onboarding = async ({ searchParams }: any) => {
+const Onboarding = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: number };
+}) => {
   const session = await getSession();
 
   if (session?.hasOnboarded) {

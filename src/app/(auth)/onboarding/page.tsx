@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 const Onboarding = async ({
   searchParams,
 }: {
-  [key: string]: string | string[] | undefined;
+  searchParams: { [key: string]: number };
 }) => {
   const session = await getSession();
 

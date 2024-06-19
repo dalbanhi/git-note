@@ -66,6 +66,12 @@ const IconLink: React.FC<IconLinkProps> = ({
         {content}
       </div>
     );
+  } else {
+    return (
+      <div className="flex w-full max-w-fit cursor-pointer gap-2">
+        {content}
+      </div>
+    );
   }
 };
 

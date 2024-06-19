@@ -102,8 +102,8 @@ async function makeNewPost(user: any) {
     ),
     createdAt: faker.date.recent(),
     updatedAt: faker.date.recent(),
-    numberOfStars: faker.number.int(500),
-    numberOfViews: faker.number.int(5000),
+    stars: faker.number.int(500),
+    views: faker.number.int(5000),
     resourcesAndLinks: [
       {
         resource: faker.company.buzzPhrase(),
@@ -192,6 +192,8 @@ async function seed() {
   await makeRandomUsers(5);
   console.log("5 random users created");
   await makeExampleUser();
+  console.log("Example user created");
+  console.log("Seed completed");
 }
 
 seed();

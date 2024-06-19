@@ -1,5 +1,6 @@
 import PostHeader from "@/components/shared/Post/PostHeader";
 import React from "react";
+import { Note } from "~/types";
 import { Separator } from "@/components/ui/separator";
 
 import { getPost } from "~/lib/actions/posts";
@@ -11,16 +12,21 @@ import KeyTakeawaysPreview from "@/components/shared/Post/KeyTakeaways";
 import StepsToFollowPreview from "@/components/shared/Post/StepsToFollowPreview";
 
 const Note = async ({ params }: { params: { id: string } }) => {
-  const noteId = Number(params.id);
+  const noteId = params.id;
   const noteFromServer = await getPost(noteId);
+  console.log("This is the note from the server", noteFromServer);
   const { icon, backgroundColor, textColor } = getPostTypePropValues(
     noteFromServer.type
   );
 
+  const post = JSON.stringify(noteFromServer);
+  const postJSON = JSON.parse(post) as Note;
+  console.log(icon, backgroundColor, textColor);
+
   const NoteData = () => {
     switch (noteFromServer?.type) {
       case "component":
-        return <CodeBlock code={noteFromServer?.code} />;
+        return <CodeBlock code={postJSON.code} />;
       case "knowledge":
         return (
           <KeyTakeawaysPreview keyTakeaways={noteFromServer?.whatYouLearned} />
@@ -38,7 +44,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
         icon={icon}
         backgroundColor={backgroundColor}
         textColor={textColor}
-        note={noteFromServer || null}
+        post={post}
       />
       <Separator className="bg-myBlack-700" />
       <NoteData />

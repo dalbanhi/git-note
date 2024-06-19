@@ -1,11 +1,13 @@
 import React from "react";
 import PostCard from "./PostCard";
-import { testPosts } from "~/constants";
+//
+import { getPosts } from "~/lib/actions/posts";
 
-const RecentPostsList = () => {
+const RecentPostsList = async () => {
+  const allPosts = await getPosts(undefined, "");
   return (
     <div className="mt-2 flex flex-col gap-4">
-      {testPosts.map((post) => {
+      {allPosts.map((post) => {
         return <PostCard key={post.id} post={post} isShort={false} />;
       })}
     </div>

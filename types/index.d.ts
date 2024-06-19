@@ -1,5 +1,10 @@
 import { TechStackOptions } from "~/constants";
-export type PostType = "knowledge" | "component" | "workflow" | "all";
+export type PostType =
+  | "knowledge"
+  | "component"
+  | "workflow"
+  | "all"
+  | undefined;
 
 export interface LearningGoal {
   done: boolean;
@@ -49,8 +54,8 @@ export interface Note {
   id?: number;
   createdAt: Date;
   updatedAt: Date;
-  numberOfStars: number;
-  numberOfViews: number;
+  stars: number;
+  views: number;
   code?: Code;
   whatYouLearned?: string[];
   stepsToFollow?: string[];

@@ -2,17 +2,19 @@
 import React, { useEffect, MouseEvent } from "react";
 import { Command } from "cmdk";
 import Image from "next/image";
-import { postFilters, testTags } from "~/constants";
+import { postFilters } from "~/constants";
 import { useRouter } from "next/navigation";
 
 interface CommandPaletteProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  allUserTags: string[];
 }
 
 const CommandPalette: React.FC<CommandPaletteProps> = ({
   isOpen,
   setIsOpen,
+  allUserTags,
 }) => {
   const router = useRouter();
 
@@ -96,12 +98,12 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     })}
                   </Command.Group>
                 )}
-                {testTags && (
+                {allUserTags && (
                   <Command.Group
                     className="p-2 text-p3Reg text-myWhite-300"
                     heading="Tags"
                   >
-                    {testTags.map((tag) => {
+                    {allUserTags.map((tag) => {
                       return (
                         <Command.Item
                           key={tag}

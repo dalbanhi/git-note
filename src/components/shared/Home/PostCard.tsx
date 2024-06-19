@@ -4,15 +4,10 @@ import Link from "next/link";
 import { getPostTypePropValues } from "~/lib/helpers/postTypePropValues";
 import TagsListHoriz from "./TagsListHoriz";
 import { PostType } from "~/types";
+import { Note } from "~/types";
 
 interface PostCardProps {
-  post: {
-    type: PostType;
-    title: string;
-    content: string;
-    tags: string[];
-    id: number;
-  };
+  post: Note;
   isShort: boolean;
 }
 

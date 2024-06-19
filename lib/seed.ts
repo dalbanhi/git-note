@@ -3,11 +3,15 @@ console.log("Seed file running...");
 require("dotenv").config({ path: `.env.local`, override: true });
 
 import { connectToDB } from "~/utils/database";
-import User from "~/models/User";
+import User from "~/models/user";
+import { NoteType as NoteTypeEnum } from "~/constants";
+import { Note as NoteType } from "~/types";
+
 import { faker } from "@faker-js/faker";
-import { generateFromEmail, generateUsername } from "unique-username-generator";
+import { generateFromEmail } from "unique-username-generator";
 
 import { TechStackOptions } from "~/constants";
+import Note from "~/models/note";
 
 async function onboardAUser(user: any, image: string = "") {
   let knowledgeLevels = [];
@@ -45,7 +49,6 @@ async function onboardAUser(user: any, image: string = "") {
           available: faker.datatype.boolean(),
         },
       }
-      // { new: true }
     );
   } catch (e) {
     console.log(e);
@@ -66,9 +69,91 @@ async function makeRandomUsers(num: number) {
     let shouldOnboard = faker.datatype.boolean();
 
     if (shouldOnboard) {
-      console.log("creating an onboarded user");
       await onboardAUser(user);
     }
+  }
+}
+
+async function makeNewPost(user: any) {
+  let loremMarkdown = "";
+  try {
+    const response = await fetch(
+      "https://jaspervdj.be/lorem-markdownum/markdown.txt"
+    );
+    loremMarkdown = await response.text();
+  } catch (e) {
+    console.log(e);
+  }
+
+  const type = faker.helpers.enumValue(NoteTypeEnum);
+
+  let post: NoteType = {
+    type: type,
+    title: faker.company.catchPhrase(),
+    content: loremMarkdown,
+    description:
+      faker.company.catchPhrase() +
+      " to " +
+      faker.company.buzzVerb() +
+      " and " +
+      faker.company.buzzPhrase(),
+    tags: Array.from({ length: faker.number.int(7) }, () =>
+      faker.hacker.noun()
+    ),
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+    numberOfStars: faker.number.int(500),
+    numberOfViews: faker.number.int(5000),
+    resourcesAndLinks: [
+      {
+        resource: faker.company.buzzPhrase(),
+        url: faker.internet.url(),
+      },
+    ],
+    creator: user._id,
+  };
+  //add to post based on type
+  switch (type) {
+    case NoteTypeEnum.Component:
+      post = {
+        ...post,
+        code: {
+          code: "import cmd from 'search';",
+          codePreviewImage: faker.image.urlLoremFlickr({ category: "code" }),
+        },
+      };
+      break;
+    case NoteTypeEnum.Knowledge:
+      post = {
+        ...post,
+        whatYouLearned: Array.from({ length: faker.number.int(5) }, () =>
+          faker.hacker.phrase()
+        ),
+      };
+      break;
+    case NoteTypeEnum.Workflow:
+      post = {
+        ...post,
+        stepsToFollow: Array.from({ length: faker.number.int(5) }, () =>
+          faker.hacker.phrase()
+        ),
+      };
+      break;
+    default:
+      return;
+  }
+
+  try {
+    const newNote = await Note.create({
+      ...post,
+    });
+
+    await User.findOneAndUpdate(
+      { _id: user.id },
+      { $push: { notes: newNote.id } }
+    );
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -90,16 +175,48 @@ async function makeExampleUser() {
     user,
     "https://utfs.io/f/bbedbcdd-64ed-48b3-aa7b-8d7162545bc1-mg50ir.jpeg"
   );
+
+  console.log("Example user created.");
+
+  console.log("Making posts for the example user...");
+  for (let i = 0; i < 5; i++) {
+    await makeNewPost(user);
+  }
 }
 
 async function seed() {
   await connectToDB();
-  const allUsers = await User.find();
   await User.deleteMany({});
-  console.log("All users cleared");
+  await Note.deleteMany({});
+  console.log("All users and notes cleared");
   await makeRandomUsers(5);
   console.log("5 random users created");
   await makeExampleUser();
 }
 
 seed();
+
+// {
+//   type: NoteType.Component,
+//   title: "Search Command",
+//   content:
+//     "### Dic quaeque gaudent; \n[illas ambo](http://simulatoremque.org/), virgineos fulgebant vices et frondes [mortisneu](http://www.achaide.net/voluntas-virtute.php) tribus recipit: conloquiumquemagnaeque. Tamen illa pectore!",
+//   description:
+//     "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
+//   tags: ["Search Command"],
+//   id: 8,
+//   createdAt: new Date("2024-05-01"),
+//   updatedAt: new Date("2024-05-01"),
+//   numberOfStars: 10,
+//   numberOfViews: 100,
+//   code: {
+//     code: "import cmd from 'search';",
+//     codePreviewImage: "",
+//   },
+//   resourcesAndLinks: [
+//     {
+//       resource: "This is a resource",
+//       url: "https://www.google.com",
+//     },
+//   ],
+// },

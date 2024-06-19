@@ -3,10 +3,11 @@ import FilterPill from "../FilterPill";
 import Link from "next/link";
 import { getPostTypePropValues } from "~/lib/helpers/postTypePropValues";
 import TagsListHoriz from "./TagsListHoriz";
+import { PostType } from "~/types";
 
 interface PostCardProps {
   post: {
-    type: string;
+    type: PostType;
     title: string;
     content: string;
     tags: string[];

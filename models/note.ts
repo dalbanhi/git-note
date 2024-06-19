@@ -1,17 +1,19 @@
 import { Schema, model, models } from "mongoose";
 import { ResourcesAndLinks } from "~/types";
+import { NoteType as NoteTypeEnum } from "~/constants";
+import { Code } from "~/types";
 
 export interface INote extends Document {
   title: string;
-  type: string; //do the same thing as the enum
-  tags: Schema.Types.ObjectId[];
+  type: NoteTypeEnum;
+  tags: string[];
   description: string;
   createdAt: Date;
   creator: Schema.Types.ObjectId;
   stars: number;
   views: number;
-  code?: string;
-  learnings?: string[];
+  code?: Code;
+  whatYouLearned?: string[];
   stepsToFollow?: string[];
   content: string;
   resourcesAndLinks: ResourcesAndLinks[];
@@ -22,6 +24,11 @@ export interface INote extends Document {
 const ResourcesAndLinksSchema = new Schema<ResourcesAndLinks>({
   resource: { type: String, required: true },
   url: { type: String, required: true },
+});
+
+const CodeSchema = new Schema<Code>({
+  code: { type: String, required: true },
+  codePreviewImage: { type: String, required: false },
 });
 
 const NoteSchema: Schema = new Schema(
@@ -36,7 +43,7 @@ const NoteSchema: Schema = new Schema(
       required: [true, "Type is required"],
     },
 
-    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+    tags: [String],
 
     description: String,
 
@@ -51,11 +58,8 @@ const NoteSchema: Schema = new Schema(
     },
     stars: Number,
     views: Number,
-    code: {
-      type: String,
-      required: false,
-    },
-    learnings: {
+    code: CodeSchema,
+    whatYouLearned: {
       type: [String],
       required: false,
     },

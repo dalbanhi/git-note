@@ -46,7 +46,7 @@ export interface Note {
   content: string;
   description: string;
   tags: string[];
-  id: number;
+  id?: number;
   createdAt: Date;
   updatedAt: Date;
   numberOfStars: number;
@@ -55,6 +55,7 @@ export interface Note {
   whatYouLearned?: string[];
   stepsToFollow?: string[];
   resourcesAndLinks: ResourcesAndLinks[];
+  creator: number;
 }
 
 declare module "*.module.css" {

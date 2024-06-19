@@ -14,7 +14,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = Number(params.id);
   const noteFromServer = await getPost(noteId);
   const { icon, backgroundColor, textColor } = getPostTypePropValues(
-    noteFromServer.type
+    noteFromServer?.type
   );
 
   const NoteData = () => {

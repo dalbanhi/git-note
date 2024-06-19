@@ -1,6 +1,6 @@
 import PostHeader from "@/components/shared/Post/PostHeader";
 import React from "react";
-import { Note } from "~/types";
+import { Note as TypeOfNote } from "~/types";
 import { Separator } from "@/components/ui/separator";
 
 import { getPost } from "~/lib/actions/posts";
@@ -14,14 +14,12 @@ import StepsToFollowPreview from "@/components/shared/Post/StepsToFollowPreview"
 const Note = async ({ params }: { params: { id: string } }) => {
   const noteId = params.id;
   const noteFromServer = await getPost(noteId);
-  console.log("This is the note from the server", noteFromServer);
   const { icon, backgroundColor, textColor } = getPostTypePropValues(
     noteFromServer.type
   );
 
   const post = JSON.stringify(noteFromServer);
-  const postJSON = JSON.parse(post) as Note;
-  console.log(icon, backgroundColor, textColor);
+  const postJSON = JSON.parse(post) as TypeOfNote;
 
   const NoteData = () => {
     switch (noteFromServer?.type) {

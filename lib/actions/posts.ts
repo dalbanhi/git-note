@@ -71,8 +71,6 @@ export async function getPost(id: string) {
 
 export async function createPost(post: any) {
   try {
-    console.log("Post created successfully");
-    console.log("post", post);
     NoteSchema.parse(post);
     await connectToDB();
     const session = await getSession();

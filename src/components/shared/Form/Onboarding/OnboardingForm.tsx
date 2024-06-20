@@ -79,7 +79,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       }
       showError(errorMsg);
     };
-    console.log(errors);
     if (Object.keys(errors).length !== 0) {
       handleSingleFieldError("Name", errors.name);
       if (errors.portfolio) {

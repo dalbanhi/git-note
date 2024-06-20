@@ -44,6 +44,7 @@ export async function updateUser(user: any) {
       {
         ...user,
         hasOnboarded: true,
+        image: user.image,
         knowledgeLevels: user.knowledgeLevels.map((level: any) => {
           return level.value;
         }),

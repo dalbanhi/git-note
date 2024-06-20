@@ -12,20 +12,22 @@ import IconLink from "../LeftSidebar/IconLink";
 import { Note } from "~/types";
 import TagsListHoriz from "../Home/TagsListHoriz";
 import { format } from "date-fns";
+import { title } from "process";
 
 interface PostHeaderProps {
   icon: string;
   backgroundColor: string;
   textColor: string;
-  note: Note | null;
+  post: string;
 }
 
 const PostHeader: React.FC<PostHeaderProps> = ({
   icon,
   backgroundColor,
   textColor,
-  note,
+  post,
 }) => {
+  const note = JSON.parse(post) as Note;
   const createdAt = note?.createdAt;
   const formattedCreatedAtDate = format(
     new Date(createdAt || ""),
@@ -33,8 +35,8 @@ const PostHeader: React.FC<PostHeaderProps> = ({
   );
   const headerInfo = [
     { info: formattedCreatedAtDate, icon: "/icons/calendar.svg" },
-    { info: `${note?.numberOfStars} stars`, icon: "/icons/star.svg" },
-    { info: `${note?.numberOfViews} views`, icon: "/icons/eye.svg" },
+    { info: `${note?.stars} stars`, icon: "/icons/star.svg" },
+    { info: `${note?.views} views`, icon: "/icons/eye.svg" },
   ];
 
   return (

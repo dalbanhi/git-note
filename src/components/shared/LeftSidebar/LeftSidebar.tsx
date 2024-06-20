@@ -4,8 +4,10 @@ import Link from "next/link";
 import PostAndSearch from "./PostAndSearch";
 import PostsQuickView from "./PostsQuickView";
 import QuickLinks from "./QuickLinks";
+import { getAllUserTags } from "~/lib/actions/posts";
 
-const LeftSidebar = () => {
+const LeftSidebar = async () => {
+  const allUserTags = await getAllUserTags();
   return (
     <aside className="flex min-h-screen w-3/12 flex-col gap-2 bg-myBlack-800 p-4">
       <Link className="mb-6 mt-4 flex gap-2" href={"/"}>
@@ -17,7 +19,7 @@ const LeftSidebar = () => {
         ></Image>
         <h1 className="text-h1Md text-myWhite-100 ">GitNote</h1>
       </Link>
-      <PostAndSearch />
+      <PostAndSearch allUserTags={allUserTags} />
       <hr className="mb-4 border-myWhite-500"></hr>
       <PostsQuickView />
       <hr className="mb-4 border-myWhite-500"></hr>

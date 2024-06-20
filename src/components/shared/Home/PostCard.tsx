@@ -25,7 +25,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, isShort }) => {
         filterType="type"
       />
       <h2 className=" truncate text-h1Md text-myWhite-100">
-        <Link href={`note/${post.id}`}>{post.title}</Link>
+        <Link href={`note/${post._id}`}>{post.title}</Link>
       </h2>
       <TagsListHoriz tagList={post.tags} />
     </div>

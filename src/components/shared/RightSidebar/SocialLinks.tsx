@@ -26,9 +26,7 @@ const SocialLinks = () => {
         image="/icons/plus-blue.svg"
         backgroundColor="bg-myBlack-600 w-full"
         textColor="text-myWhite-100"
-        onClick={() => {
-          console.log("update social link");
-        }}
+        onClick={() => {}}
       >
         Update social link
       </Button>

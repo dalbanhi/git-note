@@ -1,17 +1,22 @@
 "use client";
 import React from "react";
 import FilterPill from "../FilterPill";
-import { testTags } from "~/constants";
 import { usePathname } from "next/navigation";
 
-const TagsList = () => {
+interface TagsListProps {
+  tags: string;
+}
+
+const TagsList: React.FC<TagsListProps> = ({ tags }) => {
   const pathname = usePathname();
   if (pathname.includes("profile")) return null;
+
+  const allTags = JSON.parse(tags) as string[];
   return (
     <div className="flex flex-col gap-4">
       <p className="text-p3Bold">Tags</p>
       <div className="flex flex-col gap-2">
-        {testTags?.map((tag, index) => {
+        {allTags?.map((tag, index) => {
           return (
             <FilterPill
               key={tag}

@@ -31,7 +31,8 @@
     ".next/types/**/*.ts",
     ".next/types/app/(profile)/profile/edit-profile/page.ts",
     "types/index.d.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "lib/seed.js"
   ],
   "exclude": ["node_modules"]
 }

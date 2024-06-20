@@ -198,28 +198,3 @@ async function seed() {
 }
 
 seed();
-
-// {
-//   type: NoteType.Component,
-//   title: "Search Command",
-//   content:
-//     "### Dic quaeque gaudent; \n[illas ambo](http://simulatoremque.org/), virgineos fulgebant vices et frondes [mortisneu](http://www.achaide.net/voluntas-virtute.php) tribus recipit: conloquiumquemagnaeque. Tamen illa pectore!",
-//   description:
-//     "A mobile navigation that seamlessly reveals a full-height sheet designed to effortlessly accommodate extensive menus.",
-//   tags: ["Search Command"],
-//   id: 8,
-//   createdAt: new Date("2024-05-01"),
-//   updatedAt: new Date("2024-05-01"),
-//   numberOfStars: 10,
-//   numberOfViews: 100,
-//   code: {
-//     code: "import cmd from 'search';",
-//     codePreviewImage: "",
-//   },
-//   resourcesAndLinks: [
-//     {
-//       resource: "This is a resource",
-//       url: "https://www.google.com",
-//     },
-//   ],
-// },

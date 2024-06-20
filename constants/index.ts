@@ -26,7 +26,7 @@ export const postFilters = [
   {
     type: "Knowledge",
     label: "Knowledge",
-    color: "text-myGreen-500",
+    color: "text-myGreen-400",
     backgroundColor: "bg-myGreen-900",
     iconSrc: "/icons/knowledge.svg",
   },

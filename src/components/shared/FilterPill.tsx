@@ -20,12 +20,12 @@ const FilterPill: React.FC<FilterPillProps> = ({
 }) => {
   return (
     <Link
-      className={`flex size-fit  shrink-0 items-center gap-1 rounded-lg p-1 hover:cursor-pointer hover:text-myWhite-100  ${backgroundColor}`}
+      className={`flex size-fit shrink-0 items-center gap-1 rounded-lg p-1 hover:cursor-pointer hover:text-myWhite-100 ${backgroundColor}`}
       href={`/explore?${filterType}=${text}`}
     >
       {icon && <Image src={icon} alt={text} width={12} height={12}></Image>}
       <span
-        className={` text-caption capitalize hover:text-myWhite-100 ${textColor} `}
+        className={` text-caption capitalize  hover:text-myWhite-100 ${textColor} `}
       >
         {text}
       </span>

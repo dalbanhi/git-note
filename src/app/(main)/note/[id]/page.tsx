@@ -5,7 +5,6 @@ import { Separator } from "@/components/ui/separator";
 
 import { getPost } from "~/lib/actions/posts";
 import { getPostTypePropValues } from "~/lib/helpers/postTypePropValues";
-import Markdown from "react-markdown";
 import CodeBlock from "@/components/shared/Post/CodeBlock/CodeBlock";
 import ResourcesAndLinks from "@/components/shared/Post/ResourcesAndLinks";
 import KeyTakeawaysPreview from "@/components/shared/Post/KeyTakeaways";
@@ -13,6 +12,7 @@ import StepsToFollowPreview from "@/components/shared/Post/StepsToFollowPreview"
 
 import { getSession } from "~/auth/auth";
 import { redirect } from "next/navigation";
+import RenderMarkdown from "@/components/shared/Post/RenderMarkdown";
 
 const Note = async ({ params }: { params: { id: string } }) => {
   const session = await getSession();
@@ -63,7 +63,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
       <NoteData />
       <Separator className="bg-myBlack-700" />
       <div className="prose prose-neutral dark:prose-invert">
-        <Markdown>{noteFromServer?.content}</Markdown>
+        <RenderMarkdown content={noteFromServer?.content} />
       </div>
       <ResourcesAndLinks
         resourcesAndLinks={noteFromServer?.resourcesAndLinks}

@@ -12,21 +12,34 @@ import { NoteType } from "~/constants";
 export async function getAllUserTags() {
   await connectToDB();
   const session = await getSession();
+
+  const allPosts = await Note.distinct("tags", { creator: session?.user?.id });
+
+  return allPosts;
+}
+const postsPerPage = 3;
+
+export async function getTotalPages() {
+  await connectToDB();
+  const session = await getSession();
   const sessionUser = session?.user;
+  const totalPosts = await Note.countDocuments({ creator: sessionUser?.id });
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  return totalPages;
+}
 
-  //get the posts of teh user from teh database
-  const allPosts = await Note.find({ creator: sessionUser?.id });
+export async function getPostsByPage(page: number) {
+  await connectToDB();
+  const session = await getSession();
+  const sessionUser = session?.user;
+  const limit = postsPerPage;
 
-  let allTags: string[] = [];
-  allPosts.forEach((post) => {
-    post.tags.forEach((tag: string) => {
-      if (!allTags.includes(tag)) {
-        allTags.push(tag);
-      }
-    });
-  });
+  //get the posts of the user from the database
+  const posts = await Note.find({ creator: sessionUser?.id })
+    .skip((page - 1) * limit)
+    .limit(limit);
 
-  return allTags;
+  return posts;
 }
 
 export async function getPosts(filterType: PostType, tag: string) {
@@ -34,38 +47,21 @@ export async function getPosts(filterType: PostType, tag: string) {
   const session = await getSession();
   const sessionUser = session?.user;
 
-  //get the posts of teh user from teh database
-  const allPosts = await Note.find({ creator: sessionUser?.id });
+  //get the posts of the user from the database
+  const filteredPosts = await Note.find({
+    creator: sessionUser?.id,
+    ...(filterType !== undefined && { type: filterType.toLowerCase() }),
+    ...(tag !== "" && { tags: { $in: [tag] } }),
+  });
 
-  if (filterType === undefined && tag === "") {
-    return allPosts;
-  } else if (filterType !== undefined) {
-    let filtered = allPosts.filter((item) => {
-      return filterType.toLowerCase() === item.type.toLowerCase();
-    });
-
-    return filtered;
-  } else {
-    let filteredByTag = allPosts.filter((item) => {
-      let tagFound = false;
-      for (let itemTag of item.tags) {
-        if (itemTag.toLowerCase() === tag.toLowerCase()) {
-          tagFound = true;
-        }
-      }
-      return tagFound;
-    });
-    return filteredByTag;
-  }
+  return filteredPosts;
 }
 
 export async function getPost(id: string) {
   await connectToDB();
   const session = await getSession();
-  const sessionUser = session?.user;
 
   //get the post from the database
-  console.log("getting post with id", id);
   try {
     const post = await Note.findOne({ _id: id });
     return post;

@@ -4,12 +4,11 @@ import Input from "@/components/interface/Input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NoteSchema } from "~/lib/validators/note.schema";
-import { Select } from "@radix-ui/react-select";
 import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
 import { Textarea } from "@/components/ui/textarea";
-import Note from "~/models/note";
 import DynamicChecklist from "./DynamicChecklist";
+import MarkdownEditPreview from "./MarkdownEditPreview";
 
 interface CreatePostFormProps {
   tagsString: string;
@@ -19,7 +18,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   const PostSpecial = ({ type }: { type: string }) => {
     switch (type) {
       case "component":
-        return <p>component</p>;
+        return <p>Componentn</p>;
       case "workflow":
         return (
           <DynamicChecklist
@@ -95,6 +94,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
       <PostSpecial type={watchType} />
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">Content</p>
+        <MarkdownEditPreview control={control} />
       </div>
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">

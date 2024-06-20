@@ -168,7 +168,7 @@ const Step3: React.FC<StepProps> = ({ register, control }) => {
             placeholderText="Enter a knowledge level"
             control={control}
             index={index}
-            imageSrc="/icons/check-square.svg"
+            imageSrc="/icons/check-square/blue.svg"
             imageAlt="Checkmark"
           />
         ))}

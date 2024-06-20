@@ -4,17 +4,47 @@ import Input from "@/components/interface/Input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NoteSchema } from "~/lib/validators/note.schema";
-import IconLink from "@/components/shared/LeftSidebar/IconLink";
+import { Select } from "@radix-ui/react-select";
+import SelectPostType from "./SelectPostType";
+import TagsSelector from "./TagsSelector";
+import { Textarea } from "@/components/ui/textarea";
+import Note from "~/models/note";
+import DynamicChecklist from "./DynamicChecklist";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+interface CreatePostFormProps {
+  tagsString: string;
+}
 
-const CreatePostForm = () => {
+const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
+  const PostSpecial = ({ type }: { type: string }) => {
+    switch (type) {
+      case "component":
+        return <p>component</p>;
+      case "workflow":
+        return (
+          <DynamicChecklist
+            register={register}
+            control={control}
+            fieldStringLabel="Steps to follow"
+            fieldArrayName="stepsToFollow"
+            placeholderText="Enter a step to follow"
+          />
+        );
+      case "knowledge":
+        return (
+          <DynamicChecklist
+            register={register}
+            control={control}
+            fieldStringLabel="What you learned"
+            fieldArrayName="whatYouLearned"
+            placeholderText="Enter a what your learned"
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   const {
     register,
     watch,
@@ -43,58 +73,26 @@ const CreatePostForm = () => {
           placeholder="Enter the title of your post"
           register={register}
         />
+        <SelectPostType control={control} />
+        <TagsSelector tagsString={tagsString} control={control} />
         <label
           className="text-p3Med capitalize text-myWhite-300"
-          htmlFor={"type"}
+          htmlFor={"description"}
         >
-          Create type
+          Description
         </label>
         <Controller
-          name="type"
+          name="description"
           control={control}
-          render={({ field }) => {
-            return (
-              <Select>
-                <SelectTrigger className="w-full bg-myBlack-700 text-myWhite-300">
-                  <SelectValue placeholder="Choose a type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="component">
-                    {" "}
-                    <IconLink
-                      textColor="text-myWhite-300"
-                      iconColor="text-myPurple-900"
-                      iconSrc="/icons/component.svg"
-                      iconAlt="Component icon"
-                      text="Component"
-                    />
-                  </SelectItem>
-                  <SelectItem value="workflow">
-                    {" "}
-                    <IconLink
-                      textColor="text-myWhite-300"
-                      iconColor="text-myBlue-900"
-                      iconSrc="/icons/workflow.svg"
-                      iconAlt="workflow icon"
-                      text="Workflow"
-                    />
-                  </SelectItem>
-                  <SelectItem value="knowledge">
-                    {" "}
-                    <IconLink
-                      textColor="text-myWhite-300"
-                      iconColor="text-myGreen-900"
-                      iconSrc="/icons/knowledge.svg"
-                      iconAlt="knowledge icon"
-                      text="Knowledge"
-                    />
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            );
-          }}
+          render={({ field }) => (
+            <Textarea
+              className="w-full border-none bg-myBlack-700 p-2 text-p4Reg text-myWhite-100 outline-none focus:ring-0"
+              placeholder="Enter a short description here"
+            />
+          )}
         />
       </div>
+      <PostSpecial type={watchType} />
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">Content</p>
       </div>

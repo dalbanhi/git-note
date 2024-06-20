@@ -106,7 +106,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
       }
       showError(errorMsg);
     };
-    console.log(errors);
+    console.log("Error on form input", errors);
     if (Object.keys(errors).length !== 0) {
       handleSingleFieldError("Name", errors.name);
       if (errors.portfolio) {

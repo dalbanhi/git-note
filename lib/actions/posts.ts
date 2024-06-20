@@ -60,10 +60,8 @@ export async function getPosts(filterType: PostType, tag: string) {
 export async function getPost(id: string) {
   await connectToDB();
   const session = await getSession();
-  const sessionUser = session?.user;
 
   //get the post from the database
-  console.log("getting post with id", id);
   try {
     const post = await Note.findOne({ _id: id });
     return post;

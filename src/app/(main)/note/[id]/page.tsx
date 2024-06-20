@@ -30,7 +30,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
     );
   }
   const { icon, backgroundColor, textColor } = getPostTypePropValues(
-    noteFromServer.type
+    noteFromServer?.type
   );
 
   const post = JSON.stringify(noteFromServer);

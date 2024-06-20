@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NoteSchema } from "~/lib/validators/note.schema";
 import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
+import { Separator } from "@/components/ui/separator";
+
 import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
 import MarkdownEditPreview from "./MarkdownEditPreview/MarkdownEditPreview";
@@ -63,7 +65,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-5">
         <p className="text-p3Med uppercase text-myWhite-500">
           Basic Information
         </p>
@@ -93,10 +95,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
         />
       </div>
       <PostSpecial type={watchType} />
+      <Separator className="bg-myBlack-700" />
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">Content</p>
         <MarkdownEditPreview control={control} />
       </div>
+      <Separator className="bg-myBlack-700" />
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">
           Resources & Links

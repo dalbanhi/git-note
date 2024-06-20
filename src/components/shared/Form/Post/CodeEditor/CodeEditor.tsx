@@ -15,34 +15,44 @@ interface CodeEditorProps {
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ control }) => {
   return (
-    <div className="h-56 w-full">
-      <Controller
-        name="code"
-        control={control}
-        render={({ field }) => {
-          return (
-            <AceEditor
-              mode="javascript"
-              theme="twilight"
-              name="code_editor"
-              height="100%"
-              width="100%"
-              fontSize={12}
-              wrapEnabled={true}
-              lineHeight={14}
-              showPrintMargin={true}
-              showGutter={true}
-              highlightActiveLine={true}
-              setOptions={{
-                useWorker: false,
-                showLineNumbers: true,
-                tabSize: 2,
-              }}
-            />
-          );
-        }}
-      />
-    </div>
+    <>
+      <label
+        className="text-p3Med capitalize text-myWhite-300"
+        htmlFor={"Code"}
+      >
+        Code
+      </label>
+      <div className="h-56 w-full">
+        <Controller
+          name="code"
+          control={control}
+          render={({ field }) => {
+            return (
+              <AceEditor
+                mode="javascript"
+                theme="twilight"
+                name="code_editor"
+                height="100%"
+                width="100%"
+                fontSize={12}
+                wrapEnabled={true}
+                lineHeight={14}
+                showPrintMargin={true}
+                showGutter={true}
+                highlightActiveLine={true}
+                value={field.value}
+                onChange={(value) => field.onChange(value)}
+                setOptions={{
+                  useWorker: false,
+                  showLineNumbers: true,
+                  tabSize: 2,
+                }}
+              />
+            );
+          }}
+        />
+      </div>
+    </>
   );
 };
 

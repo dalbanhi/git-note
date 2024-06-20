@@ -1,4 +1,5 @@
 import Button from "@/components/interface/Button";
+import DeletableItemPair from "@/components/interface/DeletableItemPair";
 import DeletableListItem from "@/components/interface/DeletableListItem";
 import React from "react";
 import {
@@ -13,7 +14,9 @@ interface DynamicChecklistProps {
   control?: Control<any>;
   fieldStringLabel: string;
   fieldArrayName: string;
-  placeholderText: string;
+  placeholderText: string | { key: string; value: string };
+  listType?: string;
+  plusButtonText?: string;
 }
 
 const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
@@ -22,6 +25,8 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
   fieldStringLabel,
   fieldArrayName,
   placeholderText,
+  listType = "normal",
+  plusButtonText = "Add checkmark",
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -32,20 +37,36 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
       <h3 className="text-p3Med text-myWhite-300">{fieldStringLabel}</h3>
       <div className="flex flex-col gap-2">
         {fields.map((field, index) => {
-          return (
-            <DeletableListItem
-              key={field.id}
-              onDelete={() => remove(index)}
-              checkable={false}
-              register={register}
-              fieldArrayName={fieldArrayName}
-              placeholderText={placeholderText}
-              control={control}
-              index={index}
-              imageSrc="/icons/check-square/blue.svg"
-              imageAlt="Checkmark"
-            />
-          );
+          if (listType === "normal") {
+            return (
+              <DeletableListItem
+                key={field.id}
+                onDelete={() => remove(index)}
+                checkable={false}
+                register={register}
+                fieldArrayName={fieldArrayName}
+                placeholderText={placeholderText as string}
+                control={control}
+                index={index}
+                imageSrc="/icons/check-square/blue.svg"
+                imageAlt="Checkmark"
+              />
+            );
+          } else {
+            return (
+              <DeletableItemPair
+                key={field.id}
+                onDelete={() => remove(index)}
+                register={register}
+                index={index}
+                fieldArrayName={fieldArrayName}
+                placeholderText={
+                  placeholderText as { key: string; value: string }
+                }
+                control={control}
+              />
+            );
+          }
         })}
       </div>
       <Button
@@ -53,10 +74,14 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
         backgroundColor="bg-myBlack-600"
         textColor="text-myWhite-100"
         onClick={() => {
-          append({ value: "" });
+          if (listType === "normal") {
+            append({ value: "" });
+          } else {
+            append({ key: "", value: "" });
+          }
         }}
       >
-        Add checkmark
+        {plusButtonText}
       </Button>
     </div>
   );

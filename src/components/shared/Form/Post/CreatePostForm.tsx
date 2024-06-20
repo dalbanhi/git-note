@@ -105,6 +105,15 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
         <p className="text-p3Med uppercase text-myWhite-500">
           Resources & Links
         </p>
+        <DynamicChecklist
+          register={register}
+          control={control}
+          fieldStringLabel=""
+          fieldArrayName="resourcesAndLinks"
+          placeholderText={{ key: "Label", value: "Resource Link" }}
+          listType="itemPair"
+          plusButtonText="New Resource"
+        />
       </div>
 
       <button

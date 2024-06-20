@@ -9,6 +9,7 @@ import TagsSelector from "./TagsSelector";
 import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
 import MarkdownEditPreview from "./MarkdownEditPreview/MarkdownEditPreview";
+import CodeEditor from "./CodeEditor/CodeEditor";
 
 interface CreatePostFormProps {
   tagsString: string;
@@ -18,7 +19,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   const PostSpecial = ({ type }: { type: string }) => {
     switch (type) {
       case "component":
-        return <p>Componentn</p>;
+        return <CodeEditor control={control} />;
       case "workflow":
         return (
           <DynamicChecklist

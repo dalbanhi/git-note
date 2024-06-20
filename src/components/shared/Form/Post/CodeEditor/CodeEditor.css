@@ -1,0 +1,39 @@
+/* Ensure your CSS is loaded after the Ace Editor theme CSS */
+.ace-twilight.ace_editor {
+  @apply !bg-myBlack-700 text-myWhite-300;
+  /* color: #333 !important;s */
+}
+
+.ace-twilight .ace_gutter {
+  @apply !bg-myBlack-600 text-myWhite-300;
+  /* background: #ffffff !important; */
+  /* color: #8f908a !important; */
+}
+
+.ace-twilight .ace_marker-layer .ace_active-line {
+  @apply !bg-myBlack-600 text-myWhite-100;
+}
+
+.ace-twilight .ace_cursor {
+  @apply text-myBlack-900;
+}
+
+.ace-twilight .ace_bracket {
+  @apply !bg-myBlack-600 text-myWhite-300;
+}
+
+/* Scrollbar */
+.ace_scrollbar::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+.ace_scrollbar::-webkit-scrollbar-track {
+  background-color: #adb3cc;
+  border-radius: 10px;
+}
+
+.ace_scrollbar::-webkit-scrollbar-thumb {
+  background-color: #1d2032;
+  border-radius: 10px;
+}

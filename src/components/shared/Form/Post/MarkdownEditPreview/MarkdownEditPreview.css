@@ -1,0 +1,19 @@
+.w-md-editor-toolbar {
+  @apply !bg-myBlack-600 text-myWhite-300;
+}
+
+.w-md-editor-content {
+  @apply !bg-myBlack-700 text-myWhite-300;
+}
+
+.wmde-markdown {
+  @apply !bg-myBlack-700 text-myWhite-300;
+}
+
+.wmde-markdown ul {
+  @apply !list-disc;
+}
+
+.wmde-markdown ol {
+  @apply !list-decimal;
+}

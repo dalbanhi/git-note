@@ -8,7 +8,7 @@ import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
 import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
-import MarkdownEditPreview from "./MarkdownEditPreview";
+import MarkdownEditPreview from "./MarkdownEditPreview/MarkdownEditPreview";
 
 interface CreatePostFormProps {
   tagsString: string;

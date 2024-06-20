@@ -3,16 +3,10 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import rehypeSanitize from "rehype-sanitize";
 
-import React, { useCallback, useState } from "react";
+import React from "react";
 
-import type { ContextStore } from "@uiw/react-md-editor";
+import "./MarkdownEditPreview.css";
 import { Control, Controller } from "react-hook-form";
-
-type OnChange = (
-  value?: string,
-  event?: React.ChangeEvent<HTMLTextAreaElement>,
-  state?: ContextStore
-) => void;
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 

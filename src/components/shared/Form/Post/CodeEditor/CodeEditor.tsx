@@ -10,7 +10,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "./CodeEditor.css";
 
 interface CodeEditorProps {
-  control?: Control;
+  control?: Control<any>;
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ control }) => {

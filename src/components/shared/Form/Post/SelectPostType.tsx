@@ -12,7 +12,7 @@ import {
 import { Controller, Control, useForm } from "react-hook-form";
 
 interface SelectPostTypeProps {
-  control?: Control;
+  control?: Control<any>;
 }
 
 const SelectPostType: React.FC<SelectPostTypeProps> = ({ control }) => {

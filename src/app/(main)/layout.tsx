@@ -6,6 +6,7 @@ import LeftSidebar from "@/components/shared/LeftSidebar/LeftSidebar";
 import RightSidebar from "@/components/shared/RightSidebar/RightSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
+import ToastProvider from "~/lib/providers/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Git Note",
@@ -23,7 +24,7 @@ export default function RootLayout({
       >
         <main className="flex min-h-screen w-full justify-between xl:w-4/5">
           <LeftSidebar />
-          {children}
+          <ToastProvider>{children}</ToastProvider>
           <RightSidebar />
         </main>
       </body>

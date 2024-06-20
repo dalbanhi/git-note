@@ -8,7 +8,7 @@ const CreatableSelect = dynamic(() => import("react-select/creatable"), {
 });
 
 interface TagsSelectorProps {
-  control?: Control<FieldValues>;
+  control?: Control<any>;
   tagsString: string;
 }
 

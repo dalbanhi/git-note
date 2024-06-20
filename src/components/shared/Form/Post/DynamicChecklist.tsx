@@ -14,7 +14,7 @@ interface DynamicChecklistProps {
   control?: Control<any>;
   fieldStringLabel: string;
   fieldArrayName: string;
-  placeholderText: string | { key: string; value: string };
+  placeholderText: string | { resource: string; url: string };
   listType?: string;
   plusButtonText?: string;
 }
@@ -61,7 +61,7 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
                 index={index}
                 fieldArrayName={fieldArrayName}
                 placeholderText={
-                  placeholderText as { key: string; value: string }
+                  placeholderText as { resource: string; url: string }
                 }
                 control={control}
               />

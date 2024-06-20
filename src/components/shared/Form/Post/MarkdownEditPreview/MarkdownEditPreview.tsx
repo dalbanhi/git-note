@@ -11,7 +11,7 @@ import { Control, Controller } from "react-hook-form";
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 interface MarkdownEditPreviewProps {
-  control: Control;
+  control: Control<any>;
 }
 
 const MarkdownEditPreview: React.FC<MarkdownEditPreviewProps> = ({
@@ -20,7 +20,7 @@ const MarkdownEditPreview: React.FC<MarkdownEditPreviewProps> = ({
   return (
     <div>
       <Controller
-        name="markdown"
+        name="content"
         control={control}
         render={({ field: { onChange, onBlur, value, ref } }) => (
           <MDEditor

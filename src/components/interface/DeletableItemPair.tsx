@@ -14,8 +14,8 @@ interface DeletableItemPairProps {
   fieldArrayName: string;
   control: Control | undefined;
   placeholderText: {
-    key: string;
-    value: string;
+    resource: string;
+    url: string;
   };
 }
 
@@ -31,13 +31,13 @@ const DeletableListItem: React.FC<DeletableItemPairProps> = ({
       <div className="flex grow items-center justify-center gap-2">
         <input
           className="w-1/2 rounded-sm border-none bg-myBlack-700 p-2 text-p3Reg text-myWhite-100 outline-none focus:ring-0"
-          placeholder={placeholderText.key}
-          {...register(`${fieldArrayName}.${index}.key`)}
+          placeholder={placeholderText.resource}
+          {...register(`${fieldArrayName}.${index}.resource`)}
         />
         <input
           className="w-1/2 rounded-sm border-none bg-myBlack-700 p-2 text-p3Reg text-myWhite-100 outline-none focus:ring-0"
-          placeholder={placeholderText.value}
-          {...register(`${fieldArrayName}.${index}.value`)}
+          placeholder={placeholderText.url}
+          {...register(`${fieldArrayName}.${index}.url`)}
         />
       </div>
       <button

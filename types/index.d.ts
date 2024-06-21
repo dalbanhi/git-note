@@ -46,12 +46,12 @@ interface Code {
 }
 
 export interface Note {
+  _id?: string;
   type: NoteType;
   title: string;
   content: string;
   description: string;
   tags: string[];
-  id?: number;
   createdAt: Date;
   updatedAt: Date;
   stars: number;

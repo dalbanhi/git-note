@@ -37,14 +37,12 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({
         </PaginationItem>
         <PaginationItem>
           {pageNum !== totalPages && (
-            <PaginationItem>
-              <PaginationLink
-                className="bg-myBlack-700 hover:bg-myBlack-600"
-                href={`/?page=${pageNum + 1}`}
-              >
-                Next
-              </PaginationLink>
-            </PaginationItem>
+            <PaginationLink
+              className="bg-myBlack-700 hover:bg-myBlack-600"
+              href={`/?page=${pageNum + 1}`}
+            >
+              Next
+            </PaginationLink>
           )}
         </PaginationItem>
       </PaginationContent>

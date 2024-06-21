@@ -54,7 +54,7 @@ const Home = async ({
       <RecentPostsHeader />
       <div className="mt-2 flex flex-col gap-4">
         {posts.map((post) => {
-          return <PostCard key={post.id} post={post} isShort={false} />;
+          return <PostCard key={post._id} post={post} isShort={false} />;
         })}
       </div>
       <PaginationButtons

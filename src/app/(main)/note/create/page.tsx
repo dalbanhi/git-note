@@ -8,7 +8,7 @@ const CreateNote = async () => {
   const session = await getSession();
 
   if (!session) {
-    redirect("/login");
+    redirect("/");
   }
 
   const tags = await getAllUserTags(session.user.id);

@@ -8,6 +8,9 @@ import Prism from "prismjs";
 import "./prism.css";
 import { Code } from "~/types";
 
+import "react-toastify/dist/ReactToastify.css";
+import { toast, Flip } from "react-toastify";
+
 interface CodeBlockProps {
   code: Code | undefined;
 }
@@ -17,6 +20,34 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
   useEffect(() => {
     Prism.highlightAll();
   }, [activeTab]);
+
+  const showToast = (message: string) => {
+    toast.info(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      progress: undefined,
+      transition: Flip,
+    });
+  };
+
+  const handleCopyClick = async (event: React.MouseEvent<HTMLImageElement>) => {
+    const codeBlock = (event.target as HTMLElement)
+      .closest("pre")
+      ?.querySelector("code");
+    if (codeBlock) {
+      try {
+        await navigator.clipboard.writeText(codeBlock.textContent || "");
+        showToast("Code copied to clipboard!");
+      } catch (err) {
+        console.error("Failed to copy: ", err);
+      }
+    }
+  };
 
   return (
     <Tabs defaultValue="preview" onValueChange={(value) => setActiveTab(value)}>
@@ -62,8 +93,18 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
         )}
       </TabsContent>
       <TabsContent value="code">
-        <pre>
+        <pre className="flex justify-between">
           <code className="language-javascript">{code?.code}</code>
+          <div className="relative size-6 cursor-pointer">
+            <Image
+              src="/icons/copy.svg"
+              alt="Copy code"
+              width={12}
+              height={12}
+              className="absolute left-0 top-0 my-0 size-full rounded-md object-contain"
+              onClick={handleCopyClick}
+            />
+          </div>
         </pre>
       </TabsContent>
     </Tabs>

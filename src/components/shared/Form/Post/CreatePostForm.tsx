@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/interface/Input";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,17 +13,25 @@ import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
 import MarkdownEditPreview from "./MarkdownEditPreview/MarkdownEditPreview";
 import CodeEditor from "./CodeEditor/CodeEditor";
-import { set } from "mongoose";
+import { useRouter } from "next/navigation";
+import { createPost } from "~/lib/actions/posts";
 
 interface CreatePostFormProps {
   tagsString: string;
 }
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
+  const router = useRouter();
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const PostSpecial = ({ type }: { type: string | null }) => {
     switch (type) {
       case "component":
-        return <CodeEditor control={control} />;
+        return (
+          <CodeEditor
+            control={control}
+            setSubmitButtonDisabled={setSubmitButtonDisabled}
+          />
+        );
       case "workflow":
         return (
           <DynamicChecklist
@@ -166,6 +174,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   const onSubmit = async (data: any) => {
     //still in development
     console.log(data);
+    // const newPost = await createPost(data);
+    // console.log("back in the client, ", newPost);
+    // router.push(`/note/${newPost.id}`); };
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -224,7 +235,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
       <button
         className={`flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-primary-500 p-2  text-p4Med text-myBlack-900`}
         type="submit"
-        disabled={false}
+        disabled={submitButtonDisabled}
       >
         Create Post
       </button>

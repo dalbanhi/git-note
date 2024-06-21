@@ -23,6 +23,8 @@ export const ourFileRouter = {
       //Download the file to check its dimensions
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+      console.log("metadata", metadata);
+      console.log("file", file);
       return { uploadedBy: metadata.userId, url: file.url };
     }),
 } satisfies FileRouter;

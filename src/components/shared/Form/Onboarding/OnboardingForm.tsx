@@ -86,9 +86,6 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
       }
       handleFieldArrayError("Learning Goals", errors.learningGoals);
       handleFieldArrayError("Knowledge Levels", errors.knowledgeLevels);
-      // showError(
-      //   "Please fill out all required fields or there was another error; Developing-- check the logs for more info."
-      // );
     }
   }, [errors]);
 

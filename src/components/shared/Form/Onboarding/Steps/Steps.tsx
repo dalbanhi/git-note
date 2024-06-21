@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Autocomplete from "react-google-autocomplete";
 import {
   useFieldArray,
@@ -46,7 +46,7 @@ const Step1: React.FC<Step1Props> = ({
             setNextButtonDisabled={setNextButtonDisabled}
           />
         )}
-      ></Controller>
+      />
       <Input
         label="name"
         type={"text"}

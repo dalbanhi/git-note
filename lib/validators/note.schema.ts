@@ -21,6 +21,11 @@ const tagsSchema = z.object({
   value: z.string().min(2, "Tag must be at least 2 characters long"),
 });
 
+const codeSchema = z.object({
+  code: z.string().min(2, "Code must be at least 2 characters long"),
+  codePreviewImage: z.string().optional(),
+});
+
 export const NoteSchema = z.object({
   title: z
     .string()
@@ -44,7 +49,7 @@ export const NoteSchema = z.object({
       url: z.string().url(),
     })
   ),
-  code: z.string().min(2, "Code must be at least 2 characters long").optional(),
+  code: codeSchema.optional(),
   stepsToFollow: z
     .array(stepsToFollowSchema)
     .min(1, "You must have at least one step to follow")

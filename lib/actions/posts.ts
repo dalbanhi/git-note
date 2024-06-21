@@ -70,7 +70,7 @@ export async function getPost(id: string) {
   }
 }
 
-export async function createPost(post: any) {
+export async function createPost(post: TypeOfNote) {
   try {
     NoteSchema.parse(post);
     await connectToDB();
@@ -80,16 +80,22 @@ export async function createPost(post: any) {
     if (!sessionUser) {
       throw new Error("You must be logged in to create a post");
     }
+    console.log(post);
     const newPost = await Note.create({
       ...post,
+      tags: post.tags.map((tag: any) => tag.value),
       creator: sessionUser.id,
     });
 
+    console.log(newPost);
+
     //update the user with the new post
-    await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       { _id: sessionUser.id },
       { $push: { notes: newPost.id } }
     );
+    console.log(user);
+    return newPost;
   } catch (err) {
     console.log(err);
   }

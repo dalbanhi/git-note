@@ -1,12 +1,9 @@
 "use client";
-
 import { useEffect, useRef } from "react";
-
 import Markdown from "react-markdown";
 import Image from "next/image";
 import ReactDOM from "react-dom/client";
-import "react-toastify/dist/ReactToastify.css";
-import { toast, Flip } from "react-toastify";
+import { showToast, handleCopyClick } from "./CopyPasteFunctions";
 // import our markdown and prism
 import Prism from "prismjs";
 import "@/components/shared/Post/CodeBlock/prism.css";
@@ -15,39 +12,9 @@ export default function RenderMarkdown({ content }: any) {
   //use ref to only make this happen once
   const ref = useRef(0);
 
-  const showToast = (message: string) => {
-    toast.info(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: undefined,
-      transition: Flip,
-    });
-  };
-
   useEffect(() => {
     ref.current++;
     Prism.highlightAll();
-
-    const handleCopyClick = async (
-      event: React.MouseEvent<HTMLImageElement>
-    ) => {
-      const codeBlock = (event.target as HTMLElement)
-        .closest("pre")
-        ?.querySelector("code");
-      if (codeBlock) {
-        try {
-          await navigator.clipboard.writeText(codeBlock.textContent || "");
-          showToast("Code copied to clipboard!");
-        } catch (err) {
-          console.error("Failed to copy: ", err);
-        }
-      }
-    };
     if (ref.current === 1) {
       const preElements = document.querySelectorAll("pre");
       preElements.forEach((pre) => {

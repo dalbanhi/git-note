@@ -9,7 +9,8 @@ import "./prism.css";
 import { Code } from "~/types";
 
 import "react-toastify/dist/ReactToastify.css";
-import { toast, Flip } from "react-toastify";
+// import { toast, Flip } from "react-toastify";
+import { handleCopyClick, showToast } from "../CopyPasteFunctions";
 
 interface CodeBlockProps {
   code: Code | undefined;
@@ -21,33 +22,33 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
     Prism.highlightAll();
   }, [activeTab]);
 
-  const showToast = (message: string) => {
-    toast.info(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: undefined,
-      transition: Flip,
-    });
-  };
+  // const showToast = (message: string) => {
+  //   toast.info(message, {
+  //     position: "top-center",
+  //     autoClose: 5000,
+  //     hideProgressBar: true,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     theme: "colored",
+  //     progress: undefined,
+  //     transition: Flip,
+  //   });
+  // };
 
-  const handleCopyClick = async (event: React.MouseEvent<HTMLImageElement>) => {
-    const codeBlock = (event.target as HTMLElement)
-      .closest("pre")
-      ?.querySelector("code");
-    if (codeBlock) {
-      try {
-        await navigator.clipboard.writeText(codeBlock.textContent || "");
-        showToast("Code copied to clipboard!");
-      } catch (err) {
-        console.error("Failed to copy: ", err);
-      }
-    }
-  };
+  // const handleCopyClick = async (event: React.MouseEvent<HTMLImageElement>) => {
+  //   const codeBlock = (event.target as HTMLElement)
+  //     .closest("pre")
+  //     ?.querySelector("code");
+  //   if (codeBlock) {
+  //     try {
+  //       await navigator.clipboard.writeText(codeBlock.textContent || "");
+  //       showToast("Code copied to clipboard!");
+  //     } catch (err) {
+  //       console.error("Failed to copy: ", err);
+  //     }
+  //   }
+  // };
 
   return (
     <Tabs defaultValue="preview" onValueChange={(value) => setActiveTab(value)}>

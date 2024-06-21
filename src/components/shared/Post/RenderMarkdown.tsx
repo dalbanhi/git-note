@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import Markdown from "react-markdown";
 import Image from "next/image";
 import ReactDOM from "react-dom/client";
+import "react-toastify/dist/ReactToastify.css";
 import { toast, Flip } from "react-toastify";
 // import our markdown and prism
 import Prism from "prismjs";
@@ -15,7 +16,7 @@ export default function RenderMarkdown({ content }: any) {
   const ref = useRef(0);
 
   const showError = (message: string) => {
-    toast(message, {
+    toast.info(message, {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: true,
@@ -31,12 +32,10 @@ export default function RenderMarkdown({ content }: any) {
   useEffect(() => {
     ref.current++;
     Prism.highlightAll();
-    console.log("rendering markdown");
 
     const handleCopyClick = async (
       event: React.MouseEvent<HTMLImageElement>
     ) => {
-      console.log("copying code");
       const codeBlock = (event.target as HTMLElement)
         .closest("pre")
         ?.querySelector("code");
@@ -52,7 +51,6 @@ export default function RenderMarkdown({ content }: any) {
     if (ref.current === 1) {
       const preElements = document.querySelectorAll("pre");
       preElements.forEach((pre) => {
-        console.log("pre element: ", pre);
         const imageWrapper = document.createElement("div");
         imageWrapper.classList.add("relative", "cursor-pointer", "size-6");
         const CopyIcon = () => (

@@ -15,7 +15,7 @@ export default function RenderMarkdown({ content }: any) {
   //use ref to only make this happen once
   const ref = useRef(0);
 
-  const showError = (message: string) => {
+  const showToast = (message: string) => {
     toast.info(message, {
       position: "top-center",
       autoClose: 5000,
@@ -42,7 +42,7 @@ export default function RenderMarkdown({ content }: any) {
       if (codeBlock) {
         try {
           await navigator.clipboard.writeText(codeBlock.textContent || "");
-          showError("Code copied to clipboard!");
+          showToast("Code copied to clipboard!");
         } catch (err) {
           console.error("Failed to copy: ", err);
         }

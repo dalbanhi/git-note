@@ -22,7 +22,7 @@ const MarkdownEditPreview: React.FC<MarkdownEditPreviewProps> = ({
       <Controller
         name="content"
         control={control}
-        render={({ field: { onChange, onBlur, value, ref } }) => (
+        render={({ field: { onChange, onBlur, value } }) => (
           <MDEditor
             previewOptions={{
               rehypePlugins: [[rehypeSanitize]],
@@ -33,7 +33,8 @@ const MarkdownEditPreview: React.FC<MarkdownEditPreviewProps> = ({
             textareaProps={{
               placeholder: "Please enter Markdown text",
               onBlur,
-              // ref,
+              className:
+                "border-transparent focus:border-transparent focus:ring-0 ",
             }}
           />
         )}

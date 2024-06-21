@@ -8,6 +8,7 @@ import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
 import { Flip, toast } from "react-toastify";
 import { Separator } from "@/components/ui/separator";
+import "@uploadthing/react/styles.css";
 
 import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
@@ -20,42 +21,55 @@ interface CreatePostFormProps {
   tagsString: string;
 }
 
+interface PostSpecialProps {
+  type: string | null;
+  control: any;
+  register: any;
+  setSubmitButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PostSpecial: React.FC<PostSpecialProps> = ({
+  type,
+  control,
+  register,
+  setSubmitButtonDisabled,
+}) => {
+  switch (type) {
+    case "component":
+      return (
+        <CodeEditor
+          control={control}
+          setSubmitButtonDisabled={setSubmitButtonDisabled}
+        />
+      );
+    case "workflow":
+      return (
+        <DynamicChecklist
+          register={register}
+          control={control}
+          fieldStringLabel="Steps to follow"
+          fieldArrayName="stepsToFollow"
+          placeholderText="Enter a step to follow"
+        />
+      );
+    case "knowledge":
+      return (
+        <DynamicChecklist
+          register={register}
+          control={control}
+          fieldStringLabel="What you learned"
+          fieldArrayName="whatYouLearned"
+          placeholderText="Enter what you learned"
+        />
+      );
+    default:
+      return null;
+  }
+};
+
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   const router = useRouter();
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
-  const PostSpecial = ({ type }: { type: string | null }) => {
-    switch (type) {
-      case "component":
-        return (
-          <CodeEditor
-            control={control}
-            setSubmitButtonDisabled={setSubmitButtonDisabled}
-          />
-        );
-      case "workflow":
-        return (
-          <DynamicChecklist
-            register={register}
-            control={control}
-            fieldStringLabel="Steps to follow"
-            fieldArrayName="stepsToFollow"
-            placeholderText="Enter a step to follow"
-          />
-        );
-      case "knowledge":
-        return (
-          <DynamicChecklist
-            register={register}
-            control={control}
-            fieldStringLabel="What you learned"
-            fieldArrayName="whatYouLearned"
-            placeholderText="Enter what you learned"
-          />
-        );
-      default:
-        return null;
-    }
-  };
 
   const {
     register,
@@ -195,7 +209,13 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
           )}
         />
       </div>
-      <PostSpecial type={watchType} />
+      <PostSpecial
+        key={"postSpecial"}
+        type={watchType}
+        control={control}
+        register={register}
+        setSubmitButtonDisabled={setSubmitButtonDisabled}
+      />
       <Separator className="bg-myBlack-700" />
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">Content</p>

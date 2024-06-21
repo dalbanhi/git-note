@@ -42,6 +42,10 @@ async function _getPostsByPage(page: number, id: string) {
 async function _getPosts(filterType: PostType, tag: string, id: string) {
   await connectToDB();
 
+  console.log("filterType", filterType);
+  console.log("tag", tag);
+  console.log("id", id);
+
   //get the posts of the user from the database
   const filteredPosts = await Note.find({
     creator: id,

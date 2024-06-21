@@ -4,15 +4,20 @@ import PostCard from "@/components/shared/Home/PostCard";
 
 import { getPosts } from "~/lib/actions/posts";
 import { PostType } from "~/types/index";
+import { getSession } from "~/auth/auth";
+import { redirect } from "next/navigation";
 
 const Explore = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const session = await getSession();
+
   const posts = await getPosts(
     (searchParams.type as PostType) || undefined,
-    (searchParams.tag as string) || ""
+    (searchParams.tag as string) || "",
+    session?.user.id || ""
   );
 
   return (

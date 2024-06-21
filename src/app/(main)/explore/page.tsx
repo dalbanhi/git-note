@@ -13,11 +13,12 @@ const Explore = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const session = await getSession();
+  if (!session) redirect("/");
 
   const posts = await getPosts(
     (searchParams.type as PostType) || undefined,
     (searchParams.tag as string) || "",
-    session?.user.id || ""
+    session.user.id || ""
   );
 
   return (

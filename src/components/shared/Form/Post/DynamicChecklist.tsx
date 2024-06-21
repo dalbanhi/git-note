@@ -32,6 +32,23 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
     control,
     name: fieldArrayName,
   });
+
+  const makeNewItem = () => {
+    if (listType === "normal") {
+      append({ value: "" });
+    } else {
+      append({ key: "", value: "" });
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      makeNewItem();
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <h3 className="text-p3Med text-myWhite-300">{fieldStringLabel}</h3>
@@ -50,6 +67,7 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
                 index={index}
                 imageSrc="/icons/check-square/blue.svg"
                 imageAlt="Checkmark"
+                onKeyDown={handleKeyDown}
               />
             );
           } else {
@@ -64,6 +82,7 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
                   placeholderText as { resource: string; url: string }
                 }
                 control={control}
+                onKeyDown={handleKeyDown}
               />
             );
           }
@@ -73,13 +92,7 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
         image="/icons/plus-blue.svg"
         backgroundColor="bg-myBlack-600"
         textColor="text-myWhite-100"
-        onClick={() => {
-          if (listType === "normal") {
-            append({ value: "" });
-          } else {
-            append({ key: "", value: "" });
-          }
-        }}
+        onClick={makeNewItem}
       >
         {plusButtonText}
       </Button>

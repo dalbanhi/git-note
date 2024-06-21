@@ -17,6 +17,7 @@ interface DeletableItemPairProps {
     resource: string;
     url: string;
   };
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const DeletableListItem: React.FC<DeletableItemPairProps> = ({
@@ -25,6 +26,7 @@ const DeletableListItem: React.FC<DeletableItemPairProps> = ({
   index,
   fieldArrayName,
   placeholderText,
+  onKeyDown,
 }) => {
   return (
     <div className="flex justify-between gap-2 px-2 py-1">
@@ -37,6 +39,7 @@ const DeletableListItem: React.FC<DeletableItemPairProps> = ({
         <input
           className="w-1/2 rounded-sm border-none bg-myBlack-700 p-2 text-p3Reg text-myWhite-100 outline-none focus:ring-0"
           placeholder={placeholderText.url}
+          onKeyDown={onKeyDown}
           {...register(`${fieldArrayName}.${index}.url`)}
         />
       </div>

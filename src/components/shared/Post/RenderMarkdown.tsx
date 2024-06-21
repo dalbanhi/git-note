@@ -1,4 +1,3 @@
-// RenderMarkdown.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -9,8 +8,6 @@ import Prism from "prismjs";
 import "@/components/shared/Post/CodeBlock/prism.css";
 
 export default function RenderMarkdown({ content }: any) {
-  // highlight the code blocks
-  // when the component mounts
   useEffect(() => {
     Prism.highlightAll();
   }, []);

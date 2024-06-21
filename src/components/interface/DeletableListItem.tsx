@@ -17,6 +17,7 @@ interface DeletableListItemProps {
   placeholderText: string;
   imageSrc?: string;
   imageAlt?: string;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const DeletableListItem: React.FC<DeletableListItemProps> = ({
@@ -29,6 +30,7 @@ const DeletableListItem: React.FC<DeletableListItemProps> = ({
   imageSrc,
   imageAlt,
   placeholderText,
+  onKeyDown,
 }) => {
   return (
     <div className="flex justify-between bg-myBlack-700 px-2 py-1">
@@ -58,6 +60,7 @@ const DeletableListItem: React.FC<DeletableListItemProps> = ({
         <input
           className="w-full border-none bg-myBlack-700 p-2 text-p4Reg text-myWhite-100 outline-none focus:ring-0"
           placeholder={placeholderText}
+          onKeyDown={onKeyDown}
           {...register(`${fieldArrayName}.${index}.value`)}
         />
       </div>

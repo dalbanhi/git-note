@@ -88,7 +88,6 @@ async function makeNewPost(user: any) {
   const type = faker.helpers.enumValue(NoteTypeEnum);
 
   let post: NoteType = {
-    _id: "",
     type: type,
     title: faker.company.catchPhrase(),
     content: loremMarkdown,

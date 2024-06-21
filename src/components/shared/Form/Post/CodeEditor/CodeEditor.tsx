@@ -23,7 +23,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 }) => {
   return (
     <>
-      <Tabs defaultValue="code">
+      <Tabs defaultValue="preview">
         <TabsList className="bg-myBlack-900">
           <TabsTrigger value="preview" className="flex gap-1">
             <Image

@@ -80,22 +80,20 @@ export async function createPost(post: TypeOfNote) {
     if (!sessionUser) {
       throw new Error("You must be logged in to create a post");
     }
-    console.log(post);
     const newPost = await Note.create({
       ...post,
       tags: post.tags.map((tag: any) => tag.value),
       creator: sessionUser.id,
+      stepsToFollow: post.stepsToFollow?.map((step: any) => step.value),
+      whatYouLearned: post.whatYouLearned?.map((learn: any) => learn.value),
     });
 
-    console.log(newPost);
-
     //update the user with the new post
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: sessionUser.id },
       { $push: { notes: newPost.id } }
     );
-    console.log(user);
-    return newPost;
+    return newPost.id;
   } catch (err) {
     console.log(err);
   }

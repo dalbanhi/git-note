@@ -174,7 +174,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   const onSubmit = async (data: any) => {
     //still in development
     console.log(data);
-    // const newPost = await createPost(data);
+    const newPostID = await createPost(data);
     // console.log("back in the client, ", newPost);
     // router.push(`/note/${newPost.id}`); };
   };

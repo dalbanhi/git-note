@@ -7,49 +7,44 @@ import { connectToDB } from "~/utils/database";
 import { getSession } from "~/auth/auth";
 import Note from "~/models/note";
 import User from "~/models/user";
-import { NoteType } from "~/constants";
 
-export async function getAllUserTags() {
+import { unstable_cache as cache, revalidateTag } from "next/cache";
+
+async function _getAllUserTags(id: string) {
   await connectToDB();
-  const session = await getSession();
 
-  const allPosts = await Note.distinct("tags", { creator: session?.user?.id });
+  const allPosts = await Note.distinct("tags", { creator: id });
 
   return allPosts;
 }
 const postsPerPage = 3;
 
-export async function getTotalPages() {
+async function _getTotalPages(id: string) {
   await connectToDB();
-  const session = await getSession();
-  const sessionUser = session?.user;
-  const totalPosts = await Note.countDocuments({ creator: sessionUser?.id });
+
+  const totalPosts = await Note.countDocuments({ creator: id });
   const totalPages = Math.ceil(totalPosts / postsPerPage);
   return totalPages;
 }
 
-export async function getPostsByPage(page: number) {
+async function _getPostsByPage(page: number, id: string) {
   await connectToDB();
-  const session = await getSession();
-  const sessionUser = session?.user;
   const limit = postsPerPage;
 
   //get the posts of the user from the database
-  const posts = await Note.find({ creator: sessionUser?.id })
+  const posts = await Note.find({ creator: id })
     .skip((page - 1) * limit)
     .limit(limit);
 
   return posts;
 }
 
-export async function getPosts(filterType: PostType, tag: string) {
+async function _getPosts(filterType: PostType, tag: string, id: string) {
   await connectToDB();
-  const session = await getSession();
-  const sessionUser = session?.user;
 
   //get the posts of the user from the database
   const filteredPosts = await Note.find({
-    creator: sessionUser?.id,
+    creator: id,
     ...(filterType !== undefined && { type: filterType.toLowerCase() }),
     ...(tag !== "" && { tags: { $in: [tag] } }),
   });
@@ -57,9 +52,8 @@ export async function getPosts(filterType: PostType, tag: string) {
   return filteredPosts;
 }
 
-export async function getPost(id: string) {
+async function _getPost(id: string) {
   await connectToDB();
-  const session = await getSession();
 
   //get the post from the database
   try {
@@ -93,8 +87,29 @@ export async function createPost(post: TypeOfNote) {
       { _id: sessionUser.id },
       { $push: { notes: newPost.id } }
     );
+    revalidateTag("posts");
     return newPost.id;
   } catch (err) {
     console.log(err);
   }
 }
+
+export const getPosts = cache(_getPosts, ["get-posts"], {
+  tags: ["posts"],
+});
+
+export const getPost = cache(_getPost, ["get-post"], {
+  tags: ["posts"],
+});
+
+export const getPostsByPage = cache(_getPostsByPage, ["get-posts-by-page"], {
+  tags: ["posts"],
+});
+
+export const getTotalPages = cache(_getTotalPages, ["get-total-pages"], {
+  tags: ["posts"],
+});
+
+export const getAllUserTags = cache(_getAllUserTags, ["get-all-user-tags"], {
+  tags: ["posts"],
+});

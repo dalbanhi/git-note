@@ -100,18 +100,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
     }
   }, [watchType, setValue, unregister, register]);
 
-  useEffect(() => {
-    const subscription = watch((data) => {
-      console.log("----Start--");
-      //loop through the data and log all of the keys
-      for (let [key, value] of Object.entries(data)) {
-        console.log(key, value);
-      }
-      console.log("----END--");
-    });
-    return () => subscription.unsubscribe();
-  }, [watch]);
-
   const showError = (message: string) => {
     toast.error(message, {
       position: "top-center",
@@ -172,11 +160,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   }, [errors]);
 
   const onSubmit = async (data: any) => {
-    //still in development
-    console.log(data);
     const newPostID = await createPost(data);
-    // console.log("back in the client, ", newPost);
-    // router.push(`/note/${newPost.id}`); };
+    router.push(`/note/${newPostID}`);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

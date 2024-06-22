@@ -64,7 +64,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
         )}
       </TabsContent>
       <TabsContent value="code">
-        <pre className="flex justify-between">
+        <pre className=" flex justify-between">
           <code className="language-javascript">{code?.code}</code>
           <div className="absolute right-0 top-1 flex size-12 items-center">
             <CopyIcon />

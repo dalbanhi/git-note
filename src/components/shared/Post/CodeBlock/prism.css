@@ -98,3 +98,10 @@ pre[class*="language-"] {
 .token.entity {
   cursor: help;
 }
+
+/* Adding Line Breaks */
+code[class*="language-"],
+pre[class*="language-"] {
+  white-space: pre-wrap !important;
+  /* word-break: break-word !important; */
+}

@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html className="dark" lang="en">
       <body
-        className={`${inter.className} flex w-full items-center justify-center bg-myBlack-900 text-myWhite-100`}
+        className={`${inter.className}flex w-full items-center justify-center bg-myBlack-900 text-myWhite-100`}
       >
         <main className="flex min-h-screen w-full justify-between xl:w-4/5">
           <LeftSidebar />

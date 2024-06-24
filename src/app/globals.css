@@ -39,6 +39,7 @@
 
     --warning-500: 255 76 63;
     --toastify-icon-color-warning: rgb(var(--warning-500) / 0.15);
+    --toastify-icon-color-default: rgb(var(--primary-500) / 0.15);
 
     --my-black-600: 46 55 87;
     --my-black-700: 29 32 50;
@@ -102,6 +103,7 @@
 
     --warning-500: 255 76 63;
     --toastify-icon-color-warning: rgb(var(--warning-500) / 0.15);
+    --toastify-icon-color-default: rgb(var(--primary-500) / 0.15);
 
     --my-black-600: 46 55 87;
     --my-black-700: 29 32 50;

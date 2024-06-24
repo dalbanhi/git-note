@@ -14,6 +14,30 @@ import { getSession } from "~/auth/auth";
 import { redirect } from "next/navigation";
 import RenderMarkdown from "@/components/shared/Post/RenderMarkdown";
 
+import type { Metadata, ResolvingMetadata } from "next";
+type Props = {
+  params: { id: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // fetch data
+  const noteId = params.id;
+  const noteFromServer = await getPost(noteId);
+  return {
+    title: noteFromServer?.title,
+    description: noteFromServer?.description,
+    openGraph: {
+      images: [
+        noteFromServer?.code?.codePreviewImage,
+        "https://utfs.io/f/2efb8dd8-2fcd-408e-b200-31dc1a1a4380-943wot.png",
+      ],
+    },
+  };
+}
+
 const Note = async ({ params }: { params: { id: string } }) => {
   const session = await getSession();
   if (!session) {

@@ -20,16 +20,20 @@ const Home = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const session = await getSession();
+  if (!session) {
+    redirect("/sign-in");
+  }
   const userName = session?.user?.name as string;
 
   if (searchParams.page === undefined) {
     searchParams.page = "1";
   }
   const posts: Note[] = (await getPostsByPage(
-    parseInt(searchParams.page as string)
+    parseInt(searchParams.page as string),
+    session.user.id
   )) as Note[];
 
-  const totalPages = (await getTotalPages()) as number;
+  const totalPages = (await getTotalPages(session.user.id)) as number;
   //get only the first name
   let firstName = userName?.split(" ")[0];
 
@@ -50,7 +54,7 @@ const Home = async ({
       <RecentPostsHeader />
       <div className="mt-2 flex flex-col gap-4">
         {posts.map((post) => {
-          return <PostCard key={post.id} post={post} isShort={false} />;
+          return <PostCard key={post._id} post={post} isShort={false} />;
         })}
       </div>
       <PaginationButtons

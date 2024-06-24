@@ -5,9 +5,12 @@ import PostAndSearch from "./PostAndSearch";
 import PostsQuickView from "./PostsQuickView";
 import QuickLinks from "./QuickLinks";
 import { getAllUserTags } from "~/lib/actions/posts";
+import { getSession } from "~/auth/auth";
 
 const LeftSidebar = async () => {
-  const allUserTags = await getAllUserTags();
+  const session = await getSession();
+  if (!session) return null;
+  const allUserTags = await getAllUserTags(session.user.id);
   return (
     <aside className="flex min-h-screen w-3/12 flex-col gap-2 bg-myBlack-800 p-4">
       <Link className="mb-6 mt-4 flex gap-2" href={"/"}>

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Autocomplete from "react-google-autocomplete";
 import {
   useFieldArray,
@@ -46,7 +46,7 @@ const Step1: React.FC<Step1Props> = ({
             setNextButtonDisabled={setNextButtonDisabled}
           />
         )}
-      ></Controller>
+      />
       <Input
         label="name"
         type={"text"}
@@ -168,7 +168,7 @@ const Step3: React.FC<StepProps> = ({ register, control }) => {
             placeholderText="Enter a knowledge level"
             control={control}
             index={index}
-            imageSrc="/icons/check-square.svg"
+            imageSrc="/icons/check-square/blue.svg"
             imageAlt="Checkmark"
           />
         ))}

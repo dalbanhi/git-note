@@ -1,5 +1,5 @@
 /* PrismJS 1.29.0
-https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript&plugins=line-numbers */
+https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript+bash+shell-session */
 code[class*="language-"],
 pre[class*="language-"] {
   color: #f8f8f2;
@@ -98,37 +98,10 @@ pre[class*="language-"] {
 .token.entity {
   cursor: help;
 }
-pre[class*="language-"].line-numbers {
-  position: relative;
-  padding-left: 3.8em;
-  counter-reset: linenumber;
-}
-pre[class*="language-"].line-numbers > code {
-  position: relative;
-  white-space: inherit;
-}
-.line-numbers .line-numbers-rows {
-  position: absolute;
-  pointer-events: none;
-  top: 0;
-  font-size: 100%;
-  left: -3.8em;
-  width: 3em;
-  letter-spacing: -1px;
-  border-right: 1px solid #999;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.line-numbers-rows > span {
-  display: block;
-  counter-increment: linenumber;
-}
-.line-numbers-rows > span:before {
-  content: counter(linenumber);
-  color: #999;
-  display: block;
-  padding-right: 0.8em;
-  text-align: right;
+
+/* Adding Line Breaks */
+code[class*="language-"],
+pre[class*="language-"] {
+  white-space: pre-wrap !important;
+  /* word-break: break-word !important; */
 }

@@ -39,7 +39,6 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({
             startDate={startDate}
             onBlur={onBlur}
             selected={value ? new Date(value) : null}
-            // ref={ref}
             placeholderText="Select a date"
           />
         )}

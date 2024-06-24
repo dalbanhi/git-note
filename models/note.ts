@@ -46,11 +46,6 @@ const NoteSchema: Schema = new Schema(
     tags: [String],
 
     description: String,
-
-    createdAt: {
-      type: Date,
-      required: true,
-    },
     creator: {
       type: Schema.Types.ObjectId,
       ref: "User",

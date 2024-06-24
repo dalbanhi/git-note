@@ -7,6 +7,8 @@ import Image from "next/image";
 import Prism from "prismjs";
 import "./prism.css";
 import { Code } from "~/types";
+import { handleCopyClick, showToast } from "../CopyPasteFunctions";
+import CopyIcon from "../RenderMarkdown";
 
 interface CodeBlockProps {
   code: Code | undefined;
@@ -62,8 +64,11 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
         )}
       </TabsContent>
       <TabsContent value="code">
-        <pre>
+        <pre className=" flex justify-between">
           <code className="language-javascript">{code?.code}</code>
+          <div className="absolute right-0 top-1 flex size-12 items-center">
+            <CopyIcon />
+          </div>
         </pre>
       </TabsContent>
     </Tabs>

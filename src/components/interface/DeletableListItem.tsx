@@ -32,6 +32,7 @@ const DeletableListItem: React.FC<DeletableListItemProps> = ({
   placeholderText,
   onKeyDown,
 }) => {
+  console.log("fieldArrayName.index.value", `${fieldArrayName}.${index}.value`);
   return (
     <div className="flex justify-between bg-myBlack-700 px-2 py-1">
       <div className="flex grow items-center justify-center gap-2">

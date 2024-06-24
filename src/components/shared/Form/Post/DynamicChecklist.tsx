@@ -28,6 +28,7 @@ const DynamicChecklist: React.FC<DynamicChecklistProps> = ({
   listType = "normal",
   plusButtonText = "Add checkmark",
 }) => {
+  console.log("fieldArrayName", fieldArrayName);
   const { fields, append, remove } = useFieldArray({
     control,
     name: fieldArrayName,

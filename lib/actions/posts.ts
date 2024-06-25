@@ -56,9 +56,6 @@ async function _getAllOtherPosts(postIDs: string[], creatorID: string) {
 
 async function _updateRelatedPosts(postID: string, relatedPostID: string) {
   await connectToDB();
-  console.log("updating related posts");
-  console.log("postID", postID);
-  console.log("relatedPostID", relatedPostID);
 
   //update the post with the related post
   const updatedPost = await Note.findOneAndUpdate(

@@ -13,7 +13,6 @@ interface TagsSelectorProps {
 }
 
 function capitalizeFirstLetter(string: string) {
-  console.log("string", string);
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 

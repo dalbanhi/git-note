@@ -31,13 +31,10 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
     router.push(`/note/${noteFromServer._id}`);
   };
 
-  console.log("cleaning up the data", noteFromServer.whatYouLearned);
   const whatYouLearned =
     noteFromServer.whatYouLearned?.map((item) => ({
       value: item,
     })) || [];
-
-  console.log("whatYouLearned", whatYouLearned);
 
   const {
     register,

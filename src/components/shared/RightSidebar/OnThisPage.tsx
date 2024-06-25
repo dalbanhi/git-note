@@ -8,17 +8,16 @@ interface OnThisPageProps {
 }
 
 const OnThisPage: React.FC<OnThisPageProps> = ({ postContent }) => {
-  console.log("postContent", postContent);
-
   const regex = /^#{1,6} (.+)$/gm;
-  const headings = postContent.match(regex);
-  console.log("headings", headings);
+  let match: RegExpExecArray | null;
+  const headings: string[] = [];
+  while ((match = regex.exec(postContent)) !== null) {
+    headings.push(match[1]);
+  }
   const slugifyHeadings = headings?.map((heading) => {
     const slug = slugify(heading, { lower: true, strict: true });
     return { heading: heading, slug: slug };
   });
-
-  console.log("slugifyHeadings", slugifyHeadings);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">

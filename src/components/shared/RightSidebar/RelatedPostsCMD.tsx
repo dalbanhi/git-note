@@ -27,13 +27,22 @@ const RelatedPostsCMD: React.FC<RelatedPostsCMDProps> = ({
 }) => {
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Search for a post to add it as related..." />
-      <CommandList className="customScroll">
+      <CommandInput
+        className="bg-myBlack-700 text-myWhite-100"
+        placeholder="Search for a post to add it as related..."
+      />
+      <CommandList className="customScroll bg-myBlack-900">
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Other Posts">
           {allOtherPosts?.map((post) => {
             return (
-              <CommandItem key={post.id}>
+              <CommandItem
+                key={post.id}
+                onClick={() => {
+                  addRelatedPost(post.id);
+                  setOpen(false);
+                }}
+              >
                 <span
                   className="hover:cursor-pointer"
                   onClick={() => {

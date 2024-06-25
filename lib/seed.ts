@@ -15,18 +15,24 @@ import Note from "~/models/note";
 
 async function onboardAUser(user: any, image: string = "") {
   let knowledgeLevels = [];
-  for (let i = 0; i < faker.number.int(5); i++) {
-    knowledgeLevels.push(faker.lorem.sentence({ min: 3, max: 5 }) as string);
+  for (let i = 0; i < faker.number.int({ min: 1, max: 7 }); i++) {
+    const knowledgeLevel =
+      faker.hacker.ingverb() +
+      " " +
+      faker.hacker.adjective() +
+      " " +
+      faker.hacker.noun();
+    knowledgeLevels.push(knowledgeLevel);
   }
   let techStack = [];
-  for (let i = 0; i < faker.number.int(5); i++) {
+  for (let i = 0; i < faker.number.int({ min: 1, max: 3 }); i++) {
     techStack.push(faker.helpers.arrayElement(TechStackOptions) as string);
   }
 
   let learningGoals = [];
-  for (let i = 0; i < faker.number.int(7); i++) {
+  for (let i = 0; i < faker.number.int({ min: 1, max: 7 }); i++) {
     learningGoals.push({
-      goal: faker.lorem.sentence({ min: 3, max: 5 }),
+      goal: faker.company.buzzPhrase(),
       done: faker.datatype.boolean(),
     });
   }

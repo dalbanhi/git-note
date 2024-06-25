@@ -7,7 +7,7 @@ import Image from "next/image";
 import Prism from "prismjs";
 import "./prism.css";
 import { Code } from "~/types";
-import CopyIcon from "../RenderMarkdown";
+import { CopyIcon } from "../RenderMarkdown";
 import HeadingAnchor from "../HeadingAnchor";
 
 interface CodeBlockProps {
@@ -72,7 +72,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
           )}
         </TabsContent>
         <TabsContent value="code">
-          <pre className=" flex justify-between">
+          <pre className=" relative flex justify-between">
             <code className="language-javascript">{code?.code}</code>
             <div className="absolute right-0 top-1 flex size-12 items-center">
               <CopyIcon />
@@ -83,5 +83,17 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
     </>
   );
 };
+
+{
+  /* <pre
+              {...rest}
+              className={className + " flex justify-between relative"}
+            >
+              {children}
+              <div className="absolute right-0 top-1 flex size-12 items-center">
+                <CopyIcon />
+              </div>
+            </pre> */
+}
 
 export default CodeBlock;

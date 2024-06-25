@@ -108,6 +108,31 @@ async function _getPost(id: string) {
   }
 }
 
+export async function deletePost(postID: string, userID: string) {
+  try {
+    await connectToDB();
+    const session = await getSession();
+    const sessionUser = session?.user;
+
+    if (!sessionUser) {
+      throw new Error("You must be logged in to delete a post");
+    }
+
+    if (userID !== sessionUser.id) {
+      throw new Error("You are not authorized to delete this post");
+    }
+
+    //delete the post from the database
+    await Note.deleteOne({ _id: postID });
+
+    //delete the post from the user's notes
+    await User.findOneAndUpdate({ _id: userID }, { $pull: { notes: postID } });
+    revalidateTag("posts");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function updatePost(
   post: TypeOfNote,
   userID: string,

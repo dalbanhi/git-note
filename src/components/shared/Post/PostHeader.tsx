@@ -12,7 +12,21 @@ import IconLink from "../LeftSidebar/IconLink";
 import { Note } from "~/types";
 import TagsListHoriz from "../Home/TagsListHoriz";
 import { format } from "date-fns";
-import { title } from "process";
+import { deletePost } from "~/lib/actions/posts";
+import { useRouter } from "next/navigation";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
 
 interface PostHeaderProps {
   icon: string;
@@ -27,6 +41,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
   textColor,
   post,
 }) => {
+  const router = useRouter();
   const note = JSON.parse(post) as Note;
   const createdAt = note?.createdAt;
   const formattedCreatedAtDate = format(
@@ -51,38 +66,65 @@ const PostHeader: React.FC<PostHeaderProps> = ({
             textColor={textColor}
             filterType="type"
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger className="h-fit shrink-0 ">
-              <Image
-                src="/icons/see-more.svg"
-                alt="three dots to see more"
-                width={20}
-                height={20}
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <IconLink
-                  href={`/note/${note?._id}/update`}
-                  iconSrc="/icons/edit/grey.svg"
-                  iconAlt="edit icon"
-                  iconColor="text-myWhite-100"
-                  textColor="text-myWhite-100"
-                  text="Update Post"
+          <Dialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="h-fit shrink-0 ">
+                <Image
+                  src="/icons/see-more.svg"
+                  alt="three dots to see more"
+                  width={20}
+                  height={20}
                 />
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconLink
-                  href={`#`}
-                  iconSrc="/icons/trash.svg"
-                  iconAlt="delete trash icon"
-                  iconColor="text-myWhite-100"
-                  textColor="text-myWhite-100"
-                  text="Delete Post"
-                />
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem>
+                  <IconLink
+                    href={`/note/${note?._id}/update`}
+                    iconSrc="/icons/edit/grey.svg"
+                    iconAlt="edit icon"
+                    iconColor="text-myWhite-100"
+                    textColor="text-myWhite-100"
+                    text="Update Post"
+                  />
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <DialogTrigger asChild>
+                    <IconLink
+                      iconSrc="/icons/trash.svg"
+                      iconAlt="delete trash icon"
+                      iconColor="text-myWhite-100"
+                      textColor="text-myWhite-100"
+                      text="Delete Post"
+                    />
+                  </DialogTrigger>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DialogContent className="bg-myBlack-700">
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  Deleting cannot be undone. This will permanently delete the
+                  post.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="bg-myBlack-700">
+                <Button
+                  onClick={async () => {
+                    console.log("Delete post");
+                    await deletePost(note?._id || "", note?.creator);
+                    router.push("/");
+                  }}
+                  variant="destructive"
+                >
+                  Delete
+                </Button>
+                <DialogClose asChild>
+                  <Button variant="secondary">Cancel</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <p className="text-p3Reg text-myWhite-300">{note?.description}</p>

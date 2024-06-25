@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import { ResourcesAndLinks as ResourcesAndLinksType } from "~/types";
+import HeadingAnchor from "./HeadingAnchor";
 
 interface ResourcesAndLinksProps {
   resourcesAndLinks: ResourcesAndLinksType[] | undefined;
@@ -12,7 +13,10 @@ const ResourcesAndLinks: React.FC<ResourcesAndLinksProps> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <h6 className="text-p2Bold">Resources & Links</h6>
+      <h6 className="text-p2Bold">
+        <HeadingAnchor id="resources-and-links" />
+        Resources & Links
+      </h6>
       <ul className="list-disc">
         {resourcesAndLinks?.map((resource) => {
           return (

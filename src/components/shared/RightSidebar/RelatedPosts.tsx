@@ -31,7 +31,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({
       <div className="flex flex-col gap-2">
         <h2 className="text-p2Bold text-myWhite-100">Related Posts</h2>
         <Separator className="bg-myBlack-700" />
-        {relatedPosts &&
+        {relatedPosts?.length !== 0 &&
           relatedPosts?.map((post) => {
             return (
               <Link
@@ -43,6 +43,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({
               </Link>
             );
           })}
+        {relatedPosts?.length === 0 && <p>No related posts yet.</p>}
       </div>
       <RelatedPostsCMD
         open={open}

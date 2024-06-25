@@ -74,7 +74,7 @@ const PostNavigation = () => {
         allOtherPosts={allOtherPosts}
         addRelatedPost={addRelatedPost}
       />
-      <OnThisPage postContent={post?.content || ""} />
+      <OnThisPage postContent={post?.content || ""} postType={post?.type} />
     </div>
   );
 };

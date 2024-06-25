@@ -276,3 +276,7 @@ body {
 .pac-matched {
   color: rgb(var(--primary));
 }
+
+.heading-anchor {
+  @apply text-myWhite-300 no-underline hover:text-myWhite-100 hover:underline;
+}

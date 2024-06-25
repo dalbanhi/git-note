@@ -5,9 +5,24 @@ import Link from "next/link";
 
 interface OnThisPageProps {
   postContent: string;
+  postType?: string;
 }
 
-const OnThisPage: React.FC<OnThisPageProps> = ({ postContent }) => {
+const OnThisPage: React.FC<OnThisPageProps> = ({ postContent, postType }) => {
+  const postSpecialAnchor =
+    postType === "knowledge"
+      ? "Key Takeaways"
+      : postType === "component"
+        ? "Code Block"
+        : "Steps to Follow";
+
+  const specialSlug = slugify(postSpecialAnchor, { lower: true, strict: true });
+  const resourcesAndLinks = "Resources & Links";
+  const resourceSlug = slugify(resourcesAndLinks, {
+    lower: true,
+    strict: true,
+  });
+
   const regex = /^#{1,6} (.+)$/gm;
   let match: RegExpExecArray | null;
   const headings: string[] = [];
@@ -23,6 +38,13 @@ const OnThisPage: React.FC<OnThisPageProps> = ({ postContent }) => {
       <div className="flex flex-col gap-2">
         <h2 className="text-p2Bold text-myWhite-100">On This Page</h2>
         <Separator className="bg-myBlack-700" />
+        <Link
+          key={specialSlug + " anchor"}
+          href={`#${specialSlug}`}
+          className="truncate text-myWhite-300 hover:text-myWhite-100"
+        >
+          {postSpecialAnchor}
+        </Link>
         {slugifyHeadings &&
           slugifyHeadings.map((heading) => {
             return (
@@ -35,6 +57,13 @@ const OnThisPage: React.FC<OnThisPageProps> = ({ postContent }) => {
               </Link>
             );
           })}
+        <Link
+          key={resourceSlug + " anchor"}
+          href={`#${resourceSlug}`}
+          className="truncate text-myWhite-300 hover:text-myWhite-100"
+        >
+          {resourcesAndLinks}
+        </Link>
       </div>
     </div>
   );

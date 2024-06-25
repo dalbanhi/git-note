@@ -34,7 +34,10 @@ const HeadingWithAnchor: React.FC<HeadingWithAnchorProps> = ({
     `h${level}`,
     { id: slug },
     <>
-      <Link href={`#${slug}`}>#</Link> {text}
+      <Link className="heading-anchor" href={`#${slug}`}>
+        #
+      </Link>{" "}
+      {text}
     </>
   );
 };

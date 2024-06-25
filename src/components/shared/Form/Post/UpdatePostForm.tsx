@@ -32,14 +32,12 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const onSubmit = async (data: any) => {
-    console.log("noteFromServer: ", noteFromServer);
     const updatedPostID = await updatePost(
       data,
       session?.user?.id || "",
       noteFromServer?._id || "",
       noteFromServer?.creator || ""
     );
-    console.log("Updated Post ID: ", updatedPostID);
     router.push(`/note/${updatedPostID}`);
   };
 

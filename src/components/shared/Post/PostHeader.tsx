@@ -21,7 +21,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
 
@@ -90,6 +89,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
               </DropdownMenuItem>
               <DropdownMenuItem
                 onSelect={() => {
+                  //make sure to close the dropdown before opening the dialog since they both populate into the same Portal
                   setIsOpenDropDown(false);
                   setIsOpenDialog(true);
                 }}
@@ -116,7 +116,6 @@ const PostHeader: React.FC<PostHeaderProps> = ({
               <DialogFooter className="bg-myBlack-700">
                 <Button
                   onClick={async (e) => {
-                    console.log("Delete post");
                     await deletePost(note?._id || "", note?.creator);
                     router.push("/");
                     setIsOpenDialog(false);

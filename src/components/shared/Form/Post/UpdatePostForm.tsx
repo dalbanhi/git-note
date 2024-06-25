@@ -36,6 +36,15 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       value: item,
     })) || [];
 
+  const stepsToFollow =
+    noteFromServer.stepsToFollow?.map((item) => ({
+      value: item,
+    })) || [];
+  const code = {
+    code: noteFromServer.code?.code || "",
+    codePreviewImage: noteFromServer.code?.codePreviewImage || "",
+  };
+
   const {
     register,
     watch,
@@ -51,9 +60,9 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       type: noteFromServer.type,
       tags: noteFromServer.tags,
       resourcesAndLinks: [],
-      stepsToFollow: [],
+      stepsToFollow: stepsToFollow,
       whatYouLearned: whatYouLearned,
-      code: "",
+      code: code,
       description: noteFromServer.description,
       content: "",
     },
@@ -63,17 +72,17 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
   useEffect(() => {
     if (watchType === "component") {
       register("code");
-      setValue("code", "");
+      setValue("code", { ...code });
       unregister("stepsToFollow");
       unregister("whatYouLearned");
     } else if (watchType === "workflow") {
       register("stepsToFollow");
-      setValue("stepsToFollow", []);
+      setValue("stepsToFollow", [...stepsToFollow]);
       unregister("code");
       unregister("whatYouLearned");
     } else if (watchType === "knowledge") {
       register("whatYouLearned");
-      setValue("whatYouLearned", []);
+      setValue("whatYouLearned", [...whatYouLearned]);
       unregister("code");
       unregister("stepsToFollow");
     }

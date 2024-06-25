@@ -38,7 +38,7 @@ const QuickLinks = () => {
         </div>
         <IconLink
           iconColor="text-myWhite-500"
-          iconSrc="icons/logout.svg"
+          iconSrc="/icons/logout.svg"
           iconAlt="Logout"
           textColor="text-myWhite-300"
           text="Logout"

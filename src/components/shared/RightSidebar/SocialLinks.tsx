@@ -11,12 +11,12 @@ const SocialLinks = () => {
   const socialLinks = [
     {
       title: "LinkedIn",
-      icon: "icons/github.svg",
+      icon: "/icons/github.svg",
       link: "https://www.linkedin.com/in/username",
     },
     {
       title: "GitHub",
-      icon: "icons/github.svg",
+      icon: "/icons/github.svg",
       link: "https://www.linkedin.com/in/username",
     },
   ];

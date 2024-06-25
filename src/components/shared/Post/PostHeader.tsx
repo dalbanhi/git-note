@@ -113,7 +113,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
                   onClick={async () => {
                     console.log("Delete post");
                     await deletePost(note?._id || "", note?.creator);
-                    router.push("/");
+                    router.replace("/");
                   }}
                   variant="destructive"
                 >

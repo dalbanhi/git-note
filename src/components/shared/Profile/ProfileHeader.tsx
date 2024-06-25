@@ -44,7 +44,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <h1 className="text-display2">{name}</h1>
           <div className="flex flex-wrap gap-2">
             <InfoLink
-              iconSrc="icons/link.svg"
+              iconSrc="/icons/link.svg"
               href={portfolio ? portfolio : "profile/update"}
               iconAlt="Link"
             >
@@ -52,7 +52,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </InfoLink>
             <InfoLink
               href={location ? `` : "/profile/update"}
-              iconSrc="icons/map-pin.svg"
+              iconSrc="/icons/map-pin.svg"
               iconAlt="Location"
             >
               {location ? location : "Add Location"}

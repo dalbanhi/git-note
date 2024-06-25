@@ -129,7 +129,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
           return (
             <Button
               key={provider}
-              image={`icons/${provider.toLowerCase()}.svg`}
+              image={`/icons/${provider.toLowerCase()}.svg`}
               backgroundColor="bg-myBlack-700"
               textColor="text-myWhite-100"
               onClick={() =>

@@ -58,15 +58,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
               name={"code.codePreviewImage"}
               control={control}
               render={({ field: { onChange, value } }) => (
-                console.log("current value", value),
-                console.log("current onChange", onChange),
-                (
-                  <ImagePreviewUploader
-                    image={value}
-                    setImage={onChange}
-                    setSubmitButtonDisabled={setSubmitButtonDisabled}
-                  />
-                )
+                <ImagePreviewUploader
+                  image={value}
+                  setImage={onChange}
+                  setSubmitButtonDisabled={setSubmitButtonDisabled}
+                />
               )}
             />
           </div>

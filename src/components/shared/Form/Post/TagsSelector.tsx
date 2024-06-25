@@ -41,7 +41,10 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ control, tagsString }) => {
               if (typeof item === "string") {
                 return { label: capitalizeFirstLetter(item), value: item };
               } else {
-                return { label: item.label, value: item.value };
+                return {
+                  label: capitalizeFirstLetter(item.label),
+                  value: item.value,
+                };
               }
             });
           }

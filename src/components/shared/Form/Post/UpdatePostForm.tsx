@@ -14,6 +14,8 @@ import TagsSelector from "./TagsSelector";
 import PostSpecial from "./PostSpecial";
 import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
+import { Flip, toast } from "react-toastify";
+import { updatePost } from "~/lib/actions/posts";
 
 interface UpdatePostFormProps {
   session: Session | null;
@@ -30,8 +32,15 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const onSubmit = async (data: any) => {
-    // const newPostID = await createPost(data);
-    router.push(`/note/${noteFromServer._id}`);
+    console.log("noteFromServer: ", noteFromServer);
+    const updatedPostID = await updatePost(
+      data,
+      session?.user?.id || "",
+      noteFromServer?._id || "",
+      noteFromServer?.creator || ""
+    );
+    console.log("Updated Post ID: ", updatedPostID);
+    router.push(`/note/${updatedPostID}`);
   };
 
   const whatYouLearned =
@@ -53,6 +62,11 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
     url: item.url,
   }));
 
+  const tagsToPass = noteFromServer.tags.map((tag) => ({
+    label: tag,
+    value: tag.toLowerCase(),
+  }));
+
   const {
     register,
     watch,
@@ -66,7 +80,7 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
     defaultValues: {
       title: noteFromServer.title,
       type: noteFromServer.type,
-      tags: noteFromServer.tags,
+      tags: tagsToPass,
       resourcesAndLinks: resourcesAndLinks,
       stepsToFollow: stepsToFollow,
       whatYouLearned: whatYouLearned,
@@ -75,6 +89,66 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       content: noteFromServer.content,
     },
   });
+
+  const showError = (message: string) => {
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      progress: 0,
+      transition: Flip,
+    });
+  };
+
+  useEffect(() => {
+    const handleSingleFieldError = (prependingString: string, error: any) => {
+      let errorMsg = "";
+      if (error) {
+        errorMsg = `${prependingString} Error: ${error.message}`;
+        console.log(errorMsg);
+        showError(errorMsg);
+      }
+    };
+    const handleFieldArrayError = (prependingString: string, error: any) => {
+      let errorMsg = "";
+      if (!error) return;
+      if (Array.isArray(error)) {
+        for (let err of error) {
+          for (let key in err) {
+            errorMsg += `${prependingString} Error: ${err[key].message} `;
+            break;
+          }
+          if (errorMsg !== "") {
+            break;
+          }
+        }
+      } else {
+        errorMsg = `${prependingString} Error: ${error.message}`;
+      }
+      showError(errorMsg);
+    };
+    if (Object.keys(errors).length !== 0) {
+      console.log("Errors: ", errors);
+      if (errors.type) {
+        handleSingleFieldError("Type: ", errors.type);
+      } else {
+        handleSingleFieldError("Title: ", errors.title);
+        handleSingleFieldError("Description: ", errors.description);
+        handleSingleFieldError("Content: ", errors.content);
+        handleSingleFieldError("Code: ", errors.code);
+        handleFieldArrayError(
+          "Resources and Links: ",
+          errors.resourcesAndLinks
+        );
+        handleFieldArrayError("Steps to Follow: ", errors.stepsToFollow);
+        handleFieldArrayError("What you learned: ", errors.whatYouLearned);
+      }
+    }
+  }, [errors]);
 
   const watchType = watch("type");
   useEffect(() => {

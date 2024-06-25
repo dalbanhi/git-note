@@ -13,6 +13,7 @@ import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
 import PostSpecial from "./PostSpecial";
 import { Textarea } from "@/components/ui/textarea";
+import DynamicChecklist from "./DynamicChecklist";
 
 interface UpdatePostFormProps {
   session: Session | null;
@@ -47,6 +48,11 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
     codePreviewImage: noteFromServer.code?.codePreviewImage || "",
   };
 
+  const resourcesAndLinks = noteFromServer.resourcesAndLinks?.map((item) => ({
+    resource: item.resource,
+    url: item.url,
+  }));
+
   const {
     register,
     watch,
@@ -61,7 +67,7 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       title: noteFromServer.title,
       type: noteFromServer.type,
       tags: noteFromServer.tags,
-      resourcesAndLinks: [],
+      resourcesAndLinks: resourcesAndLinks,
       stepsToFollow: stepsToFollow,
       whatYouLearned: whatYouLearned,
       code: code,
@@ -133,6 +139,21 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       <div className="flex flex-col gap-2">
         <p className="text-p3Med uppercase text-myWhite-500">Content</p>
         <MarkdownEditPreview control={control} />
+      </div>
+      <Separator className="bg-myBlack-700" />
+      <div className="flex flex-col gap-2">
+        <p className="text-p3Med uppercase text-myWhite-500">
+          Resources & Links
+        </p>
+        <DynamicChecklist
+          register={register}
+          control={control}
+          fieldStringLabel=""
+          fieldArrayName="resourcesAndLinks"
+          placeholderText={{ resource: "Label", url: "Resource Link" }}
+          listType="itemPair"
+          plusButtonText="New Resource"
+        />
       </div>
       <button
         className={`flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-primary-500 p-2  text-p4Med text-myBlack-900`}

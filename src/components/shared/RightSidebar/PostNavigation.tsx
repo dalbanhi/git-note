@@ -9,6 +9,7 @@ import {
 } from "~/lib/actions/posts";
 import { INote } from "~/models/note";
 import { NoteReference } from "~/types";
+import OnThisPage from "./OnThisPage";
 
 const PostNavigation = () => {
   const pathname = usePathname();
@@ -67,12 +68,13 @@ const PostNavigation = () => {
   if (!pathname.includes("/note")) return null;
 
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <RelatedPosts
         relatedPosts={relatedPosts}
         allOtherPosts={allOtherPosts}
         addRelatedPost={addRelatedPost}
       />
+      <OnThisPage postContent={post?.content || ""} />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import { INote } from "~/models/note";
 import Button from "@/components/interface/Button";
 import { Separator } from "@/components/ui/separator";
 import RelatedPostsCMD from "./RelatedPostsCMD";

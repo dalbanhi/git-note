@@ -13,59 +13,14 @@ import "@uploadthing/react/styles.css";
 import { Textarea } from "@/components/ui/textarea";
 import DynamicChecklist from "./DynamicChecklist";
 import MarkdownEditPreview from "./MarkdownEditPreview/MarkdownEditPreview";
-import CodeEditor from "./CodeEditor/CodeEditor";
+import PostSpecial from "./PostSpecial";
+
 import { useRouter } from "next/navigation";
 import { createPost } from "~/lib/actions/posts";
 
 interface CreatePostFormProps {
   tagsString: string;
 }
-
-interface PostSpecialProps {
-  type: string | null;
-  control: any;
-  register: any;
-  setSubmitButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const PostSpecial: React.FC<PostSpecialProps> = ({
-  type,
-  control,
-  register,
-  setSubmitButtonDisabled,
-}) => {
-  switch (type) {
-    case "component":
-      return (
-        <CodeEditor
-          control={control}
-          setSubmitButtonDisabled={setSubmitButtonDisabled}
-        />
-      );
-    case "workflow":
-      return (
-        <DynamicChecklist
-          register={register}
-          control={control}
-          fieldStringLabel="Steps to follow"
-          fieldArrayName="stepsToFollow"
-          placeholderText="Enter a step to follow"
-        />
-      );
-    case "knowledge":
-      return (
-        <DynamicChecklist
-          register={register}
-          control={control}
-          fieldStringLabel="What you learned"
-          fieldArrayName="whatYouLearned"
-          placeholderText="Enter what you learned"
-        />
-      );
-    default:
-      return null;
-  }
-};
 
 const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
   const router = useRouter();
@@ -154,6 +109,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
       }
       showError(errorMsg);
     };
+    console.log("Errors: ", errors);
     if (Object.keys(errors).length !== 0) {
       console.log("Errors: ", errors);
       if (errors.type) {
@@ -175,6 +131,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
 
   const onSubmit = async (data: any) => {
     const newPostID = await createPost(data);
+    console.log("New Post ID: ", newPostID);
     router.push(`/note/${newPostID}`);
   };
   return (

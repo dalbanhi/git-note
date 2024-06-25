@@ -1,5 +1,6 @@
 import React from "react";
 import ListItemWithImage from "@/components/interface/ListItemWithImage";
+import HeadingAnchor from "./HeadingAnchor";
 
 interface KeyTakeawaysPreviewProps {
   keyTakeaways: string[] | undefined;
@@ -10,7 +11,10 @@ const KeyTakeawaysPreview: React.FC<KeyTakeawaysPreviewProps> = ({
 }) => {
   return (
     <div>
-      <p className="mb-4 text-p1Bold text-myWhite-100">{"Key Takeaways"}</p>
+      <h6 className="mb-4 text-p1Bold text-myWhite-100">
+        <HeadingAnchor id="key-takeaways" />
+        Key Takeaways
+      </h6>
       <ul>
         {keyTakeaways?.map((item: string) => {
           return (

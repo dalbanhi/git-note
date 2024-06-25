@@ -35,19 +35,23 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ control, tagsString }) => {
         name="tags"
         control={control}
         render={({ field }) => {
-          // let techStackToPass: any = [];
-          // if (field.value) {
-          //   techStackToPass = Object.entries(field.value).map((item: any) => {
-          //     return { label: item[1].value, value: item[1].value };
-          //   });
-          // }
+          let tagsToPass: any = [];
+          if (field.value) {
+            tagsToPass = field.value.map((item: any) => {
+              if (typeof item === "string") {
+                return { label: capitalizeFirstLetter(item), value: item };
+              } else {
+                return { label: item.label, value: item.value };
+              }
+            });
+          }
           return (
             <CreatableSelect
               isMulti
               instanceId={"techStack"}
               classNamePrefix="react-select"
               options={options}
-              //   defaultValue={{}}
+              defaultValue={tagsToPass}
               theme={(theme) => ({
                 ...theme,
                 borderRadius: 5,

@@ -2,6 +2,7 @@ import React from "react";
 import ProfileLink from "./ProfileLink";
 import TagsList from "./TagsList";
 import SocialLinks from "./SocialLinks";
+import PostNavigation from "./PostNavigation";
 import { getAllUserTags } from "~/lib/actions/posts";
 import { getSession } from "~/auth/auth";
 
@@ -16,6 +17,7 @@ const RightSidebar = async () => {
 
       <TagsList tags={tagsString} />
       <SocialLinks />
+      <PostNavigation />
     </aside>
   );
 };

@@ -31,7 +31,6 @@ const Step1: React.FC<Step1Props> = ({
   session,
   setNextButtonDisabled,
 }) => {
-  // const autocompleteRef = useRef(null);
   return (
     <div className="flex flex-col gap-3">
       <Controller

@@ -1,5 +1,6 @@
 import CheckBoxWithImage from "@/components/interface/CheckBoxWithImage";
 import React from "react";
+import HeadingAnchor from "./HeadingAnchor";
 
 interface StepsToFollowPreviewProps {
   steps: string[] | undefined;
@@ -10,7 +11,10 @@ const StepsToFollowPreview: React.FC<StepsToFollowPreviewProps> = ({
 }) => {
   return (
     <div>
-      <p className="mb-4 text-p1Bold text-myWhite-100">{"Task Checklist"}</p>
+      <h6 className="mb-4 text-p1Bold text-myWhite-100">
+        <HeadingAnchor id="steps-to-follow" />
+        {"Task Checklist"}
+      </h6>
       <ul>
         {steps?.map((item: string) => {
           return (

@@ -9,7 +9,6 @@ import Note, { INote } from "~/models/note";
 import User from "~/models/user";
 
 import { unstable_cache as cache, revalidateTag } from "next/cache";
-import { th } from "@faker-js/faker";
 
 async function _getAllUserTags(id: string) {
   await connectToDB();

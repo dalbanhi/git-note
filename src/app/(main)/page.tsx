@@ -37,10 +37,6 @@ const Home = async ({
   //get only the first name
   let firstName = userName?.split(" ")[0];
 
-  if (!session) {
-    redirect("/sign-in");
-  }
-
   return (
     <section className="flex min-h-screen w-6/12 flex-col justify-start gap-4 p-4">
       <h1 className="mt-4 text-display1">

@@ -109,16 +109,19 @@ const PostHeader: React.FC<PostHeaderProps> = ({
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="bg-myBlack-700">
-                <Button
-                  onClick={async () => {
-                    console.log("Delete post");
-                    await deletePost(note?._id || "", note?.creator);
-                    router.replace("/");
-                  }}
-                  variant="destructive"
-                >
-                  Delete
-                </Button>
+                <DialogClose asChild>
+                  <Button
+                    onClick={async () => {
+                      console.log("Delete post");
+                      // await deletePost(note?._id || "", note?.creator);
+                      // router.replace("/");
+                      router.replace("/");
+                    }}
+                    variant="destructive"
+                  >
+                    Delete
+                  </Button>
+                </DialogClose>
                 <DialogClose asChild>
                   <Button variant="secondary">Cancel</Button>
                 </DialogClose>

@@ -22,23 +22,11 @@ const IconLink: React.FC<IconLinkProps> = ({
   text,
   onClick,
 }) => {
-  //check if the first character of the src is a slash
-  //if it is, remove the slash
-  //if it is not, return the src as is
-  //this is to prevent the slash from being added twice
-
-  const checkSrc = (src: string) => {
-    if (src.charAt(0) === "/") {
-      return src.slice(1);
-    }
-    return src;
-  };
-
   const content = (
     <>
       <Image
         className={iconColor}
-        src={"/" + checkSrc(iconSrc)}
+        src={iconSrc}
         alt={iconAlt}
         width={12}
         height={12}

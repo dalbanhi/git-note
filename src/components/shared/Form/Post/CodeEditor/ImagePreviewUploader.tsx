@@ -16,13 +16,6 @@ const ImagePreviewUploader: React.FC<ImagePreviewUploaderProps> = ({
   setImage,
   setSubmitButtonDisabled,
 }) => {
-  const [isFileSelected, setIsFileSelected] = useState(false);
-
-  useEffect(() => {
-    if (isFileSelected) {
-      setSubmitButtonDisabled(true);
-    }
-  }, [isFileSelected, setSubmitButtonDisabled]);
   return (
     <div className="flex w-full flex-col items-center justify-start gap-1">
       <UploadButton
@@ -63,7 +56,6 @@ const ImagePreviewUploader: React.FC<ImagePreviewUploaderProps> = ({
           // Do something with the response
           setImage(res[0].url);
           setSubmitButtonDisabled(false);
-          setIsFileSelected(true);
         }}
         onUploadBegin={() => {
           setSubmitButtonDisabled(true);
@@ -72,7 +64,6 @@ const ImagePreviewUploader: React.FC<ImagePreviewUploaderProps> = ({
           // Do something with the error.
           alert(`ERROR! ${error.message}`);
           setSubmitButtonDisabled(false);
-          setIsFileSelected(false); // Reset state on error
         }}
       />
       <div className=" relative h-96 w-full rounded-md">

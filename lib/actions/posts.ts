@@ -55,7 +55,10 @@ async function _getAllOtherPosts(postIDs: string[], creatorID: string) {
   return postTitlesAndIDs as { title: string; id: string }[];
 }
 
-async function _updateRelatedPosts(postID: string, relatedPostID: string) {
+export async function updateRelatedPosts(
+  postID: string,
+  relatedPostID: string
+) {
   await connectToDB();
 
   //update the post with the related post
@@ -74,6 +77,8 @@ async function _updateRelatedPosts(postID: string, relatedPostID: string) {
     },
     { $push: { relatedNotes: postID } }
   );
+
+  revalidateTag("posts");
 
   return JSON.stringify(updatedPost.relatedNotes);
 }
@@ -174,11 +179,11 @@ export const getAllOtherPosts = cache(
   { tags: ["posts"] }
 );
 
-export const updateRelatedPosts = cache(
-  _updateRelatedPosts,
-  ["update-related-posts"],
-  { tags: ["posts"] }
-);
+// export const updateRelatedPosts = cache(
+//   _updateRelatedPosts,
+//   ["update-related-posts"],
+//   { tags: ["posts"] }
+// );
 
 export const getPost = cache(_getPost, ["get-post"], {
   tags: ["posts"],

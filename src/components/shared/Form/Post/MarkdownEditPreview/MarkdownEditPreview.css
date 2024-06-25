@@ -6,6 +6,18 @@
   @apply !bg-myBlack-700 text-myWhite-300;
 }
 
+.w-md-editor-area {
+  @apply h-full;
+}
+
+.w-md-editor-text {
+  @apply !h-full !w-1/2;
+}
+
+.w-md-editor-show-edit .w-md-editor-text {
+  @apply !w-full;
+}
+
 .wmde-markdown {
   @apply !bg-myBlack-700 text-myWhite-300;
 }

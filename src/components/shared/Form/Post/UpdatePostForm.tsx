@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { NoteSchema } from "~/lib/validators/note.schema";
 import Input from "@/components/interface/Input";
+import { Separator } from "@/components/ui/separator";
+import MarkdownEditPreview from "./MarkdownEditPreview/MarkdownEditPreview";
 import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
 import PostSpecial from "./PostSpecial";
@@ -64,7 +66,7 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       whatYouLearned: whatYouLearned,
       code: code,
       description: noteFromServer.description,
-      content: "",
+      content: noteFromServer.content,
     },
   });
 
@@ -127,6 +129,11 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
         register={register}
         setSubmitButtonDisabled={setSubmitButtonDisabled}
       />
+      <Separator className="bg-myBlack-700" />
+      <div className="flex flex-col gap-2">
+        <p className="text-p3Med uppercase text-myWhite-500">Content</p>
+        <MarkdownEditPreview control={control} />
+      </div>
       <button
         className={`flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-primary-500 p-2  text-p4Med text-myBlack-900`}
         type="submit"

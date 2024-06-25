@@ -24,6 +24,7 @@ const MarkdownEditPreview: React.FC<MarkdownEditPreviewProps> = ({
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <MDEditor
+            highlightEnable={false}
             previewOptions={{
               rehypePlugins: [[rehypeSanitize]],
             }}

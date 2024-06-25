@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import FilterPill from "@/components/shared/FilterPill";
 import {
@@ -23,7 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
@@ -54,6 +53,9 @@ const PostHeader: React.FC<PostHeaderProps> = ({
     { info: `${note?.views} views`, icon: "/icons/eye.svg" },
   ];
 
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [isOpenDropdown, setIsOpenDropDown] = useState(false);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between gap-1">
@@ -66,40 +68,43 @@ const PostHeader: React.FC<PostHeaderProps> = ({
             textColor={textColor}
             filterType="type"
           />
-          <Dialog>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="h-fit shrink-0 ">
-                <Image
-                  src="/icons/see-more.svg"
-                  alt="three dots to see more"
-                  width={20}
-                  height={20}
+          <DropdownMenu open={isOpenDropdown} onOpenChange={setIsOpenDropDown}>
+            <DropdownMenuTrigger asChild className="h-fit shrink-0 ">
+              <Image
+                src="/icons/see-more.svg"
+                alt="three dots to see more"
+                width={20}
+                height={20}
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <IconLink
+                  href={`/note/${note?._id}/update`}
+                  iconSrc="/icons/edit/grey.svg"
+                  iconAlt="edit icon"
+                  iconColor="text-myWhite-100"
+                  textColor="text-myWhite-100"
+                  text="Update Post"
                 />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <IconLink
-                    href={`/note/${note?._id}/update`}
-                    iconSrc="/icons/edit/grey.svg"
-                    iconAlt="edit icon"
-                    iconColor="text-myWhite-100"
-                    textColor="text-myWhite-100"
-                    text="Update Post"
-                  />
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  <DialogTrigger asChild>
-                    <IconLink
-                      iconSrc="/icons/trash.svg"
-                      iconAlt="delete trash icon"
-                      iconColor="text-myWhite-100"
-                      textColor="text-myWhite-100"
-                      text="Delete Post"
-                    />
-                  </DialogTrigger>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setIsOpenDropDown(false);
+                  setIsOpenDialog(true);
+                }}
+              >
+                <IconLink
+                  iconSrc="/icons/trash.svg"
+                  iconAlt="delete trash icon"
+                  iconColor="text-myWhite-100"
+                  textColor="text-myWhite-100"
+                  text="Delete Post"
+                />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
             <DialogContent className="bg-myBlack-700">
               <DialogHeader>
                 <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -109,22 +114,25 @@ const PostHeader: React.FC<PostHeaderProps> = ({
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="bg-myBlack-700">
-                <DialogClose asChild>
-                  <Button
-                    onClick={async () => {
-                      console.log("Delete post");
-                      // await deletePost(note?._id || "", note?.creator);
-                      // router.replace("/");
-                      router.replace("/");
-                    }}
-                    variant="destructive"
-                  >
-                    Delete
-                  </Button>
-                </DialogClose>
-                <DialogClose asChild>
-                  <Button variant="secondary">Cancel</Button>
-                </DialogClose>
+                <Button
+                  onClick={async (e) => {
+                    console.log("Delete post");
+                    await deletePost(note?._id || "", note?.creator);
+                    router.push("/");
+                    setIsOpenDialog(false);
+                  }}
+                  variant="destructive"
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={(e) => {
+                    setIsOpenDialog(false);
+                  }}
+                  variant="secondary"
+                >
+                  Cancel
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

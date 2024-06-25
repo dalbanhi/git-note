@@ -6,12 +6,12 @@ import { signOut } from "next-auth/react";
 const QuickLinks = () => {
   const quickLinks = [
     {
-      icon: "icons/jsm.svg",
+      icon: "/icons/jsm.svg",
       title: "JSM Courses",
       link: "https://courses.jsmastery.pro",
     },
     {
-      icon: "icons/github.svg",
+      icon: "/icons/github.svg",
       title: "GitHub Organization",
       link: "https://github.com",
     },

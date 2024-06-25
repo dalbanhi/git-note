@@ -45,6 +45,11 @@ interface Code {
   codePreviewImage?: string;
 }
 
+export interface NoteReference {
+  title: string;
+  id: string;
+}
+
 export interface Note {
   _id?: string;
   type: NoteType;

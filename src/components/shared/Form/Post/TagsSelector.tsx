@@ -13,6 +13,7 @@ interface TagsSelectorProps {
 }
 
 function capitalizeFirstLetter(string: string) {
+  console.log("string", string);
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -38,7 +39,11 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ control, tagsString }) => {
           let tagsToPass: any = [];
           if (field.value) {
             tagsToPass = field.value.map((item: any) => {
-              return { label: capitalizeFirstLetter(item), value: item };
+              if (typeof item === "string") {
+                return { label: capitalizeFirstLetter(item), value: item };
+              } else {
+                return { label: item.label, value: item.value };
+              }
             });
           }
           return (

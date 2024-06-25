@@ -18,6 +18,7 @@ export interface INote extends Document {
   content: string;
   resourcesAndLinks: ResourcesAndLinks[];
   relatedNotes: Schema.Types.ObjectId[];
+  _id: string;
 }
 
 //declare resources and links sub-schema

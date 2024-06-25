@@ -188,7 +188,7 @@ export async function createPost(post: TypeOfNote) {
       { $push: { notes: newPost._id } }
     );
     revalidateTag("posts");
-    return newPost._id;
+    return JSON.stringify(newPost._id);
   } catch (err) {
     console.log(err);
   }

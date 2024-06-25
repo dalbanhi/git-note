@@ -109,7 +109,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
       }
       showError(errorMsg);
     };
-    console.log("Errors: ", errors);
     if (Object.keys(errors).length !== 0) {
       console.log("Errors: ", errors);
       if (errors.type) {
@@ -131,8 +130,8 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
 
   const onSubmit = async (data: any) => {
     const newPostID = await createPost(data);
-    console.log("New Post ID: ", newPostID);
-    router.push(`/note/${newPostID}`);
+    const newPostRoute = JSON.parse(newPostID || "");
+    router.push(`/note/${newPostRoute}`);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">

@@ -32,14 +32,12 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
   const onSubmit = async (data: any) => {
-    console.log("noteFromServer: ", noteFromServer);
     const updatedPostID = await updatePost(
       data,
       session?.user?.id || "",
       noteFromServer?._id || "",
       noteFromServer?.creator || ""
     );
-    console.log("Updated Post ID: ", updatedPostID);
     router.push(`/note/${updatedPostID}`);
   };
 
@@ -132,7 +130,6 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       showError(errorMsg);
     };
     if (Object.keys(errors).length !== 0) {
-      console.log("Errors: ", errors);
       if (errors.type) {
         handleSingleFieldError("Type: ", errors.type);
       } else {
@@ -168,6 +165,7 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       unregister("code");
       unregister("stepsToFollow");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchType, setValue, unregister, register]);
 
   return (

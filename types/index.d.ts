@@ -14,6 +14,7 @@ export interface LearningGoal {
 export interface SocialMediaLink {
   username: string;
   url: string;
+  site: string;
 }
 
 export type TechStackType = typeof TechStackOptions;

@@ -166,6 +166,7 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       unregister("code");
       unregister("stepsToFollow");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchType, setValue, unregister, register]);
 
   return (

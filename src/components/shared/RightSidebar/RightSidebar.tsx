@@ -16,7 +16,7 @@ const RightSidebar = async () => {
       <ProfileLink />
 
       <TagsList tags={tagsString} />
-      <SocialLinks />
+      <SocialLinks userID={session.user.id} />
       <PostNavigation />
     </aside>
   );

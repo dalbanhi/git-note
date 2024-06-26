@@ -92,40 +92,40 @@ async function _getUser(id: string) {
 
 async function _getUserSocialLinks(id: string) {
   try {
-    const testing = [
-      {
-        url: "https://twitter.com/username",
-        username: "sirius.black.twitter",
-        site: "twitter",
-      },
-      {
-        url: "https://facebook.com/username",
-        username: "sirius.black.facebook",
-        site: "facebook",
-      },
-      {
-        url: "https://linkedin.com/username",
-        username: "sirius.black.linkedin",
-        site: "linkedin",
-      },
-      {
-        url: "https://instagram.com/username",
-        username: "sirius.black.instagram ",
-        site: "instagram",
-      },
-      {
-        url: "https://github.com/username",
-        username: "sirius.black.github",
-        site: "github",
-      },
-      {
-        url: "https://example.com/username",
-        username: "sirius.black.example",
-        site: "generic-web",
-      },
-    ];
-    const testingCleaned = JSON.parse(JSON.stringify(testing));
-    return testingCleaned;
+    // const testing = [
+    //   {
+    //     url: "https://twitter.com/username",
+    //     username: "sirius.black.twitter",
+    //     site: "twitter",
+    //   },
+    //   {
+    //     url: "https://facebook.com/username",
+    //     username: "sirius.black.facebook",
+    //     site: "facebook",
+    //   },
+    //   {
+    //     url: "https://linkedin.com/username",
+    //     username: "sirius.black.linkedin",
+    //     site: "linkedin",
+    //   },
+    //   {
+    //     url: "https://instagram.com/username",
+    //     username: "sirius.black.instagram ",
+    //     site: "instagram",
+    //   },
+    //   {
+    //     url: "https://github.com/username",
+    //     username: "sirius.black.github",
+    //     site: "github",
+    //   },
+    //   {
+    //     url: "https://example.com/username",
+    //     username: "sirius.black.example",
+    //     site: "generic-web",
+    //   },
+    // ];
+    // const testingCleaned = JSON.parse(JSON.stringify(testing));
+    // return testingCleaned;
 
     await connectToDB();
 

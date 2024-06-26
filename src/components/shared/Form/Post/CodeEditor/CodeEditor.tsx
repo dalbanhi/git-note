@@ -57,7 +57,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             <Controller
               name={"code.codePreviewImage"}
               control={control}
-              defaultValue={""}
               render={({ field: { onChange, value } }) => (
                 <ImagePreviewUploader
                   image={value}

@@ -9,6 +9,7 @@ import Note, { INote } from "~/models/note";
 import User from "~/models/user";
 
 import { unstable_cache as cache, revalidateTag } from "next/cache";
+import { th } from "@faker-js/faker";
 
 async function _getAllUserTags(id: string) {
   await connectToDB();
@@ -107,6 +108,37 @@ async function _getPost(id: string) {
   }
 }
 
+export async function updatePost(
+  post: TypeOfNote,
+  userID: string,
+  oldNoteID: string,
+  oldNoteCreatorID: string
+) {
+  try {
+    NoteSchema.parse(post);
+    await connectToDB();
+    if (oldNoteCreatorID !== userID) {
+      throw new Error("You are not authorized to update this post");
+    }
+
+    const updatedPost = await Note.findOneAndUpdate(
+      { _id: oldNoteID },
+      {
+        ...post,
+        tags: post.tags.map((tag: any) => tag.value),
+        stepsToFollow: post.stepsToFollow?.map((step: any) => step.value),
+        whatYouLearned: post.whatYouLearned?.map((learn: any) => learn.value),
+      },
+      { new: true }
+    );
+    const updatedPostID = updatedPost.id;
+    revalidateTag("posts");
+    return updatedPost.id;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function createPost(post: TypeOfNote) {
   try {
     NoteSchema.parse(post);
@@ -117,7 +149,7 @@ export async function createPost(post: TypeOfNote) {
     if (!sessionUser) {
       throw new Error("You must be logged in to create a post");
     }
-    const newPost = await Note.create({
+    const newPost: INote = await Note.create({
       ...post,
       tags: post.tags.map((tag: any) => tag.value),
       creator: sessionUser.id,
@@ -128,10 +160,10 @@ export async function createPost(post: TypeOfNote) {
     //update the user with the new post
     await User.findOneAndUpdate(
       { _id: sessionUser.id },
-      { $push: { notes: newPost.id } }
+      { $push: { notes: newPost._id } }
     );
     revalidateTag("posts");
-    return newPost.id;
+    return newPost._id;
   } catch (err) {
     console.log(err);
   }

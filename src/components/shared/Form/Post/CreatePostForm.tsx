@@ -111,7 +111,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
     };
     console.log("Errors: ", errors);
     if (Object.keys(errors).length !== 0) {
-      console.log("Errors: ", errors);
       if (errors.type) {
         handleSingleFieldError("Type: ", errors.type);
       } else {

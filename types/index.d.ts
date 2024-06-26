@@ -65,7 +65,7 @@ export interface Note {
   whatYouLearned?: string[];
   stepsToFollow?: string[];
   resourcesAndLinks: ResourcesAndLinks[];
-  creator: number;
+  creator: string;
 }
 
 declare module "*.module.css" {

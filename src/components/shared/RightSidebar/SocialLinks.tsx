@@ -28,19 +28,6 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
 
   const [socialLinks, setSocialLinks] = useState<SocialMediaLink[]>();
 
-  useEffect(() => {
-    const getTheLinks = async () => {
-      const socialLinks = await getUserSocialLinks(userID);
-      setSocialLinks(socialLinks);
-      reset({
-        socialLinks: socialLinks.map((link: any) => {
-          return { url: link.url, site: link.site, username: link.username };
-        }),
-      });
-    };
-    getTheLinks();
-  }, [userID]);
-
   const {
     register,
     control,
@@ -54,6 +41,21 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
       socialLinks: socialLinks,
     },
   });
+
+  useEffect(() => {
+    const getTheLinks = async () => {
+      const socialLinks = await getUserSocialLinks(userID);
+      console.log("getting the social links");
+      console.log(socialLinks);
+      setSocialLinks(socialLinks);
+      reset({
+        socialLinks: socialLinks.map((link: any) => {
+          return { url: link.url, site: link.site, username: link.username };
+        }),
+      });
+    };
+    getTheLinks();
+  }, [userID, reset]);
 
   function getIcon(site: string) {
     switch (site) {
@@ -126,6 +128,8 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
           <p className="text-p4Reg text-myWhite-300">No social links added</p>
         )}
         {socialLinks?.map((link, index) => {
+          if (!link.url) return null;
+
           return (
             <IconLink
               key={index}
@@ -134,7 +138,7 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
               iconSrc={`/icons/${getIcon(link.site)}.svg`}
               iconAlt={link.site}
               textColor="text-myWhite-300"
-              text={link.username}
+              text={link.username ? link.username : `Link`}
             />
           );
         })}

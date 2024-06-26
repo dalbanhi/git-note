@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { SocialLinksSchema } from "~/lib/validators/socialLinks.schema";
 import SocialLinkInput from "./SocialLinkInput";
+import { updateUserSocialLinks } from "~/lib/actions/users";
 
 interface SocialLinksProps {
   userID: string;
@@ -95,6 +96,8 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
   const onSubmit = async (data: any) => {
     console.log("SUBMITTING THE DATA");
     console.log(data);
+    await updateUserSocialLinks(userID, data);
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {

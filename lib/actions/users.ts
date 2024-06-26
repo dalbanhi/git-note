@@ -4,6 +4,8 @@ import { connectToDB } from "~/utils/database";
 import User from "~/models/user";
 import { getSession } from "~/auth/auth";
 import { unstable_cache as cache, revalidateTag } from "next/cache";
+import { SocialMediaLink } from "~/types";
+import { SocialLinksSchema } from "../validators/socialLinks.schema";
 
 export async function updateLearningGoal(goal: string, completed: boolean) {
   try {
@@ -84,6 +86,34 @@ async function _getUser(id: string) {
     }
 
     return userFromDB;
+  } catch (err: any) {
+    console.log(err);
+    return err.errors;
+  }
+}
+
+export async function updateUserSocialLinks(id: string, socialLinks: any) {
+  SocialLinksSchema.parse(socialLinks);
+  try {
+    await connectToDB();
+    const session = await getSession();
+    const sessionUser = session?.user;
+
+    if (!sessionUser?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: sessionUser.id },
+      {
+        $set: { socialMediaLinks: socialLinks.socialLinks },
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      throw new Error("User or learning goal not found");
+    }
   } catch (err: any) {
     console.log(err);
     return err.errors;

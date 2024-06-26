@@ -101,7 +101,7 @@ async function _getPost(id: string) {
   //get the post from the database
   try {
     const post = await Note.findOne({ _id: id }).populate("relatedNotes");
-    return post;
+    return JSON.parse(JSON.stringify(post));
   } catch (err) {
     return null;
   }
@@ -202,12 +202,6 @@ export const getAllOtherPosts = cache(
   ["get-all-other-posts"],
   { tags: ["posts"] }
 );
-
-// export const updateRelatedPosts = cache(
-//   _updateRelatedPosts,
-//   ["update-related-posts"],
-//   { tags: ["posts"] }
-// );
 
 export const getPost = cache(_getPost, ["get-post"], {
   tags: ["posts"],

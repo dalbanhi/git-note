@@ -87,7 +87,7 @@ async function relatePostsToEachOther(user: any) {
   //local hash table to store the related notes
   const relatedNotes = posts.reduce(
     (acc, post) => {
-      acc[post._id] = [];
+      acc[post._id] = [post._id.toString()];
       return acc;
     },
     {} as { [key: string]: string[] }
@@ -121,6 +121,7 @@ async function relatePostsToEachOther(user: any) {
       relatedNotes[randomPost._id].push(postID);
     }
   }
+  console.log("Posts related to each other");
 }
 
 async function makePostsForUser(user: any, num: number) {

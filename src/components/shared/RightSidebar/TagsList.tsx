@@ -10,7 +10,9 @@ interface TagsListProps {
 const TagsList: React.FC<TagsListProps> = ({ tags }) => {
   const pathname = usePathname();
   if (pathname.includes("profile")) return null;
-  if (pathname.includes("note")) return null;
+  if (pathname.includes("note")) {
+    if (!pathname.includes("create")) return null;
+  }
 
   const allTags = JSON.parse(tags) as string[];
   return (

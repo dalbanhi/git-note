@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Input from "@/components/interface/Input";
+import { Input } from "@/components/ui/input";
 import {
   UseFormRegister,
   FieldValues,
@@ -11,7 +11,7 @@ import {
 interface SocialLinkInputProps {
   siteName: string;
   register: UseFormRegister<any>;
-  control: Control<FieldValues>;
+  control: Control<any>;
   index: number;
 }
 
@@ -22,24 +22,27 @@ const SocialLinkInput: React.FC<SocialLinkInputProps> = ({
   siteName,
 }) => {
   return (
-    <div className="flex w-full">
+    <div className="flex w-full gap-2">
       <Image
         src={`/icons/${siteName}.svg`}
         alt={siteName}
-        width={12}
-        height={12}
+        width={24}
+        height={24}
       />
       <Input
-        label="Username"
-        type="text"
-        placeholder="Username"
-        register={register}
+        {...register(`socialLinks.${index}.username`)}
+        className="w-full bg-myBlack-700 text-myWhite-300"
+        placeholder={`Username`}
       />
       <Input
-        label="Social Link"
-        type="text"
-        placeholder="Username"
-        register={register}
+        {...register(`socialLinks.${index}.url`)}
+        className="w-full bg-myBlack-700 text-myWhite-300"
+        placeholder={`Social Link`}
+      />
+      <input
+        type="hidden"
+        {...register(`socialLinks.${index}.site`)}
+        value={siteName}
       />
     </div>
   );

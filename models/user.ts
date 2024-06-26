@@ -43,7 +43,6 @@ const ScheduleAvailabilitySchema = new Schema<ScheduleAvailability>({
 const SocialMediaLinkSchema = new Schema<SocialMediaLink>({
   url: { type: String, required: true },
   username: { type: String, required: true },
-  site: { type: String, required: true },
 });
 
 // Enum values for TechStackType

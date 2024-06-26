@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { UserFormSchema } from "~/lib/validators/user.schema";
+import { SocialLinksSchema } from "~/lib/validators/socialLinks.schema";
 import SocialLinkInput from "./SocialLinkInput";
 
 interface SocialLinksProps {
@@ -31,6 +31,11 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
     const getTheLinks = async () => {
       const socialLinks = await getUserSocialLinks(userID);
       setSocialLinks(socialLinks);
+      reset({
+        socialLinks: socialLinks.map((link: any) => {
+          return { url: link.url, site: link.site, username: link.username };
+        }),
+      });
     };
     getTheLinks();
   }, [userID]);
@@ -40,8 +45,13 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
     control,
     handleSubmit,
     formState: { errors },
+    watch,
+    reset,
   } = useForm({
-    resolver: zodResolver(UserFormSchema),
+    resolver: zodResolver(SocialLinksSchema),
+    defaultValues: {
+      socialLinks: socialLinks,
+    },
   });
 
   function getIcon(site: string) {
@@ -58,10 +68,10 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
         return "linkedin";
       case "github":
         return "github";
-      case "generic-web":
-        return "generic-web";
+      case "website":
+        return "website";
       default:
-        return "generic-web";
+        return "website";
     }
   }
 
@@ -71,10 +81,27 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
     "facebook",
     "linkedin",
     "github",
-    "generic-web",
+    "website",
   ];
 
+  const form = watch();
+
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const onSubmit = async (data: any) => {
+    console.log("SUBMITTING THE DATA");
+    console.log(data);
+  };
+
+  useEffect(() => {
+    if (errors.socialLinks) {
+      console.log(errors.socialLinks);
+    }
+  }, [errors]);
 
   if (!pathname.includes("profile")) return null;
   return (
@@ -110,13 +137,16 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
         })}
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-myBlack-700">
+        <DialogContent className="bg-myBlack-800">
           <DialogHeader>
             <DialogTitle className="text-display1">
               Social Media Links
             </DialogTitle>
           </DialogHeader>
-          <form>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
             {sites.map((site, index) => {
               return (
                 <SocialLinkInput
@@ -128,6 +158,12 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
                 />
               );
             })}
+            <button
+              className={`flex cursor-pointer items-center justify-center gap-2 rounded-sm bg-primary-500 p-2  text-p4Med text-myBlack-900`}
+              type="submit"
+            >
+              Update Social Links
+            </button>
           </form>
         </DialogContent>
       </Dialog>

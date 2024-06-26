@@ -126,14 +126,15 @@ async function _getUserSocialLinks(id: string) {
     // ];
     // const testingCleaned = JSON.parse(JSON.stringify(testing));
     // return testingCleaned;
-
     await connectToDB();
 
     const userFromDB = await User.findOne({ _id: id });
     if (!userFromDB) {
       throw new Error("User not found");
     }
+
     const userSocials = userFromDB?.socialMediaLinks;
+    console.log(userSocials);
     //clean the object before returning
     const userLinks = JSON.parse(JSON.stringify(userSocials));
     return userLinks;

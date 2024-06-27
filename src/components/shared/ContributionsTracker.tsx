@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import CalendarHeatmap from "./Home/CalendarHeatmap";
 import useDevice from "~/hooks/useMediaQuery/useDevice";
 
-import { DAY_LABELS, MONTH_LABELS, testContributions } from "~/constants";
+import { DAY_LABELS, MONTH_LABELS } from "~/constants";
+import { Contribution } from "~/types";
 
 import {
   Tooltip,
@@ -11,11 +12,31 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { getAllContributions } from "~/lib/actions/posts";
 
-const ContributionsTracker = () => {
+interface ContributionsTrackerProps {
+  userID: string;
+}
+
+const ContributionsTracker: React.FC<ContributionsTrackerProps> = ({
+  userID,
+}) => {
   //get date one year ago today
   const lastYear = new Date();
   lastYear.setFullYear(lastYear.getFullYear() - 1);
+
+  const [contributions, setContributions] = useState<
+    Contribution[] | undefined
+  >([]);
+
+  useEffect(() => {
+    const getContributions = async () => {
+      const contributionsFromDB = await getAllContributions(userID);
+      setContributions(contributionsFromDB?.contributions);
+    };
+
+    getContributions();
+  }, [userID]);
 
   function getClassNameValue(value: any) {
     if (!value || value.count === 0) {
@@ -48,12 +69,14 @@ const ContributionsTracker = () => {
       <CalendarHeatmap
         startDate={lastYear}
         endDate={new Date()}
-        values={testContributions.contributions.map((contribution) => {
-          return {
-            date: contribution.date,
-            count: contribution.count,
-          };
-        })}
+        values={
+          contributions?.map((contribution: Contribution) => {
+            return {
+              date: contribution.date,
+              count: contribution.count,
+            };
+          }) || []
+        }
         showWeekdayLabels={true}
         gutterSize={4}
         weekdayLabels={DAY_LABELS}
@@ -71,7 +94,7 @@ const ContributionsTracker = () => {
               </p>
             </TooltipTrigger>
             <TooltipContent>
-              Contributions are counted by notes created per day
+              Contributions are counted by notes created or edited per day
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

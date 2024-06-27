@@ -6,6 +6,7 @@ import { postFilters } from "~/constants";
 import { useRouter } from "next/navigation";
 import { INote } from "~/models/note";
 import { searchPosts } from "~/lib/actions/posts";
+import { get } from "http";
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -26,6 +27,8 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
   const [postFiltersToShow, setPostFiltersToShow] =
     useState<any[]>(postFilters);
 
+  const [tags, setTags] = useState<string[]>(allUserTags);
+
   useEffect(() => {
     const getMatchingPosts = async () => {
       setIsLoading(true);
@@ -40,9 +43,17 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
       setPostFiltersToShow(filters);
     };
 
+    const getMatchingTags = () => {
+      const filteredTags = allUserTags.filter((tag) =>
+        tag.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setTags(filteredTags);
+    };
+
     const timeoutID = setTimeout(() => {
       getMatchingPosts();
       getMatchingFilters();
+      getMatchingTags();
     }, 200);
     return () => {
       if (timeoutID) clearTimeout(timeoutID);
@@ -106,11 +117,13 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                   heading="Posts"
                   key={"my posts"}
                 >
-                  {matchingPosts && matchingPosts.length === 0 && (
-                    <Command.Item className="italic text-myWhite-500">
-                      Type to search posts
-                    </Command.Item>
-                  )}
+                  {matchingPosts &&
+                    matchingPosts.length === 0 &&
+                    searchTerm.length < 3 && (
+                      <div className="italic text-myWhite-500">
+                        Type more than 3 characters to search posts
+                      </div>
+                    )}
                   {matchingPosts && (
                     <>
                       {isLoading && (
@@ -178,9 +191,9 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                   className="p-2 text-p3Reg text-myWhite-300"
                   heading="Tags"
                 >
-                  {allUserTags && (
+                  {tags && (
                     <React.Fragment>
-                      {allUserTags.map((tag) => {
+                      {tags.map((tag) => {
                         return (
                           <Command.Item
                             key={tag + " tag"}

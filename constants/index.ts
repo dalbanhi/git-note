@@ -127,3 +127,12 @@ export const TechStackOptionsWithIcons = [
     iconSrc: "/tech-stack-icons/netlify.svg",
   },
 ];
+
+export const socialMediaSites = [
+  "twitter",
+  "instagram",
+  "facebook",
+  "linkedin",
+  "github",
+  "website",
+];

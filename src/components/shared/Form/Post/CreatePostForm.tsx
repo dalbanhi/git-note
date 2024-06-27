@@ -6,7 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NoteSchema } from "~/lib/validators/note.schema";
 import SelectPostType from "./SelectPostType";
 import TagsSelector from "./TagsSelector";
-import { Flip, toast } from "react-toastify";
+import {
+  handleFieldArrayError,
+  handleSingleFieldError,
+} from "@/components/shared/utils/FormErrorHandlers";
 import { Separator } from "@/components/ui/separator";
 import "@uploadthing/react/styles.css";
 
@@ -69,46 +72,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ tagsString }) => {
     }
   }, [watchType, setValue, unregister, register]);
 
-  const showError = (message: string) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: 0,
-      transition: Flip,
-    });
-  };
   useEffect(() => {
-    const handleSingleFieldError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (error) {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-        console.log(errorMsg);
-        showError(errorMsg);
-      }
-    };
-    const handleFieldArrayError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (!error) return;
-      if (Array.isArray(error)) {
-        for (let err of error) {
-          for (let key in err) {
-            errorMsg += `${prependingString} Error: ${err[key].message} `;
-            break;
-          }
-          if (errorMsg !== "") {
-            break;
-          }
-        }
-      } else {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-      }
-      showError(errorMsg);
-    };
     if (Object.keys(errors).length !== 0) {
       if (errors.type) {
         handleSingleFieldError("Type: ", errors.type);

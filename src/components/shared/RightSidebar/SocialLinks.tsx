@@ -6,7 +6,7 @@ import IconLink from "../LeftSidebar/IconLink";
 import { usePathname } from "next/navigation";
 import { getUserSocialLinks } from "~/lib/actions/users";
 import { SocialMediaLink } from "~/types";
-import { toast, Flip } from "react-toastify";
+import { handleFieldArrayError } from "@/components/shared/utils/FormErrorHandlers";
 
 import {
   Dialog,
@@ -46,8 +46,6 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
   useEffect(() => {
     const getTheLinks = async () => {
       const socialLinks = await getUserSocialLinks(userID);
-      console.log("getting the social links");
-      console.log(socialLinks);
       setSocialLinks(socialLinks);
       reset({
         socialLinks: socialLinks.map((link: any) => {
@@ -90,62 +88,15 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
 
   const form = watch();
 
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const onSubmit = async (data: any) => {
-    console.log("SUBMITTING THE DATA");
-    console.log(data);
     const updatedLinks = await updateUserSocialLinks(data);
     setIsDialogOpen(false);
     setSocialLinks(updatedLinks);
   };
 
-  const showError = (message: string) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: 0,
-      transition: Flip,
-    });
-  };
-
   useEffect(() => {
-    const handleSingleFieldError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (error) {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-        showError(errorMsg);
-      }
-    };
-
-    const handleFieldArrayError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (!error) return;
-      if (Array.isArray(error)) {
-        for (let err of error) {
-          for (let key in err) {
-            errorMsg += `${prependingString} Error: ${err[key].message} `;
-            break;
-          }
-          if (errorMsg !== "") {
-            break;
-          }
-        }
-      } else {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-      }
-      showError(errorMsg);
-    };
-    console.log("Error on form input", errors);
     if (Object.keys(errors).length !== 0) {
       if (errors.socialLinks) {
         handleFieldArrayError("Social Links", errors.socialLinks);

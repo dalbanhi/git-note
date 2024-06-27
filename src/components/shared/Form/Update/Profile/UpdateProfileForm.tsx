@@ -9,14 +9,16 @@ import {
 } from "@/components/shared/Form/Onboarding/Steps/Steps";
 
 import { Session } from "next-auth";
-import { Flip, toast } from "react-toastify";
+import {
+  handleFieldArrayError,
+  handleSingleFieldError,
+} from "@/components/shared/utils/FormErrorHandlers";
 import { useForm } from "react-hook-form";
 import { User } from "~/models/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OnboardingFormSchema } from "~/lib/validators/onboarding.schema";
 import { updateUser } from "~/lib/actions/users";
 import { useRouter } from "next/navigation";
-import router from "next/router";
 
 interface UpdateProfileFormProps {
   session: Session | null;
@@ -65,48 +67,7 @@ const UpdateProfileForm: React.FC<UpdateProfileFormProps> = ({
   });
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
-  const showError = (message: string) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: 0,
-      transition: Flip,
-    });
-  };
-
   useEffect(() => {
-    const handleSingleFieldError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (error) {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-        showError(errorMsg);
-      }
-    };
-
-    const handleFieldArrayError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (!error) return;
-      if (Array.isArray(error)) {
-        for (let err of error) {
-          for (let key in err) {
-            errorMsg += `${prependingString} Error: ${err[key].message} `;
-            break;
-          }
-          if (errorMsg !== "") {
-            break;
-          }
-        }
-      } else {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-      }
-      showError(errorMsg);
-    };
-    console.log("Error on form input", errors);
     if (Object.keys(errors).length !== 0) {
       handleSingleFieldError("Name", errors.name);
       if (errors.portfolio) {

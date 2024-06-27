@@ -6,7 +6,7 @@ export const connectToDB = async () => {
   set("strictQuery", true);
 
   if (isConnected) {
-    // console.log("mongo db is already connected");
+    console.log("Already connected");
     return;
   }
 
@@ -15,7 +15,7 @@ export const connectToDB = async () => {
       dbName: process.env.MONGODB_DB,
     });
     isConnected = true;
-    console.log("mongo db connected");
+    console.log("MongoDB connected");
   } catch (error) {
     console.log(error);
   }

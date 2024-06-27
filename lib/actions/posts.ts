@@ -40,13 +40,17 @@ async function _getTotalPages(id: string) {
   }
 }
 
-async function _getPostsByPage(page: number, id: string) {
+async function _getPostsByPage(
+  page: number,
+  id: string,
+  limit: number = postsPerPage
+) {
   try {
     await connectToDB();
-    const limit = postsPerPage;
 
     //get the posts of the user from the database
     const posts = await Note.find({ creator: id })
+      .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
@@ -158,7 +162,7 @@ async function _getPosts(filterType: PostType, tag: string, id: string) {
       creator: id,
       ...(filterType !== undefined && { type: filterType.toLowerCase() }),
       ...(tag !== "" && { tags: { $in: [tag] } }),
-    });
+    }).sort({ createdAt: -1 });
 
     return filteredPosts;
   } catch (err) {

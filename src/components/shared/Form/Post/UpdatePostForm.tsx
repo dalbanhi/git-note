@@ -130,7 +130,6 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       showError(errorMsg);
     };
     if (Object.keys(errors).length !== 0) {
-      console.log("Errors: ", errors);
       if (errors.type) {
         handleSingleFieldError("Type: ", errors.type);
       } else {
@@ -166,6 +165,7 @@ const UpdatePostForm: React.FC<UpdatePostFormProps> = ({
       unregister("code");
       unregister("stepsToFollow");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchType, setValue, unregister, register]);
 
   return (

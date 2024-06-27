@@ -66,6 +66,11 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
       {isOpen && (
         <div className="cmdk-overlay" onClick={handleOverlayClick}>
           <div className="cmdk-modal" onClick={(e) => e.stopPropagation()}>
+            {matchingPosts &&
+              matchingPosts.map((post) => {
+                return <p key={post._id + " test"}>{post.title}</p>;
+              })}
+
             <Command className="rounded-sm bg-myBlack-900">
               <div className="flex w-full justify-between gap-2 bg-myBlack-700 p-2 text-myWhite-300">
                 <div className="flex">
@@ -144,12 +149,13 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     })}
                   </Command.Group>
                 )}
+
+<Command.Group
+  className="p-2 text-p3Reg text-myWhite-300"
+  heading="Posts"
+  key={"my posts"}
+>
                 {matchingPosts && (
-                  <Command.Group
-                    className="p-2 text-p3Reg text-myWhite-300"
-                    heading="Posts"
-                    key={"my posts"}
-                  >
                     {isLoading && (
                       <Command.Loading>
                         Loading relevant notes...
@@ -177,8 +183,8 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                         </Command.Item>
                       );
                     })}
+                  )}
                   </Command.Group>
-                )}
               </Command.List>
               <Command.Empty>
                 <div className="p-2 text-p3Reg text-myWhite-300">

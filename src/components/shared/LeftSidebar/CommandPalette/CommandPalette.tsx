@@ -4,17 +4,20 @@ import { Command } from "cmdk";
 import Image from "next/image";
 import { postFilters } from "~/constants";
 import { useRouter } from "next/navigation";
+import { INote } from "~/models/note";
 
 interface CommandPaletteProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   allUserTags: string[];
+  allPosts: INote[];
 }
 
 const CommandPalette: React.FC<CommandPaletteProps> = ({
   isOpen,
   setIsOpen,
   allUserTags,
+  allPosts,
 }) => {
   const router = useRouter();
 
@@ -108,13 +111,43 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                         <Command.Item
                           key={tag}
                           //use cmdk-item class to style the items in the list
-                          className="flex items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                          className="flex items-center gap-2 p-2 capitalize text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
                           onSelect={() => {
                             setIsOpen(false);
                             router.push(`/explore?tag=${tag}`);
                           }}
                         >
                           {tag}
+                        </Command.Item>
+                      );
+                    })}
+                  </Command.Group>
+                )}
+                {allPosts && (
+                  <Command.Group
+                    className="p-2 text-p3Reg text-myWhite-300"
+                    heading="Posts"
+                  >
+                    {allPosts.map((post) => {
+                      return (
+                        <Command.Item
+                          key={post._id}
+                          //use cmdk-item class to style the items in the list
+                          className="flex items-center gap-2 truncate p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                          onSelect={() => {
+                            setIsOpen(false);
+                            router.push(`/note/${post._id}`);
+                          }}
+                        >
+                          {/* {post.iconSrc && (
+                            <Image
+                              src={filter.iconSrc}
+                              alt={filter.type}
+                              width={12}
+                              height={12}
+                            ></Image>
+                          )} */}
+                          {post.title}
                         </Command.Item>
                       );
                     })}

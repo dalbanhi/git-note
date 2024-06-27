@@ -23,6 +23,8 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
   const [matchingPosts, setMatchingPosts] = useState<INote[] | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [postFiltersToShow, setPostFiltersToShow] =
+    useState<any[]>(postFilters);
 
   useEffect(() => {
     const getMatchingPosts = async () => {
@@ -31,9 +33,16 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
       setMatchingPosts(relevantPosts);
       setIsLoading(false);
     };
+    const getMatchingFilters = () => {
+      const filters = postFilters.filter((filter) =>
+        filter.type.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setPostFiltersToShow(filters);
+    };
 
     const timeoutID = setTimeout(() => {
       getMatchingPosts();
+      getMatchingFilters();
     }, 200);
     return () => {
       if (timeoutID) clearTimeout(timeoutID);
@@ -92,66 +101,18 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
               </div>
 
               <Command.List className=" customScroll flex h-[200px] flex-col overflow-y-scroll rounded-sm bg-myBlack-800">
-                {postFilters && (
-                  <Command.Group
-                    className="p-2 text-p3Reg text-myWhite-300"
-                    heading="Filters"
-                  >
-                    {postFilters.map((filter) => {
-                      return (
-                        <Command.Item
-                          key={filter.type}
-                          //use cmdk-item class to style the items in the list
-                          className="flex cursor-pointer items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
-                          onSelect={() => {
-                            setIsOpen(false);
-                            router.push(`/explore?type=${filter.type}`);
-                          }}
-                        >
-                          {filter.iconSrc && (
-                            <Image
-                              src={filter.iconSrc}
-                              alt={filter.type}
-                              width={12}
-                              height={12}
-                            ></Image>
-                          )}
-                          {filter.type}
-                        </Command.Item>
-                      );
-                    })}
-                  </Command.Group>
-                )}
-                {allUserTags && (
-                  <Command.Group
-                    className="p-2 text-p3Reg text-myWhite-300"
-                    heading="Tags"
-                  >
-                    {allUserTags.map((tag) => {
-                      return (
-                        <Command.Item
-                          key={tag + " tag"}
-                          //use cmdk-item class to style the items in the list
-                          className="flex items-center gap-2 p-2 capitalize text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
-                          onSelect={() => {
-                            setIsOpen(false);
-                            router.push(`/explore?tag=${tag}`);
-                          }}
-                        >
-                          {tag}
-                        </Command.Item>
-                      );
-                    })}
-                  </Command.Group>
-                )}
-
                 <Command.Group
                   className="p-2 text-p3Reg text-myWhite-300"
                   heading="Posts"
                   key={"my posts"}
                 >
+                  {matchingPosts && matchingPosts.length === 0 && (
+                    <Command.Item className="italic text-myWhite-500">
+                      Type to search posts
+                    </Command.Item>
+                  )}
                   {matchingPosts && (
-                    <React.Fragment>
+                    <>
                       {isLoading && (
                         <Command.Loading>
                           Loading relevant notes...
@@ -175,6 +136,62 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                               height={12}
                             ></Image>
                             {post.title}
+                          </Command.Item>
+                        );
+                      })}
+                    </>
+                  )}
+                </Command.Group>
+                <Command.Group
+                  className="p-2 text-p3Reg text-myWhite-300"
+                  heading="Filters"
+                >
+                  {postFiltersToShow && (
+                    <>
+                      {postFiltersToShow.map((filter) => {
+                        return (
+                          <Command.Item
+                            key={filter.type}
+                            //use cmdk-item class to style the items in the list
+                            className="flex cursor-pointer items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                            onSelect={() => {
+                              setIsOpen(false);
+                              router.push(`/explore?type=${filter.type}`);
+                            }}
+                          >
+                            {filter.iconSrc && (
+                              <Image
+                                src={filter.iconSrc}
+                                alt={filter.type}
+                                width={12}
+                                height={12}
+                              ></Image>
+                            )}
+                            {filter.type}
+                          </Command.Item>
+                        );
+                      })}
+                    </>
+                  )}
+                </Command.Group>
+                <Command.Group
+                  className="p-2 text-p3Reg text-myWhite-300"
+                  heading="Tags"
+                >
+                  {allUserTags && (
+                    <React.Fragment>
+                      {allUserTags.map((tag) => {
+                        return (
+                          <Command.Item
+                            key={tag + " tag"}
+                            //use cmdk-item class to style the items in the list
+                            className="flex items-center gap-2 p-2 capitalize text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                            onSelect={() => {
+                              setIsOpen(false);
+                              router.push(`/explore?tag=${tag}`);
+                            }}
+                          >
+                            {tag}
                           </Command.Item>
                         );
                       })}

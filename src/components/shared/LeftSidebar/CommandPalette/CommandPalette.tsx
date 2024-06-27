@@ -34,7 +34,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
 
     const timeoutID = setTimeout(() => {
       getMatchingPosts();
-    }, 2000);
+    }, 200);
     return () => {
       if (timeoutID) clearTimeout(timeoutID);
     };
@@ -66,12 +66,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
       {isOpen && (
         <div className="cmdk-overlay" onClick={handleOverlayClick}>
           <div className="cmdk-modal" onClick={(e) => e.stopPropagation()}>
-            {matchingPosts &&
-              matchingPosts.map((post) => {
-                return <p key={post._id + " test"}>{post.title}</p>;
-              })}
-
-            <Command className="rounded-sm bg-myBlack-900">
+            <Command className="rounded-sm bg-myBlack-900" shouldFilter={false}>
               <div className="flex w-full justify-between gap-2 bg-myBlack-700 p-2 text-myWhite-300">
                 <div className="flex">
                   <Image
@@ -150,41 +145,42 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                   </Command.Group>
                 )}
 
-<Command.Group
-  className="p-2 text-p3Reg text-myWhite-300"
-  heading="Posts"
-  key={"my posts"}
->
-                {matchingPosts && (
-                    {isLoading && (
-                      <Command.Loading>
-                        Loading relevant notes...
-                      </Command.Loading>
-                    )}
-                    {matchingPosts.map((post) => {
-                      return (
-                        <Command.Item
-                          key={post._id}
-                          //use cmdk-item class to style the items in the list
-                          className="flex items-center gap-2 truncate p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
-                          onSelect={() => {
-                            setIsOpen(false);
-                            router.push(`/note/${post._id}`);
-                          }}
-                        >
-                          <Image
-                            src={`/icons/${post.type}.svg`}
-                            alt={post.type}
-                            width={12}
-                            height={12}
-                          ></Image>
-
-                          {post.title}
-                        </Command.Item>
-                      );
-                    })}
+                <Command.Group
+                  className="p-2 text-p3Reg text-myWhite-300"
+                  heading="Posts"
+                  key={"my posts"}
+                >
+                  {matchingPosts && (
+                    <React.Fragment>
+                      {isLoading && (
+                        <Command.Loading>
+                          Loading relevant notes...
+                        </Command.Loading>
+                      )}
+                      {matchingPosts.map((post) => {
+                        return (
+                          <Command.Item
+                            key={post._id}
+                            //use cmdk-item class to style the items in the list
+                            className="flex items-center gap-2 truncate p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                            onSelect={() => {
+                              setIsOpen(false);
+                              router.push(`/note/${post._id}`);
+                            }}
+                          >
+                            <Image
+                              src={`/icons/${post.type}.svg`}
+                              alt={post.type}
+                              width={12}
+                              height={12}
+                            ></Image>
+                            {post.title}
+                          </Command.Item>
+                        );
+                      })}
+                    </React.Fragment>
                   )}
-                  </Command.Group>
+                </Command.Group>
               </Command.List>
               <Command.Empty>
                 <div className="p-2 text-p3Reg text-myWhite-300">

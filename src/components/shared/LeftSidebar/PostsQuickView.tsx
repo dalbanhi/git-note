@@ -13,7 +13,7 @@ const PostsQuickView = async () => {
     numberOfPosts
   );
   return (
-    <div className="mb-4 flex flex-col gap-3">
+    <div className="mb-4 flex flex-col gap-3 ">
       <h2 className="text-caption uppercase text-myWhite-500">
         Posts (Most recent)
       </h2>

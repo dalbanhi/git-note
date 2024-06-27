@@ -118,7 +118,10 @@ export async function deletePost(post: INote) {
     }
 
     //delete the post from the database
-    const { deletedCount } = await Note.deleteOne({ _id: post._id });
+    const { deletedCount } = await Note.deleteOne({
+      _id: post._id,
+      creator: sessionUser.id,
+    });
 
     if (deletedCount === 0) {
       throw new Error("Could not find post belonging to user");

@@ -161,7 +161,6 @@ export async function updatePost(
       },
       { new: true }
     );
-    const updatedPostID = updatedPost.id;
     revalidateTag("posts");
     return updatedPost.id;
   } catch (err) {

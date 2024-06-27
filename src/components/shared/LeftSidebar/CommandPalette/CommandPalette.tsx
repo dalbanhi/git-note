@@ -1,25 +1,44 @@
 "use client";
-import React, { useEffect, MouseEvent } from "react";
+import React, { useEffect, MouseEvent, useState, useReducer } from "react";
 import { Command } from "cmdk";
 import Image from "next/image";
 import { postFilters } from "~/constants";
 import { useRouter } from "next/navigation";
 import { INote } from "~/models/note";
+import { searchPosts } from "~/lib/actions/posts";
 
 interface CommandPaletteProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   allUserTags: string[];
-  allPosts: INote[];
 }
 
 const CommandPalette: React.FC<CommandPaletteProps> = ({
   isOpen,
   setIsOpen,
   allUserTags,
-  allPosts,
 }) => {
   const router = useRouter();
+
+  const [matchingPosts, setMatchingPosts] = useState<INote[] | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getMatchingPosts = async () => {
+      setIsLoading(true);
+      const relevantPosts = await searchPosts(searchTerm);
+      setMatchingPosts(relevantPosts);
+      setIsLoading(false);
+    };
+
+    const timeoutID = setTimeout(() => {
+      getMatchingPosts();
+    }, 2000);
+    return () => {
+      if (timeoutID) clearTimeout(timeoutID);
+    };
+  }, [searchTerm]);
 
   useEffect(() => {
     const down = (e: any) => {
@@ -41,7 +60,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
     event.stopPropagation();
     setIsOpen(!isOpen);
   };
-
+  console.log("matchingPosts", matchingPosts);
   return (
     <div>
       {isOpen && (
@@ -60,6 +79,8 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     className="w-full border-none bg-myBlack-700 p-2 text-myWhite-300 outline-none"
                     placeholder="Search..."
                     autoFocus={true}
+                    value={searchTerm}
+                    onValueChange={(value) => setSearchTerm(value)}
                   />
                 </div>
                 <button
@@ -109,7 +130,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     {allUserTags.map((tag) => {
                       return (
                         <Command.Item
-                          key={tag}
+                          key={tag + " tag"}
                           //use cmdk-item class to style the items in the list
                           className="flex items-center gap-2 p-2 capitalize text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
                           onSelect={() => {
@@ -123,12 +144,18 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     })}
                   </Command.Group>
                 )}
-                {allPosts && (
+                {matchingPosts && (
                   <Command.Group
                     className="p-2 text-p3Reg text-myWhite-300"
                     heading="Posts"
+                    key={"my posts"}
                   >
-                    {allPosts.map((post) => {
+                    {isLoading && (
+                      <Command.Loading>
+                        Loading relevant notes...
+                      </Command.Loading>
+                    )}
+                    {matchingPosts.map((post) => {
                       return (
                         <Command.Item
                           key={post._id}
@@ -139,14 +166,13 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                             router.push(`/note/${post._id}`);
                           }}
                         >
-                          {/* {post.iconSrc && (
-                            <Image
-                              src={filter.iconSrc}
-                              alt={filter.type}
-                              width={12}
-                              height={12}
-                            ></Image>
-                          )} */}
+                          <Image
+                            src={`/icons/${post.type}.svg`}
+                            alt={post.type}
+                            width={12}
+                            height={12}
+                          ></Image>
+
                           {post.title}
                         </Command.Item>
                       );
@@ -156,7 +182,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
               </Command.List>
               <Command.Empty>
                 <div className="p-2 text-p3Reg text-myWhite-300">
-                  No results found.
+                  {`No results found for "${searchTerm}".`}
                 </div>
               </Command.Empty>
             </Command>

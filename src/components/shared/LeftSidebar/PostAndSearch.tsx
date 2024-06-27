@@ -3,17 +3,12 @@ import React, { useState } from "react";
 import Image from "next/image";
 import CommandPalette from "@/components/shared/LeftSidebar/CommandPalette/CommandPalette";
 import Link from "next/link";
-import { INote } from "~/models/note";
 
 interface PostAndSearchProps {
   allUserTags: string[];
-  allPosts: INote[];
 }
 
-const PostAndSearch: React.FC<PostAndSearchProps> = ({
-  allUserTags,
-  allPosts,
-}) => {
+const PostAndSearch: React.FC<PostAndSearchProps> = ({ allUserTags }) => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   return (
     <div className="mb-4 flex flex-col gap-3">
@@ -63,7 +58,6 @@ const PostAndSearch: React.FC<PostAndSearchProps> = ({
         isOpen={isCommandPaletteOpen}
         setIsOpen={setIsCommandPaletteOpen}
         allUserTags={allUserTags}
-        allPosts={allPosts}
       />
     </div>
   );

@@ -121,6 +121,30 @@ async function _getAllOtherPosts(postIDs: string[], creatorID: string) {
   }
 }
 
+async function _searchPosts(searchTerm: string) {
+  await connectToDB();
+
+  if (searchTerm.length < 3) {
+    return [];
+  }
+
+  try {
+    const posts = await Note.find({
+      $or: [
+        { title: { $regex: searchTerm, $options: "i" } },
+        { description: { $regex: searchTerm, $options: "i" } },
+        { content: { $regex: searchTerm, $options: "i" } },
+      ],
+    }).sort({ createdAt: -1 });
+
+    console.log("Posts found: ", posts.length);
+    return posts;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 export async function updateRelatedPosts(
   postID: string,
   relatedPostID: string
@@ -280,6 +304,10 @@ export const getAllContributions = cache(
 );
 
 export const getPosts = cache(_getPosts, ["get-posts"], {
+  tags: ["posts"],
+});
+
+export const searchPosts = cache(_searchPosts, ["search-posts"], {
   tags: ["posts"],
 });
 

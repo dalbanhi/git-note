@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import IconLink from "../LeftSidebar/IconLink";
-import { Note } from "~/types";
+import { INote } from "~/models/note";
 import TagsListHoriz from "../Home/TagsListHoriz";
 import { format } from "date-fns";
 import { deletePost } from "~/lib/actions/posts";
@@ -40,7 +40,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
   post,
 }) => {
   const router = useRouter();
-  const note = JSON.parse(post) as Note;
+  const note = JSON.parse(post) as INote;
   const createdAt = note?.createdAt;
   const formattedCreatedAtDate = format(
     new Date(createdAt || ""),
@@ -116,7 +116,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({
               <DialogFooter className="bg-myBlack-700">
                 <Button
                   onClick={async (e) => {
-                    await deletePost(note?._id || "", note?.creator);
+                    await deletePost(note);
                     router.push("/");
                     setIsOpenDialog(false);
                   }}

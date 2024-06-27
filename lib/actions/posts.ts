@@ -107,7 +107,7 @@ async function _getPost(id: string) {
   }
 }
 
-export async function deletePost(postID: string, userID: string) {
+export async function deletePost(post: INote) {
   try {
     await connectToDB();
     const session = await getSession();
@@ -117,15 +117,18 @@ export async function deletePost(postID: string, userID: string) {
       throw new Error("You must be logged in to delete a post");
     }
 
-    if (userID !== sessionUser.id) {
+    if (post.creator.toString() !== sessionUser.id) {
       throw new Error("You are not authorized to delete this post");
     }
 
     //delete the post from the database
-    await Note.deleteOne({ _id: postID });
+    await Note.deleteOne({ _id: post._id });
 
     //delete the post from the user's notes
-    await User.findOneAndUpdate({ _id: userID }, { $pull: { notes: postID } });
+    await User.findOneAndUpdate(
+      { _id: sessionUser.id },
+      { $pull: { notes: post._id } }
+    );
     revalidateTag("posts");
   } catch (err) {
     console.log(err);
@@ -202,12 +205,6 @@ export const getAllOtherPosts = cache(
   ["get-all-other-posts"],
   { tags: ["posts"] }
 );
-
-// export const updateRelatedPosts = cache(
-//   _updateRelatedPosts,
-//   ["update-related-posts"],
-//   { tags: ["posts"] }
-// );
 
 export const getPost = cache(_getPost, ["get-post"], {
   tags: ["posts"],

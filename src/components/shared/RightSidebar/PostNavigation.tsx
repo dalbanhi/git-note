@@ -52,12 +52,12 @@ const PostNavigation = () => {
     getAllTheOtherPosts();
   }, [post, relatedPosts]);
 
-  async function addRelatedPost(postToAdd: string) {
+  async function addRelatedPost(postToAdd: string = "") {
     const updatedRelatedPostsJSON = await updateRelatedPosts(
       post?._id ?? "",
       postToAdd
     );
-    const updatedRelatedPosts = JSON.parse(updatedRelatedPostsJSON);
+    const updatedRelatedPosts = JSON.parse(updatedRelatedPostsJSON ?? "");
 
     const relatedPostsFromUpdate = updatedRelatedPosts.map((post: INote) => ({
       title: post.title,

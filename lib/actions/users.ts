@@ -92,7 +92,7 @@ async function _getUser(id: string) {
   }
 }
 
-export async function updateUserSocialLinks(id: string, socialLinks: any) {
+export async function updateUserSocialLinks(socialLinks: any) {
   SocialLinksSchema.parse(socialLinks);
   try {
     await connectToDB();
@@ -116,6 +116,8 @@ export async function updateUserSocialLinks(id: string, socialLinks: any) {
     }
 
     revalidateTag("user");
+    const updatedSocialLinks = updatedUser.socialMediaLinks;
+    return JSON.parse(JSON.stringify(updatedSocialLinks));
   } catch (err: any) {
     console.log(err);
     return err.errors;

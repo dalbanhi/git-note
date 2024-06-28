@@ -25,9 +25,11 @@ const ProfileLink = async () => {
         height={40}
         className="size-10 rounded-sm"
       />
-      <div className="flex flex-col">
-        <h2 className="text-p3Med text-myWhite-100">{userName}</h2>
-        <p className="text-p3Reg text-myWhite-300">{userEmail}</p>
+      <div className="flex w-full flex-col ">
+        <h2 className="w-full text-p3Med text-myWhite-100">{userName}</h2>
+        <p className="w-full truncate text-p3Reg text-myWhite-300 ">
+          {userEmail}
+        </p>
       </div>
     </Link>
   );

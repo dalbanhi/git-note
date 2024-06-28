@@ -15,7 +15,7 @@ const SignIn = async () => {
   }
 
   return (
-    <div className=" max_sm:w-full mt-4 text-myWhite-100 sm:w-5/12">
+    <div className=" mt-4 text-myWhite-100 max-sm:w-full  max-sm:p-4 md:w-5/12">
       <LoginForm type="sign-in" title="Login" />
     </div>
   );

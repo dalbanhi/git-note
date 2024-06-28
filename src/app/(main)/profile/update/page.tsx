@@ -13,7 +13,7 @@ const EditProfile = async () => {
   //clean the user object
   const userJSON = JSON.parse(JSON.stringify(userFromDB));
   return (
-    <section className="flex min-h-screen flex-col justify-start p-4 max-sm:w-full md:w-6/12">
+    <section className="flex min-h-screen flex-col justify-start p-4 max-sm:w-full sm:w-6/12">
       <h1 className="mt-4 text-display1">Edit Profile</h1>
       <UpdateProfileForm session={session} userFromDB={userJSON} />
     </section>

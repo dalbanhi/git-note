@@ -42,7 +42,9 @@ const QuickLinks = () => {
           iconAlt="Logout"
           textColor="text-myWhite-300"
           text="Logout"
-          onClick={() => signOut()}
+          onClick={() => {
+            signOut();
+          }}
         />
       </div>
     </div>

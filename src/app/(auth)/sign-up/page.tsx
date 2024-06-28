@@ -14,7 +14,7 @@ const SignUp = async () => {
     }
   }
   return (
-    <div className="mt-4 w-5/12 text-myWhite-100">
+    <div className="mt-4 text-myWhite-100 max-sm:w-full max-sm:p-4 md:w-5/12">
       <LoginForm type="sign-up" title="Create an Account" />
     </div>
   );

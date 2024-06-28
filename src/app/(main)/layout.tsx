@@ -7,11 +7,21 @@ import RightSidebar from "@/components/shared/RightSidebar/RightSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 import ToastProvider from "~/lib/providers/ToastProvider";
+import type { Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "Git Note",
   description: "An knowledge repository for software developers.",
 };
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -137,8 +137,7 @@ async function _searchPosts(searchTerm: string) {
       ],
     }).sort({ createdAt: -1 });
 
-    console.log("Posts found: ", posts.length);
-    return posts;
+    return JSON.parse(JSON.stringify(posts));
   } catch (error) {
     console.log(error);
     return null;
@@ -261,7 +260,7 @@ export async function updatePost(
       { new: true }
     );
     revalidateTag("posts");
-    return updatedPostID;
+    return updatedPost._id;
   } catch (err) {
     console.log(err);
   }

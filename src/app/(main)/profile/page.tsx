@@ -62,7 +62,7 @@ const MyProfile = async () => {
           <p className="mb-4 text-p1Bold text-myWhite-100">
             {"Contribution Grid"}
           </p>
-          <ContributionsTracker />
+          <ContributionsTracker userID={session.user.id} />
         </div>
         <LearningGoalsPreview learningGoals={userFromDB?.learningGoals} />
         <TechStackPreview techStack={userFromDB?.techStack} />

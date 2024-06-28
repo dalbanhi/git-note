@@ -7,99 +7,197 @@ import { connectToDB } from "~/utils/database";
 import { getSession } from "~/auth/auth";
 import Note, { INote } from "~/models/note";
 import User from "~/models/user";
+import { format } from "date-fns";
+
+import { Contribution } from "~/types";
 
 import { unstable_cache as cache, revalidateTag } from "next/cache";
 
 async function _getAllUserTags(id: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const allPosts = await Note.distinct("tags", { creator: id });
+    const allPosts = await Note.distinct("tags", { creator: id });
 
-  return allPosts;
+    return allPosts;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 const postsPerPage = 3;
 
 async function _getTotalPages(id: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const totalPosts = await Note.countDocuments({ creator: id });
-  const totalPages = Math.ceil(totalPosts / postsPerPage);
-  return totalPages;
+    const totalPosts = await Note.countDocuments({ creator: id });
+    const totalPages = Math.ceil(totalPosts / postsPerPage);
+    return totalPages;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 
-async function _getPostsByPage(page: number, id: string) {
-  await connectToDB();
-  const limit = postsPerPage;
+async function _getPostsByPage(
+  page: number,
+  id: string,
+  limit: number = postsPerPage
+) {
+  try {
+    await connectToDB();
 
-  //get the posts of the user from the database
-  const posts = await Note.find({ creator: id })
-    .skip((page - 1) * limit)
-    .limit(limit);
+    //get the posts of the user from the database
+    const posts = await Note.find({ creator: id })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
-  return posts;
+    return posts;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function _getAllContributions(id: string) {
+  try {
+    await connectToDB();
+
+    //get the posts of the user from the database
+    const posts = await Note.find({ creator: id });
+
+    let contributionsMap: { [key: string]: number } = {};
+
+    posts.forEach((post) => {
+      const createdAt = format(post.createdAt, "yyyy-MM-dd");
+      const updatedAt = format(post.updatedAt, "yyyy-MM-dd");
+      const dates = [createdAt, updatedAt];
+      for (let date of dates) {
+        if (contributionsMap[date]) {
+          contributionsMap[date] += 1;
+        } else {
+          contributionsMap[date] = 1;
+        }
+      }
+    });
+
+    const contributions: Contribution[] = Object.keys(contributionsMap).map(
+      (date, index) => ({
+        id: index + 1,
+        date: date,
+        count: contributionsMap[date],
+      })
+    );
+
+    return { userID: id, contributions: contributions };
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 
 async function _getAllOtherPosts(postIDs: string[], creatorID: string) {
+  try {
+    await connectToDB();
+
+    //get the posts of the user from the database
+    const posts = await Note.find({
+      creator: creatorID,
+      _id: { $nin: postIDs },
+    });
+    const postTitlesAndIDs = posts.map((post) => {
+      return { title: post.title, id: post.id } as {
+        title: string;
+        id: string;
+      };
+    });
+
+    return postTitlesAndIDs as { title: string; id: string }[];
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
+async function _searchPosts(searchTerm: string) {
   await connectToDB();
 
-  //get the posts of the user from the database
-  const posts = await Note.find({
-    creator: creatorID,
-    _id: { $nin: postIDs },
-  });
-  const postTitlesAndIDs = posts.map((post) => {
-    return { title: post.title, id: post.id } as { title: string; id: string };
-  });
+  if (searchTerm.length < 3) {
+    return [];
+  }
 
-  return postTitlesAndIDs as { title: string; id: string }[];
+  try {
+    const posts = await Note.find({
+      $or: [
+        { title: { $regex: searchTerm, $options: "i" } },
+        { description: { $regex: searchTerm, $options: "i" } },
+        { content: { $regex: searchTerm, $options: "i" } },
+      ],
+    }).sort({ createdAt: -1 });
+
+    return JSON.parse(JSON.stringify(posts));
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 export async function updateRelatedPosts(
   postID: string,
   relatedPostID: string
 ) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  //update the post with the related post
-  const updatedPost = await Note.findOneAndUpdate(
-    {
-      _id: postID,
-    },
-    { $push: { relatedNotes: relatedPostID } },
-    { new: true }
-  ).populate("relatedNotes");
+    //update the post with the related post
+    const updatedPost = await Note.findOneAndUpdate(
+      {
+        _id: postID,
+      },
+      { $push: { relatedNotes: relatedPostID } },
+      { new: true }
+    ).populate("relatedNotes");
 
-  //update the related post with the post
-  await Note.findOneAndUpdate(
-    {
-      _id: relatedPostID,
-    },
-    { $push: { relatedNotes: postID } }
-  );
+    //update the related post with the post
+    await Note.findOneAndUpdate(
+      {
+        _id: relatedPostID,
+      },
+      { $push: { relatedNotes: postID } }
+    );
 
-  revalidateTag("posts");
+    revalidateTag("posts");
 
-  return JSON.stringify(updatedPost.relatedNotes);
+    return JSON.stringify(updatedPost.relatedNotes);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function _getPosts(filterType: PostType, tag: string, id: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  //get the posts of the user from the database
-  const filteredPosts = await Note.find({
-    creator: id,
-    ...(filterType !== undefined && { type: filterType.toLowerCase() }),
-    ...(tag !== "" && { tags: { $in: [tag] } }),
-  });
+    //get the posts of the user from the database
+    const filteredPosts = await Note.find({
+      creator: id,
+      ...(filterType !== undefined && { type: filterType.toLowerCase() }),
+      ...(tag !== "" && { tags: { $in: [tag] } }),
+    }).sort({ createdAt: -1 });
 
-  return filteredPosts;
+    return filteredPosts;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 
 async function _getPost(id: string) {
-  await connectToDB();
-
   //get the post from the database
   try {
+    await connectToDB();
     const post = await Note.findOne({ _id: id }).populate("relatedNotes");
     return JSON.parse(JSON.stringify(post));
   } catch (err) {
@@ -162,7 +260,7 @@ export async function updatePost(
       { new: true }
     );
     revalidateTag("posts");
-    return updatedPost.id;
+    return updatedPost._id;
   } catch (err) {
     console.log(err);
   }
@@ -198,7 +296,19 @@ export async function createPost(post: TypeOfNote) {
   }
 }
 
+export const getAllContributions = cache(
+  _getAllContributions,
+  ["get-all-contributions"],
+  {
+    tags: ["posts"],
+  }
+);
+
 export const getPosts = cache(_getPosts, ["get-posts"], {
+  tags: ["posts"],
+});
+
+export const searchPosts = cache(_searchPosts, ["search-posts"], {
   tags: ["posts"],
 });
 

@@ -1,9 +1,12 @@
 "use client";
-import React, { useEffect, MouseEvent } from "react";
+import React, { useEffect, MouseEvent, useState, useReducer } from "react";
 import { Command } from "cmdk";
 import Image from "next/image";
 import { postFilters } from "~/constants";
 import { useRouter } from "next/navigation";
+import { INote } from "~/models/note";
+import { searchPosts } from "~/lib/actions/posts";
+import { get } from "http";
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -17,6 +20,45 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
   allUserTags,
 }) => {
   const router = useRouter();
+
+  const [matchingPosts, setMatchingPosts] = useState<INote[] | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [postFiltersToShow, setPostFiltersToShow] =
+    useState<any[]>(postFilters);
+
+  const [tags, setTags] = useState<string[]>(allUserTags);
+
+  useEffect(() => {
+    const getMatchingPosts = async () => {
+      setIsLoading(true);
+      const relevantPosts = await searchPosts(searchTerm);
+      setMatchingPosts(relevantPosts);
+      setIsLoading(false);
+    };
+    const getMatchingFilters = () => {
+      const filters = postFilters.filter((filter) =>
+        filter.type.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setPostFiltersToShow(filters);
+    };
+
+    const getMatchingTags = () => {
+      const filteredTags = allUserTags.filter((tag) =>
+        tag.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setTags(filteredTags);
+    };
+
+    const timeoutID = setTimeout(() => {
+      getMatchingPosts();
+      getMatchingFilters();
+      getMatchingTags();
+    }, 200);
+    return () => {
+      if (timeoutID) clearTimeout(timeoutID);
+    };
+  }, [searchTerm]);
 
   useEffect(() => {
     const down = (e: any) => {
@@ -38,13 +80,13 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
     event.stopPropagation();
     setIsOpen(!isOpen);
   };
-
+  console.log("matchingPosts", matchingPosts);
   return (
     <div>
       {isOpen && (
         <div className="cmdk-overlay" onClick={handleOverlayClick}>
           <div className="cmdk-modal" onClick={(e) => e.stopPropagation()}>
-            <Command className="rounded-sm bg-myBlack-900">
+            <Command className="rounded-sm bg-myBlack-900" shouldFilter={false}>
               <div className="flex w-full justify-between gap-2 bg-myBlack-700 p-2 text-myWhite-300">
                 <div className="flex">
                   <Image
@@ -57,6 +99,8 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
                     className="w-full border-none bg-myBlack-700 p-2 text-myWhite-300 outline-none"
                     placeholder="Search..."
                     autoFocus={true}
+                    value={searchTerm}
+                    onValueChange={(value) => setSearchTerm(value)}
                   />
                 </div>
                 <button
@@ -68,62 +112,109 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
               </div>
 
               <Command.List className=" customScroll flex h-[200px] flex-col overflow-y-scroll rounded-sm bg-myBlack-800">
-                {postFilters && (
-                  <Command.Group
-                    className="p-2 text-p3Reg text-myWhite-300"
-                    heading="Filters"
-                  >
-                    {postFilters.map((filter) => {
-                      return (
-                        <Command.Item
-                          key={filter.type}
-                          //use cmdk-item class to style the items in the list
-                          className="flex cursor-pointer items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
-                          onSelect={() => {
-                            setIsOpen(false);
-                            router.push(`/explore?type=${filter.type}`);
-                          }}
-                        >
-                          {filter.iconSrc && (
+                <Command.Group
+                  className="p-2 text-p3Reg text-myWhite-300"
+                  heading="Posts"
+                  key={"my posts"}
+                >
+                  {matchingPosts &&
+                    matchingPosts.length === 0 &&
+                    searchTerm.length < 3 && (
+                      <div className="italic text-myWhite-500">
+                        Type more than 3 characters to search posts
+                      </div>
+                    )}
+                  {matchingPosts && (
+                    <>
+                      {isLoading && (
+                        <Command.Loading>
+                          Loading relevant notes...
+                        </Command.Loading>
+                      )}
+                      {matchingPosts.map((post) => {
+                        return (
+                          <Command.Item
+                            key={post._id}
+                            //use cmdk-item class to style the items in the list
+                            className="flex items-center gap-2 truncate p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                            onSelect={() => {
+                              setIsOpen(false);
+                              router.push(`/note/${post._id}`);
+                            }}
+                          >
                             <Image
-                              src={filter.iconSrc}
-                              alt={filter.type}
+                              src={`/icons/${post.type}.svg`}
+                              alt={post.type}
                               width={12}
                               height={12}
                             ></Image>
-                          )}
-                          {filter.type}
-                        </Command.Item>
-                      );
-                    })}
-                  </Command.Group>
-                )}
-                {allUserTags && (
-                  <Command.Group
-                    className="p-2 text-p3Reg text-myWhite-300"
-                    heading="Tags"
-                  >
-                    {allUserTags.map((tag) => {
-                      return (
-                        <Command.Item
-                          key={tag}
-                          //use cmdk-item class to style the items in the list
-                          className="flex items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
-                          onSelect={() => {
-                            setIsOpen(false);
-                            router.push(`/explore?tag=${tag}`);
-                          }}
-                        >
-                          {tag}
-                        </Command.Item>
-                      );
-                    })}
-                  </Command.Group>
-                )}
+                            {post.title}
+                          </Command.Item>
+                        );
+                      })}
+                    </>
+                  )}
+                </Command.Group>
+                <Command.Group
+                  className="p-2 text-p3Reg text-myWhite-300"
+                  heading="Filters"
+                >
+                  {postFiltersToShow && (
+                    <>
+                      {postFiltersToShow.map((filter) => {
+                        return (
+                          <Command.Item
+                            key={filter.type}
+                            //use cmdk-item class to style the items in the list
+                            className="flex cursor-pointer items-center gap-2 p-2 text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                            onSelect={() => {
+                              setIsOpen(false);
+                              router.push(`/explore?type=${filter.type}`);
+                            }}
+                          >
+                            {filter.iconSrc && (
+                              <Image
+                                src={filter.iconSrc}
+                                alt={filter.type}
+                                width={12}
+                                height={12}
+                              ></Image>
+                            )}
+                            {filter.type}
+                          </Command.Item>
+                        );
+                      })}
+                    </>
+                  )}
+                </Command.Group>
+                <Command.Group
+                  className="p-2 text-p3Reg text-myWhite-300"
+                  heading="Tags"
+                >
+                  {tags && (
+                    <React.Fragment>
+                      {tags.map((tag) => {
+                        return (
+                          <Command.Item
+                            key={tag + " tag"}
+                            //use cmdk-item class to style the items in the list
+                            className="flex items-center gap-2 p-2 capitalize text-myWhite-300 hover:bg-myBlack-700 hover:text-myWhite-100"
+                            onSelect={() => {
+                              setIsOpen(false);
+                              router.push(`/explore?tag=${tag}`);
+                            }}
+                          >
+                            {tag}
+                          </Command.Item>
+                        );
+                      })}
+                    </React.Fragment>
+                  )}
+                </Command.Group>
               </Command.List>
               <Command.Empty>
                 <div className="p-2 text-p3Reg text-myWhite-300">
-                  No results found.
+                  {`No results found for "${searchTerm}".`}
                 </div>
               </Command.Empty>
             </Command>

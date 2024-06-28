@@ -163,7 +163,8 @@ async function makeNewPost(user: any, typeNum: { [key: string]: number }) {
   else {
     type = faker.helpers.enumValue(NoteTypeEnum);
   }
-
+  let createdAtRef = new Date();
+  createdAtRef.setDate(createdAtRef.getDate() - 2); //two days ago
   let post: NoteType = {
     type: type,
     title: faker.company.catchPhrase(),
@@ -177,8 +178,8 @@ async function makeNewPost(user: any, typeNum: { [key: string]: number }) {
     tags: Array.from({ length: faker.number.int(7) }, () =>
       faker.hacker.noun()
     ),
-    createdAt: faker.date.recent(),
-    updatedAt: faker.date.recent(),
+    createdAt: faker.date.recent({ days: 7, refDate: createdAtRef }),
+    updatedAt: faker.date.recent({ days: 2 }),
     stars: faker.number.int(500),
     views: faker.number.int(5000),
     resourcesAndLinks: [

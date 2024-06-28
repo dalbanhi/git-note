@@ -46,7 +46,7 @@ const Home = async ({
       <p className="mb-4 text-p1Reg text-myWhite-300">
         {"Time to jot down your latest learnings today!"}
       </p>
-      <ContributionsTracker />
+      <ContributionsTracker userID={session.user.id} />
       <RecentPostsHeader />
       <div className="mt-2 flex flex-col gap-4">
         {posts.map((post) => {

@@ -1,5 +1,4 @@
 import { UserContributions } from "~/types";
-import { Note } from "~/types";
 
 export enum NoteType {
   Knowledge = "knowledge",

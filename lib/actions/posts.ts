@@ -216,12 +216,15 @@ export async function deletePost(post: INote) {
       throw new Error("You must be logged in to delete a post");
     }
 
-    if (post.creator.toString() !== sessionUser.id) {
-      throw new Error("You are not authorized to delete this post");
-    }
-
     //delete the post from the database
-    await Note.deleteOne({ _id: post._id });
+    const { deletedCount } = await Note.deleteOne({
+      _id: post._id,
+      creator: sessionUser.id,
+    });
+
+    if (deletedCount === 0) {
+      throw new Error("Could not find post belonging to user");
+    }
 
     //delete the post from the user's notes
     await User.findOneAndUpdate(
@@ -257,7 +260,6 @@ export async function updatePost(
       },
       { new: true }
     );
-    const updatedPostID = updatedPost.id;
     revalidateTag("posts");
     return updatedPostID;
   } catch (err) {

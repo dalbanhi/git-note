@@ -112,7 +112,7 @@ export async function updateUserSocialLinks(socialLinks: any) {
     );
 
     if (!updatedUser) {
-      throw new Error("User or learning goal not found");
+      throw new Error("User not found");
     }
 
     revalidateTag("user");

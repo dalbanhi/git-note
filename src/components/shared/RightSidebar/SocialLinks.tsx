@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { getUserSocialLinks } from "~/lib/actions/users";
 import { SocialMediaLink } from "~/types";
 import { handleFieldArrayError } from "@/components/shared/utils/FormErrorHandlers";
+import { socialMediaSites } from "~/constants";
 
 import {
   Dialog,
@@ -57,36 +58,11 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
   }, [userID, reset]);
 
   function getIcon(site: string) {
-    switch (site) {
-      case "twitter":
-        return "twitter";
-      case "x":
-        return "x";
-      case "instagram":
-        return "instagram";
-      case "facebook":
-        return "facebook";
-      case "linkedin":
-        return "linkedin";
-      case "github":
-        return "github";
-      case "website":
-        return "website";
-      default:
-        return "website";
+    if (socialMediaSites.includes(site)) {
+      return site;
     }
+    return "website";
   }
-
-  const sites = [
-    "twitter",
-    "instagram",
-    "facebook",
-    "linkedin",
-    "github",
-    "website",
-  ];
-
-  const form = watch();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -150,7 +126,7 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ userID }) => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4"
           >
-            {sites.map((site, index) => {
+            {socialMediaSites.map((site: string, index: number) => {
               return (
                 <SocialLinkInput
                   key={`site-${site}-${index}`}

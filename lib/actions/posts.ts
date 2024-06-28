@@ -9,7 +9,6 @@ import Note, { INote } from "~/models/note";
 import User from "~/models/user";
 
 import { unstable_cache as cache, revalidateTag } from "next/cache";
-import { th } from "@faker-js/faker";
 
 async function _getAllUserTags(id: string) {
   await connectToDB();
@@ -108,6 +107,37 @@ async function _getPost(id: string) {
   }
 }
 
+export async function deletePost(post: INote) {
+  try {
+    await connectToDB();
+    const session = await getSession();
+    const sessionUser = session?.user;
+
+    if (!sessionUser) {
+      throw new Error("You must be logged in to delete a post");
+    }
+
+    //delete the post from the database
+    const { deletedCount } = await Note.deleteOne({
+      _id: post._id,
+      creator: sessionUser.id,
+    });
+
+    if (deletedCount === 0) {
+      throw new Error("Could not find post belonging to user");
+    }
+
+    //delete the post from the user's notes
+    await User.findOneAndUpdate(
+      { _id: sessionUser.id },
+      { $pull: { notes: post._id } }
+    );
+    revalidateTag("posts");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function updatePost(
   post: TypeOfNote,
   userID: string,
@@ -131,7 +161,6 @@ export async function updatePost(
       },
       { new: true }
     );
-    const updatedPostID = updatedPost.id;
     revalidateTag("posts");
     return updatedPost.id;
   } catch (err) {
@@ -163,7 +192,7 @@ export async function createPost(post: TypeOfNote) {
       { $push: { notes: newPost._id } }
     );
     revalidateTag("posts");
-    return newPost._id;
+    return JSON.stringify(newPost._id);
   } catch (err) {
     console.log(err);
   }
@@ -178,12 +207,6 @@ export const getAllOtherPosts = cache(
   ["get-all-other-posts"],
   { tags: ["posts"] }
 );
-
-// export const updateRelatedPosts = cache(
-//   _updateRelatedPosts,
-//   ["update-related-posts"],
-//   { tags: ["posts"] }
-// );
 
 export const getPost = cache(_getPost, ["get-post"], {
   tags: ["posts"],

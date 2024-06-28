@@ -17,7 +17,7 @@ const ScheduleAvailabilityPreview: React.FC<
       </p>
       <ul>
         <ListItemWithImage
-          imgSrc="icons/user-check.svg"
+          imgSrc="/icons/user-check.svg"
           imgAlt="User Availability"
         >
           {available

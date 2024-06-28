@@ -66,6 +66,7 @@ const PostNavigation = () => {
     setRelatedPosts(relatedPostsFromUpdate);
   }
   if (!pathname.includes("/note")) return null;
+  if (pathname.includes("/note/create")) return null;
 
   return (
     <div className="flex flex-col gap-6">

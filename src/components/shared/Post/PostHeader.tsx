@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import FilterPill from "@/components/shared/FilterPill";
 import {
@@ -9,10 +9,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import IconLink from "../LeftSidebar/IconLink";
-import { Note } from "~/types";
+import { INote } from "~/models/note";
 import TagsListHoriz from "../Home/TagsListHoriz";
 import { format } from "date-fns";
-import { title } from "process";
+import { deletePost } from "~/lib/actions/posts";
+import { useRouter } from "next/navigation";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
 
 interface PostHeaderProps {
   icon: string;
@@ -27,7 +39,8 @@ const PostHeader: React.FC<PostHeaderProps> = ({
   textColor,
   post,
 }) => {
-  const note = JSON.parse(post) as Note;
+  const router = useRouter();
+  const note = JSON.parse(post) as INote;
   const createdAt = note?.createdAt;
   const formattedCreatedAtDate = format(
     new Date(createdAt || ""),
@@ -38,6 +51,9 @@ const PostHeader: React.FC<PostHeaderProps> = ({
     { info: `${note?.stars} stars`, icon: "/icons/star.svg" },
     { info: `${note?.views} views`, icon: "/icons/eye.svg" },
   ];
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [isOpenDropdown, setIsOpenDropDown] = useState(false);
 
   return (
     <div className="flex flex-col gap-4">
@@ -51,8 +67,8 @@ const PostHeader: React.FC<PostHeaderProps> = ({
             textColor={textColor}
             filterType="type"
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger className="h-fit shrink-0 ">
+          <DropdownMenu open={isOpenDropdown} onOpenChange={setIsOpenDropDown}>
+            <DropdownMenuTrigger asChild className="h-fit shrink-0 ">
               <Image
                 src="/icons/see-more.svg"
                 alt="three dots to see more"
@@ -71,9 +87,14 @@ const PostHeader: React.FC<PostHeaderProps> = ({
                   text="Update Post"
                 />
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  //make sure to close the dropdown before opening the dialog since they both populate into the same Portal
+                  setIsOpenDropDown(false);
+                  setIsOpenDialog(true);
+                }}
+              >
                 <IconLink
-                  href={`#`}
                   iconSrc="/icons/trash.svg"
                   iconAlt="delete trash icon"
                   iconColor="text-myWhite-100"
@@ -83,6 +104,37 @@ const PostHeader: React.FC<PostHeaderProps> = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Dialog open={isOpenDialog} onOpenChange={setIsOpenDialog}>
+            <DialogContent className="bg-myBlack-700">
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogDescription>
+                  Deleting cannot be undone. This will permanently delete the
+                  post.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="bg-myBlack-700">
+                <Button
+                  onClick={async (e) => {
+                    await deletePost(note);
+                    router.push("/");
+                    setIsOpenDialog(false);
+                  }}
+                  variant="destructive"
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={(e) => {
+                    setIsOpenDialog(false);
+                  }}
+                  variant="secondary"
+                >
+                  Cancel
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <p className="text-p3Reg text-myWhite-300">{note?.description}</p>

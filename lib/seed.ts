@@ -15,18 +15,24 @@ import Note from "~/models/note";
 
 async function onboardAUser(user: any, image: string = "") {
   let knowledgeLevels = [];
-  for (let i = 0; i < faker.number.int(5); i++) {
-    knowledgeLevels.push(faker.lorem.sentence({ min: 3, max: 5 }) as string);
+  for (let i = 0; i < faker.number.int({ min: 1, max: 7 }); i++) {
+    const knowledgeLevel =
+      faker.hacker.ingverb() +
+      " " +
+      faker.hacker.adjective() +
+      " " +
+      faker.hacker.noun();
+    knowledgeLevels.push(knowledgeLevel);
   }
   let techStack = [];
-  for (let i = 0; i < faker.number.int(5); i++) {
+  for (let i = 0; i < faker.number.int({ min: 1, max: 3 }); i++) {
     techStack.push(faker.helpers.arrayElement(TechStackOptions) as string);
   }
 
   let learningGoals = [];
-  for (let i = 0; i < faker.number.int(7); i++) {
+  for (let i = 0; i < faker.number.int({ min: 1, max: 7 }); i++) {
     learningGoals.push({
-      goal: faker.lorem.sentence({ min: 3, max: 5 }),
+      goal: faker.company.buzzPhrase(),
       done: faker.datatype.boolean(),
     });
   }
@@ -74,7 +80,65 @@ async function makeRandomUsers(num: number) {
   }
 }
 
-async function makeNewPost(user: any) {
+async function relatePostsToEachOther(user: any) {
+  //get all the posts for the user
+  const posts = await Note.find({ creator: user._id });
+
+  //local hash table to store the related notes
+  const relatedNotes = posts.reduce(
+    (acc, post) => {
+      acc[post._id] = [post._id.toString()];
+      return acc;
+    },
+    {} as { [key: string]: string[] }
+  );
+
+  // for each post, relate it to another random post (if possible)
+  for (let post of posts) {
+    const randomPosts = await Note.aggregate([
+      { $match: { id: { $ne: post._id } } },
+      { $sample: { size: 1 } },
+    ]);
+    const randomPost = randomPosts[0];
+    const postID: string = post._id.toString() as string;
+    const randomPostID: string = randomPost?._id.toString() as string;
+    const relatedInPost = relatedNotes[postID].includes(randomPostID);
+    const relatedInRandomPost = relatedNotes[randomPostID].includes(postID);
+    //check that the random post is not already related to the original post
+    if (randomPost && !relatedInPost && !relatedInRandomPost) {
+      await Note.findOneAndUpdate(
+        { _id: post._id },
+        { $push: { relatedNotes: randomPost._id } }
+      );
+      //relate the random post to the original post
+      await Note.findOneAndUpdate(
+        { _id: randomPost._id },
+        { $push: { relatedNotes: post._id } }
+      );
+
+      //add to quick hash table
+      relatedNotes[post._id].push(randomPostID);
+      relatedNotes[randomPost._id].push(postID);
+    }
+  }
+  console.log("Posts related to each other");
+}
+
+async function makePostsForUser(user: any, num: number) {
+  let typeNum = {
+    component: 0,
+    knowledge: 0,
+    workflow: 0,
+  };
+  for (let i = 0; i < num; i++) {
+    let typeMade = await makeNewPost(user, typeNum);
+    if (typeMade) {
+      typeNum[typeMade]++;
+    }
+  }
+}
+
+async function makeNewPost(user: any, typeNum: { [key: string]: number }) {
   let loremMarkdown = "";
   try {
     const response = await fetch(
@@ -85,7 +149,20 @@ async function makeNewPost(user: any) {
     console.log(e);
   }
 
-  const type = faker.helpers.enumValue(NoteTypeEnum);
+  let type;
+  //if all the values in the typeNum object are 0, pick a random type
+  if (Object.values(typeNum).every((val) => val === 0)) {
+    type = faker.helpers.enumValue(NoteTypeEnum);
+  }
+  //if there are still types with 0, pick one of those
+  else if (Object.values(typeNum).some((val) => val === 0)) {
+    let types = Object.keys(typeNum).filter((key) => typeNum[key] === 0);
+    type = faker.helpers.arrayElement(types);
+  }
+  //if all types have been made, pick a random type
+  else {
+    type = faker.helpers.enumValue(NoteTypeEnum);
+  }
 
   let post: NoteType = {
     type: type,
@@ -119,23 +196,32 @@ async function makeNewPost(user: any) {
         ...post,
         code: {
           code: "import cmd from 'search';",
-          codePreviewImage: faker.image.urlLoremFlickr({ category: "code" }),
+          codePreviewImage: faker.image.urlLoremFlickr({
+            category: "programming",
+          }),
         },
       };
       break;
     case NoteTypeEnum.Knowledge:
       post = {
         ...post,
-        whatYouLearned: Array.from({ length: faker.number.int(5) }, () =>
-          faker.hacker.phrase()
+        whatYouLearned: Array.from(
+          { length: faker.number.int({ min: 1, max: 7 }) },
+          () => faker.company.buzzPhrase()
         ),
       };
       break;
     case NoteTypeEnum.Workflow:
       post = {
         ...post,
-        stepsToFollow: Array.from({ length: faker.number.int(5) }, () =>
-          faker.hacker.phrase()
+        stepsToFollow: Array.from(
+          { length: faker.number.int({ min: 1, max: 7 }) },
+          () =>
+            faker.hacker.verb() +
+            " " +
+            faker.hacker.adjective() +
+            " " +
+            faker.hacker.noun()
         ),
       };
       break;
@@ -155,6 +241,8 @@ async function makeNewPost(user: any) {
   } catch (e) {
     console.log(e);
   }
+
+  return type;
 }
 
 async function makeExampleUser() {
@@ -177,11 +265,12 @@ async function makeExampleUser() {
   );
 
   console.log("Example user created.");
+  const postsToMake = faker.number.int({ min: 5, max: 10 });
+  console.log(`Making ${postsToMake} posts for the example user...`);
+  await makePostsForUser(user, postsToMake);
 
-  console.log("Making posts for the example user...");
-  for (let i = 0; i < 5; i++) {
-    await makeNewPost(user);
-  }
+  console.log("Relating posts to each other...");
+  await relatePostsToEachOther(user);
 }
 
 async function seed() {

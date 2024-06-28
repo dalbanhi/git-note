@@ -16,7 +16,7 @@ const InfoLink: React.FC<InfoLinkProps> = ({
 }) => {
   const content = (
     <>
-      <Image src={"/" + iconSrc} alt={iconAlt} width={12} height={12}></Image>
+      <Image src={iconSrc} alt={iconAlt} width={12} height={12}></Image>
       <span
         className={`truncate text-caption ${href ? "text-primary-500" : "text-myWhite-300"} ${href ? "hover:text-myWhite-100" : ""}`}
       >

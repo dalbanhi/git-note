@@ -4,7 +4,7 @@ import Button from "@/components/interface/Button";
 import { signIn } from "next-auth/react";
 import { useEffect } from "react";
 import Link from "next/link";
-import { Flip, toast } from "react-toastify";
+import { showError } from "@/components/shared/utils/FormErrorHandlers";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,20 +29,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ type, title }) => {
 
   const providers = ["Google", "GitHub"];
   const isSignUp = type === "sign-up";
-
-  const showError = (message: string) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: undefined,
-      transition: Flip,
-    });
-  };
 
   useEffect(() => {
     let errorMsg = "";

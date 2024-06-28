@@ -4,6 +4,8 @@ import { connectToDB } from "~/utils/database";
 import User from "~/models/user";
 import { getSession } from "~/auth/auth";
 import { unstable_cache as cache, revalidateTag } from "next/cache";
+import { SocialMediaLink } from "~/types";
+import { SocialLinksSchema } from "../validators/socialLinks.schema";
 
 export async function updateLearningGoal(goal: string, completed: boolean) {
   try {
@@ -90,6 +92,65 @@ async function _getUser(id: string) {
   }
 }
 
+export async function updateUserSocialLinks(socialLinks: any) {
+  SocialLinksSchema.parse(socialLinks);
+  try {
+    await connectToDB();
+    const session = await getSession();
+    const sessionUser = session?.user;
+
+    if (!sessionUser?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: sessionUser.id },
+      {
+        $set: { socialMediaLinks: socialLinks.socialLinks },
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    revalidateTag("user");
+    const updatedSocialLinks = updatedUser.socialMediaLinks;
+    return JSON.parse(JSON.stringify(updatedSocialLinks));
+  } catch (err: any) {
+    console.log(err);
+    return err.errors;
+  }
+}
+
+async function _getUserSocialLinks(id: string) {
+  try {
+    await connectToDB();
+
+    const userFromDB = await User.findOne({ _id: id });
+    if (!userFromDB) {
+      throw new Error("User not found");
+    }
+
+    const userSocials = userFromDB?.socialMediaLinks;
+    //clean the object before returning
+    const userLinks = JSON.parse(JSON.stringify(userSocials));
+    return userLinks;
+  } catch (err: any) {
+    console.log(err);
+    return err.errors;
+  }
+}
+
 export const getUser = cache(_getUser, ["get-user"], {
   tags: ["user"],
 });
+
+export const getUserSocialLinks = cache(
+  _getUserSocialLinks,
+  ["get-user-social-links"],
+  {
+    tags: ["user"],
+  }
+);

@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 import Button from "@/components/interface/Button";
-import { Flip, toast } from "react-toastify";
+import {
+  handleFieldArrayError,
+  handleSingleFieldError,
+} from "@/components/shared/utils/FormErrorHandlers";
 import { updateUser } from "~/lib/actions/users";
 import { Step1, Step2, Step3, Step4 } from "./Steps/Steps";
 
@@ -38,47 +41,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ step, session }) => {
     },
   });
 
-  const showError = (message: string) => {
-    toast.error(message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-      progress: 0,
-      transition: Flip,
-    });
-  };
-
   useEffect(() => {
-    const handleSingleFieldError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (error) {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-        showError(errorMsg);
-      }
-    };
-
-    const handleFieldArrayError = (prependingString: string, error: any) => {
-      let errorMsg = "";
-      if (!error) return;
-      if (Array.isArray(error)) {
-        for (let err of error) {
-          for (let key in err) {
-            errorMsg += `${prependingString} Error: ${err[key].message} `;
-            break;
-          }
-          if (errorMsg !== "") {
-            break;
-          }
-        }
-      } else {
-        errorMsg = `${prependingString} Error: ${error.message}`;
-      }
-      showError(errorMsg);
-    };
     if (Object.keys(errors).length !== 0) {
       handleSingleFieldError("Name", errors.name);
       if (errors.portfolio) {

@@ -20,7 +20,7 @@ const UpdateNote = async ({ params }: { params: { id: string } }) => {
   //clean the user object
   const noteJSON = JSON.parse(JSON.stringify(noteFromServer));
   return (
-    <section className="flex min-h-screen w-6/12 flex-col justify-start p-4">
+    <section className="flex min-h-screen flex-col justify-start p-4 max-sm:w-full md:w-6/12">
       <h1 className="mt-4 text-display1">Edit Post</h1>
       <UpdatePostForm
         session={session}

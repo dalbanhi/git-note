@@ -12,7 +12,7 @@ const RightSidebar = async () => {
   const tags = await getAllUserTags(session.user.id);
   const tagsString = JSON.stringify(tags);
   return (
-    <aside className="flex min-h-screen w-3/12 flex-col gap-2 bg-myBlack-800 p-4">
+    <aside className="flex min-h-screen w-3/12 flex-col gap-2 bg-myBlack-800 p-4 max-sm:hidden">
       <ProfileLink />
 
       <TagsList tags={tagsString} />

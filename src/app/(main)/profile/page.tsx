@@ -48,7 +48,7 @@ const MyProfile = async () => {
   );
 
   return (
-    <section className="flex min-h-screen w-6/12 flex-col justify-start p-4">
+    <section className="flex min-h-screen flex-col justify-start p-4 max-sm:w-full md:w-6/12">
       <ProfileHeader
         formattedCreatedAtDate={formattedCreatedAtDate}
         location={location}

@@ -8,7 +8,6 @@ interface FilterPillProps {
   backgroundColor: string;
   textColor: string;
   filterType: string;
-  // onClick: () => void// This is the type of the function that will be passed in
 }
 
 const FilterPill: React.FC<FilterPillProps> = ({
@@ -20,12 +19,12 @@ const FilterPill: React.FC<FilterPillProps> = ({
 }) => {
   return (
     <Link
-      className={`flex size-fit shrink-0 items-center gap-1 rounded-lg p-1 hover:cursor-pointer hover:text-myWhite-100 ${backgroundColor}`}
+      className={`${backgroundColor} flex size-fit shrink-0 items-center gap-1 rounded-md p-1 hover:cursor-pointer hover:text-myWhite-100 `}
       href={`/explore?${filterType}=${text}`}
     >
       {icon && <Image src={icon} alt={text} width={12} height={12}></Image>}
       <span
-        className={` text-caption capitalize  hover:text-myWhite-100 ${textColor} `}
+        className={` text-caption capitalize  ${textColor} hover:text-myWhite-100 `}
       >
         {text}
       </span>

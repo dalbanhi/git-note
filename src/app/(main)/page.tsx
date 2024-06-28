@@ -43,7 +43,7 @@ const Home = async ({
         {" "}
         Hello, {firstName ? firstName : "there"}
       </h1>
-      <p className="mb-4 text-p1Reg text-myWhite-300">
+      <p className="text-myWhite-300 max-sm:mb-1 max-sm:text-p2Reg md:mb-4 md:text-p1Reg">
         {"Time to jot down your latest learnings today!"}
       </p>
       <ContributionsTracker />

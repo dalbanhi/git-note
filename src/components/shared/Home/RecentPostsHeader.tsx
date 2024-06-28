@@ -1,21 +1,25 @@
 import React from "react";
-import Image from "next/image";
 import FilterPill from "../FilterPill";
 import { postFilters } from "~/constants";
+import { getPostTypePropValues } from "~/lib/helpers/postTypePropValues";
+import { PostType } from "~/types";
 
 const RecentPostsHeader = () => {
   return (
-    <div className="flex justify-between">
+    <div className="flex max-sm:flex-col md:justify-between">
       <h1 className="text-display2 text-myWhite-100">Recent Posts</h1>
-      <div className="flex flex-wrap justify-end gap-2">
+      <div className="flex flex-wrap gap-2 max-sm:justify-start md:justify-end">
         {postFilters?.map((filter) => {
+          const { icon, backgroundColor, textColor } = getPostTypePropValues(
+            filter.type as PostType
+          );
           return (
             <FilterPill
-              key={filter.type}
-              icon={filter.iconSrc}
+              key={filter.type + "filter"}
+              icon={icon}
               text={filter.label}
-              backgroundColor={filter.backgroundColor}
-              textColor={filter.color}
+              backgroundColor={backgroundColor}
+              textColor={textColor}
               filterType={"type"}
             />
           );

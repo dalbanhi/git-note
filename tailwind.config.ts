@@ -81,7 +81,7 @@ const config = {
         myGreen: {
           400: "rgb(var(--my-green-400))",
           500: "rgb(var(--my-green-500))",
-          900: "rgb(var(--my-green-500) / 0.1)", //do 10%
+          900: "rgb(var(--my-green-500) / 0.2)", //do 10%
         },
       },
       borderRadius: {

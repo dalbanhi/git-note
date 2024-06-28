@@ -1,6 +1,6 @@
 import { PostType } from "~/types";
 export function getPostTypePropValues(postType: PostType) {
-  switch (postType) {
+  switch (postType?.toLowerCase()) {
     case "workflow":
       return {
         icon: "/icons/workflow.svg",
@@ -17,7 +17,7 @@ export function getPostTypePropValues(postType: PostType) {
       return {
         icon: "/icons/knowledge.svg",
         backgroundColor: "bg-myGreen-900",
-        textColor: "text-myGreen-500",
+        textColor: "text-myGreen-400",
       };
     default:
       return {

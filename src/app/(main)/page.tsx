@@ -38,12 +38,12 @@ const Home = async ({
   let firstName = userName?.split(" ")[0];
 
   return (
-    <section className="flex min-h-screen w-6/12 flex-col justify-start gap-4 p-4">
+    <section className="flex min-h-screen flex-col justify-start gap-4 p-4 max-sm:w-full sm:w-6/12">
       <h1 className="mt-4 text-display1">
         {" "}
         Hello, {firstName ? firstName : "there"}
       </h1>
-      <p className="mb-4 text-p1Reg text-myWhite-300">
+      <p className="text-myWhite-300 max-sm:mb-1 max-sm:text-p2Reg md:mb-4 md:text-p1Reg">
         {"Time to jot down your latest learnings today!"}
       </p>
       <ContributionsTracker userID={session.user.id} />

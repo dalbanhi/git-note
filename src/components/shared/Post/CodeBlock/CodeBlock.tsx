@@ -84,16 +84,4 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
   );
 };
 
-{
-  /* <pre
-              {...rest}
-              className={className + " flex justify-between relative"}
-            >
-              {children}
-              <div className="absolute right-0 top-1 flex size-12 items-center">
-                <CopyIcon />
-              </div>
-            </pre> */
-}
-
 export default CodeBlock;

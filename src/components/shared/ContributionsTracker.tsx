@@ -65,7 +65,7 @@ const ContributionsTracker: React.FC<ContributionsTrackerProps> = ({
   const device = useDevice();
 
   return (
-    <div className=" rounded-sm border border-myWhite-500 bg-myBlack-900 p-4">
+    <div className=" rounded-sm border border-myWhite-500 bg-myBlack-900 max-sm:p-3 md:p-4">
       <CalendarHeatmap
         startDate={lastYear}
         endDate={new Date()}

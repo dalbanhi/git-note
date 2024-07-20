@@ -76,7 +76,7 @@ const Note = async ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <section className="flex min-h-screen w-6/12 flex-col justify-start gap-5 p-4">
+    <section className="flex min-h-screen flex-col justify-start gap-5 p-4 max-sm:w-full md:w-6/12">
       <PostHeader
         icon={icon}
         backgroundColor={backgroundColor}

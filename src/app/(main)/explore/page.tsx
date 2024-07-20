@@ -37,7 +37,7 @@ const Explore = async ({
   );
 
   return (
-    <section className="mt-6 w-6/12 p-4">
+    <section className="mt-6 p-4 max-sm:w-full md:w-6/12">
       <RecentPostsHeader />
       <div className="mt-4 grid grid-cols-2 gap-4">
         {posts?.map((post) => {

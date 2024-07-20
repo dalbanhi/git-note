@@ -19,14 +19,14 @@ export const postFilters = [
     type: "Component",
     label: "Component",
     color: "text-myPurple-500",
-    backgroundColor: "bg-myPurple-900",
+    backgroundColor: "bg-myWhite-100",
     iconSrc: "/icons/component.svg",
   },
   {
     type: "Knowledge",
     label: "Knowledge",
     color: "text-myGreen-400",
-    backgroundColor: "bg-myGreen-900",
+    backgroundColor: "bg-red-500",
     iconSrc: "/icons/knowledge.svg",
   },
 ];

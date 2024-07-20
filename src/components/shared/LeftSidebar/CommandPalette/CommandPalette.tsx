@@ -6,7 +6,6 @@ import { postFilters } from "~/constants";
 import { useRouter } from "next/navigation";
 import { INote } from "~/models/note";
 import { searchPosts } from "~/lib/actions/posts";
-import { get } from "http";
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -58,7 +57,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
     return () => {
       if (timeoutID) clearTimeout(timeoutID);
     };
-  }, [searchTerm]);
+  }, [searchTerm, allUserTags]);
 
   useEffect(() => {
     const down = (e: any) => {
@@ -80,7 +79,6 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({
     event.stopPropagation();
     setIsOpen(!isOpen);
   };
-  console.log("matchingPosts", matchingPosts);
   return (
     <div>
       {isOpen && (

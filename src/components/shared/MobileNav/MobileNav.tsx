@@ -25,6 +25,7 @@ const MobileNav = () => {
       const session = await getSession();
       if (!session) return;
       const allUserTags = await getAllUserTags(session.user.id);
+      if (!allUserTags) return;
       setAllUserTags(allUserTags);
     };
     fetchAllUserTags();
